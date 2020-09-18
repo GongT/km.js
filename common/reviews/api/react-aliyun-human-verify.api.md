@@ -1,0 +1,1 @@
+../../../react-components/react-aliyun-human-verify/docs/react-aliyun-human-verify.api.md

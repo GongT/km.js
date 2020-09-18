@@ -1,0 +1,31 @@
+{
+	"name": "@tools.gongt.me/application",
+	"version": "0.0.0",
+	"license": "MIT",
+	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
+	"private": true,
+	"scripts": {
+		"build": "build-script build",
+		"clean": "rimraf lib",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"monorepo": "rush",
+	"dependencies": {
+		"@types/react": "^16.9.49",
+		"@idlebox/common": "^1.0.28",
+		"autobind-decorator": "^2.4.0",
+		"react": "^16.13.1",
+		"tslib": "^2.0.1"
+	},
+	"devDependencies": {
+		"@build-script/builder": "^2.0.21",
+		"@build-script/single-dog-asset": "^1.0.8",
+		"typescript": "^4.0.2",
+		"ttypescript": "^1.5.12",
+		"gulp": "^4.0.2"
+	}
+}

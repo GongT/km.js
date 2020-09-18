@@ -1,0 +1,102 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+	"rushVersion": "5.33.2",
+	"pnpmVersion": "5.5.13",
+	"pnpmOptions": {
+		"pnpmStore": "global",
+		"strictPeerDependencies": false,
+		"resolutionStrategy": "fewer-dependencies"
+		// "preventManualShrinkwrapChanges": true,
+		/**
+		 * If true, then `rush install` will use the PNPM workspaces feature to perform the
+		 * install.
+		 *
+		 * This feature uses PNPM to peform the entire monorepo install. When using workspaces, Rush will
+		 * generate a "pnpm-workspace.yaml" file referencing all local projects to install. Rush will
+		 * also generate a "pnpmfile.js" which is used to provide preferred versions support. When install
+		 * is run, this pnpmfile will be used to replace dependency version ranges with a smaller subset
+		 * of the original range. If the preferred version is not fully a subset of the original version
+		 * range, it will be left as-is. After this, the pnpmfile.js provided in the repository (if one
+		 * exists) will be called to further modify package dependencies.
+		 *
+		 * This option is experimental. The default value is false.
+		 */
+		// "useWorkspaces": true
+	},
+	"nodeSupportedVersionRange": ">=10.13.0",
+	"suppressNodeLtsWarning": true,
+	"ensureConsistentVersions": false,
+	"projectFolderMinDepth": 2,
+	"projectFolderMaxDepth": 2,
+	"allowMostlyStandardPackageNames": false,
+	"gitPolicy": {
+		/**
+		 * The commit message to use when committing changes during 'rush publish'.
+		 *
+		 * For example, if you want to prevent these commits from triggering a CI build,
+		 * you might configure your system's trigger to look for a special string such as "[skip-ci]"
+		 * in the commit message, and then customize Rush's message to contain that string.
+		 */
+		// "versionBumpCommitMessage": "Applying package updates. [skip-ci]"
+	},
+	"repository": {
+		"url": "https://github.com/GongT/km.js"
+	},
+	"eventHooks": {
+		"preRushInstall": [
+			// "common/scripts/pre-rush-install.js"
+		],
+		"postRushInstall": [],
+		"preRushBuild": [],
+		"postRushBuild": []
+	},
+	"variants": [
+		// {
+		//   /**
+		//    * The folder name for this variant.
+		//    */
+		//   "variantName": "old-sdk",
+		//
+		//   /**
+		//    * An informative description
+		//    */
+		//   "description": "Build this repo using the previous release of the SDK"
+		// }
+	],
+	"projects": [
+		{
+			"packageName": "@km.js/react-aliyun-human-verify",
+			"projectFolder": "react-components/react-aliyun-human-verify"
+		},
+		{
+			"packageName": "@km.js/server-express",
+			"projectFolder": "server-tools/server-express",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@km.js/client-loader",
+			"projectFolder": "server-tools/client-loader",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@km.js/gulp-tools",
+			"projectFolder": "server-tools/gulp-tools",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@tools.gongt.me/api",
+			"projectFolder": "tools.gongt.me/api",
+			"shouldPublish": false
+		},
+		{
+			"packageName": "@tools.gongt.me/provider",
+			"projectFolder": "tools.gongt.me/provider",
+			"shouldPublish": false
+		},
+		{
+			"packageName": "@tools.gongt.me/application",
+			"projectFolder": "tools.gongt.me/application",
+			"shouldPublish": false
+		}
+	]
+}

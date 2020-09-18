@@ -1,0 +1,194 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Watch All",
+			"dependsOn": [
+				"监视 - @km.js/react-aliyun-human-verify",
+				"监视 - @km.js/server-express",
+				"监视 - @km.js/gulp-tools",
+				"监视 - @tools.gongt.me/api",
+				"监视 - @tools.gongt.me/provider",
+				"监视 - @tools.gongt.me/application"
+			],
+			"isBackground": true,
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @km.js/react-aliyun-human-verify",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/react-components/react-aliyun-human-verify"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/react-components/react-aliyun-human-verify"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @km.js/gulp-tools",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/server-tools/gulp-tools"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/server-tools/gulp-tools"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @tools.gongt.me/api",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/api"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/tools.gongt.me/api"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @tools.gongt.me/provider",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/provider"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/tools.gongt.me/provider"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @tools.gongt.me/application",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/application"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/tools.gongt.me/application"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视 - @km.js/server-express",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/server-tools/server-express"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/server-tools/server-express"
+			}
+		}
+	]
+}

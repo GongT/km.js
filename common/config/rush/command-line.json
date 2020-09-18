@@ -1,0 +1,18 @@
+/**
+ * This configuration file defines custom commands for the "rush" command-line.
+ * For full documentation, please see https://rushjs.io
+ */
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+	"commands": [
+		{
+			"commandKind": "global",
+			"name": "pretty",
+			"summary": "运行“pretty-quick”命令，格式化所有文件",
+			"autoinstallerName": "rush-prettier",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "pretty-quick --staged"
+		}
+	],
+	"parameters": []
+}

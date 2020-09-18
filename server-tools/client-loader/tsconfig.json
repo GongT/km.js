@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"module": "None",
+		"target": "ES3",
+		"rootDir": "src",
+		"outFile": "lib/out.js",
+		"lib": ["esnext", "dom"],
+		"types": [],
+		"sourceMap": true,
+		"inlineSources": true,
+		"sourceRoot": "/",
+		"noEmitOnError": true,
+		"moduleResolution": "Node"
+	}
+}

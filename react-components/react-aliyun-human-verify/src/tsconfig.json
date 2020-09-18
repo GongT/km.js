@@ -1,0 +1,12 @@
+{
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"typeRoots": ["../node_modules/@types"],
+		"lib": ["ESNext", "DOM"],
+		"outDir": "../lib",
+		"declaration": false,
+		"declarationMap": false,
+		"jsx": "react"
+	}
+}
