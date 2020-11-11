@@ -35,7 +35,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
@@ -63,7 +63,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
@@ -91,7 +91,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
@@ -119,7 +119,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
@@ -147,7 +147,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
@@ -175,7 +175,7 @@
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",

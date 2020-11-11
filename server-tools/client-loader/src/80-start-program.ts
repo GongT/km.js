@@ -11,10 +11,15 @@ load_shim(true, 'systemjs');
 function startProgram() {
 	var entryFile;
 	if (newSyntax) {
-		entryFile = 'bootstrap';
+		entryFile = importmap.config.bootstrap;
 	} else {
-		entryFile = 'bootstrap.es5';
+		entryFile = importmap.config.bootstrapES5 || importmap.config.bootstrap;
 	}
+
+	if (!entryFile) {
+		criticalError(new Error("Client Config `bootstrap' is required."));
+	}
+
 	programLoader(entryFile).then(function () {
 		pageLoadFinish();
 	}, criticalError);

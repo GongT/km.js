@@ -1,4 +1,5 @@
 {
+	"load": ["@km.js/gulp-tools/make"],
 	"alias": {
 		"build-ts": "tsc -p src",
 		"watch-ts": "tsc -w -p src",

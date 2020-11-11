@@ -1,11 +1,9 @@
-import * as _ts from 'typescript';
-import { createRequire } from 'module';
-import { basename, dirname, resolve } from 'path';
+import { basename, dirname } from 'path';
 import { Duplex, PassThrough } from 'stream';
-import { findUpUntilSync, ICommand, spawnWithoutOutput } from '@idlebox/node';
+import { ICommand, spawnWithoutOutput } from '@idlebox/node';
 import { info } from 'fancy-log';
-import { pathExistsSync, readJsonSync } from 'fs-extra';
 import { TaskFunctionParams } from 'undertaker';
+import { findTsc, getTypescriptAt, readTsconfig } from '../inc/typescript';
 import { gulpSrcFrom, gulpTask } from '../tasks';
 
 export interface ISpawnTscConfigWatch {
@@ -28,75 +26,16 @@ export interface ISpawnTscConfig {
 	extraArguments?: string[];
 }
 
-function findTsc(location?: string) {
-	let packagePath;
-	if (location) {
-		if (location.endsWith('/package.json')) {
-			packagePath = location;
-		} else if (location.endsWith('/typescript.js')) {
-			packagePath = findUpUntilSync(location, 'package.json');
-		} else if (pathExistsSync(resolve(location, 'package.json'))) {
-			packagePath = resolve(location, 'package.json');
-		}
-		if (!packagePath) {
-			throw new Error(`typescript do not exists (at ${location})`);
-		}
-	} else {
-		const require = createRequire(resolve(process.cwd(), 'package.json'));
-		try {
-			packagePath = require.resolve('typescript/package.json');
-		} catch {
-			throw new Error(`can not found typescript, may manually set by {library}.`);
-		}
-	}
-	let tsc = readJsonSync(packagePath).bin.tsc;
-	if (tsc) {
-		tsc = resolve(packagePath, '..', tsc);
-	} else {
-		throw new Error('typescript.bin.tsc not exists: ' + packagePath);
-	}
-	return { tsc, packagePath };
-}
-
-function _parse(ts: typeof _ts, tsconfig: string): _ts.ParsedCommandLine {
-	const config = ts.getParsedCommandLineOfConfigFile(
-		tsconfig,
-		{},
-		{
-			...ts.sys,
-			onUnRecoverableConfigFileDiagnostic(diagnostic: _ts.Diagnostic) {
-				throw ts.formatDiagnostic(diagnostic, {
-					...ts.sys,
-					getCanonicalFileName(f) {
-						return f;
-					},
-					getNewLine(): string {
-						return '\n';
-					},
-				});
-			},
-		}
-	);
-	if (!config) {
-		throw new Error('failed parse: ' + tsconfig);
-	}
-	return config;
-}
 function parseOptions(options: ISpawnTscConfig): IToRun {
-	const { tsc, packagePath } = findTsc(options.library);
 	const tsconfig = options.tsconfig;
+	const tsc = findTsc(getTypescriptAt(tsconfig, options.library));
 	const args = options.extraArguments || [];
 	let outDir = options.outDir;
 
 	let distFiles = '**/*.js';
 	args.push('--noEmit', 'false');
 	if (!outDir) {
-		const require = createRequire(import.meta.url);
-		const ts = require(dirname(packagePath));
-		const config = _parse(ts, tsconfig);
-		if (config.errors.length) {
-			throw config.errors[0].messageText;
-		}
+		const config = readTsconfig(tsconfig, options.library);
 
 		if (config.options.outFile) {
 			outDir = dirname(config.options.outFile);
@@ -105,15 +44,15 @@ function parseOptions(options: ISpawnTscConfig): IToRun {
 			outDir = config.options.outDir;
 		}
 		if (!outDir) {
-			console.error(config);
+			console.error('tsconfig.json:', config);
 			throw new Error(`failed detect outDir from tsconfig [${tsconfig}], you may set one by {outDir}`);
 		}
 	}
 	args.push('--outDir', outDir);
 
 	return {
-		exec: [tsc, '-p', tsconfig, ...args],
-		cwd: dirname(tsconfig),
+		exec: [tsc, '-p', options.tsconfig, ...args],
+		cwd: dirname(options.tsconfig),
 		outDir,
 		distFiles,
 	};

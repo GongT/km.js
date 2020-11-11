@@ -6,8 +6,17 @@
 
 import { Application } from 'express';
 import { Handler } from 'express';
+import { Request } from 'express';
+import { Response } from 'express';
 import { Router } from 'express';
+import { Server } from 'http';
 import { ServeStaticOptions } from 'serve-static';
+
+// Warning: (ae-forgotten-export) The symbol "PackageRegister" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "clientNamespace" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const clientNamespace: PackageRegister;
 
 // Warning: (ae-missing-release-tag) "createApplication" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -19,11 +28,28 @@ export function createApplication(): Application;
 // @public (undocumented)
 export function createCommonOptions(resourceType: ResourceType, mime: string, fallthrough?: boolean): ServeStaticOptions;
 
-// Warning: (ae-forgotten-export) The symbol "PackageRegister" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "createPackage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ExpressServer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function createPackage(middleUrl: string, serveConfig: ServeStaticOptions): PackageRegister;
+export abstract class ExpressServer {
+    constructor();
+    // (undocumented)
+    protected abstract configureClient(): IClientConfig;
+    // (undocumented)
+    protected abstract configureServer(): IServerConfig;
+    // (undocumented)
+    get httpServer(): Server | undefined;
+    // (undocumented)
+    protected abstract init(express: Application): void;
+    // (undocumented)
+    readonly isDev: boolean;
+    // (undocumented)
+    protected serveHtml(req: Request, res: Response): void;
+    // (undocumented)
+    shutdown(rejectOnError?: boolean): Promise<void>;
+    // (undocumented)
+    startServe(): Promise<void>;
+}
 
 // Warning: (ae-missing-release-tag) "getApplicationRouter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -34,6 +60,14 @@ export function getApplicationRouter(): Router;
 //
 // @public (undocumented)
 export function getBuildMap(): IImportMap;
+
+// Warning: (ae-missing-release-tag) "IClientConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IClientConfig extends Record<string, any> {
+    // (undocumented)
+    entryFile?: string;
+}
 
 // Warning: (ae-missing-release-tag) "IImportMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -51,15 +85,28 @@ export interface IImportMap {
 export interface IPassThroughConfig extends Record<string, any> {
 }
 
-// Warning: (ae-missing-release-tag) "IServeInfo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IServerConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface IServeInfo {
+export interface IServerConfig {
     // (undocumented)
-    filePath: string;
+    applicationRootUrl?: string;
     // (undocumented)
-    mountpoint?: string;
+    listenPort?: string | number;
+    // (undocumented)
+    preloadHtml?: string;
+    // (undocumented)
+    preloadHtmlFile?: string;
+    // (undocumented)
+    viewEngine?: string;
+    // (undocumented)
+    viewPath?: string;
 }
+
+// Warning: (ae-missing-release-tag) "loadServerAsChildProcess" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function loadServerAsChildProcess(serverProgram: string): () => Promise<void>;
 
 // Warning: (ae-missing-release-tag) "MIME_HTML_UTF8" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -111,6 +158,11 @@ export const oneWeek: number;
 // @public (undocumented)
 export const oneYear: number;
 
+// Warning: (ae-missing-release-tag) "onServerStartListen" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function onServerStartListen(): void;
+
 // Warning: (ae-missing-release-tag) "passThroughConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -120,6 +172,11 @@ export function passThroughConfig(merge: IPassThroughConfig): void;
 //
 // @public (undocumented)
 export function reloadRouter(): void;
+
+// Warning: (ae-missing-release-tag) "renderDefaultHtml" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function renderDefaultHtml(options: Record<string, any>): string;
 
 // Warning: (ae-missing-release-tag) "ResourceType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -135,15 +192,15 @@ export enum ResourceType {
     ThirdParty = 1
 }
 
-// Warning: (ae-missing-release-tag) "setApplicationRootUrl" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function setApplicationRootUrl(base: string): void;
-
 // Warning: (ae-missing-release-tag) "terminate404" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function terminate404(message?: string, extraData?: string): Handler;
+
+// Warning: (ae-missing-release-tag) "terminate404Js" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function terminate404Js(script: string): Handler;
 
 
 // (No @packageDocumentation comment for this package)

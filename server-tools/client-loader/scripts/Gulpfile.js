@@ -9,9 +9,11 @@ const {
 	sourcemapsWrite,
 	gulpDest,
 	gulpTransformer,
+	gulpManualyLoadModules,
+	createMeta,
 } = require('@km.js/gulp-tools');
 const { info } = require('fancy-log');
-const { resolve, basename } = require('path');
+const { resolve, basename, extname } = require('path');
 const { tmpdir } = require('os');
 const { appendText, prependText } = require('gulp-append-prepend');
 const { readFileSync } = require('fs');
@@ -25,15 +27,17 @@ const { build, watch, outDir, distFiles } = gulpTypescriptTask('loader', 'App lo
 	tsconfig: resolve(__dirname, '../tsconfig.json'),
 });
 
-// 如果是从其他node包引用,则在临时文件中工作,如果是这个包自己构建自己,则在包本身目录中工作
-const WD = global.WORKING_DIRECTORY || resolve(tmpdir(), 'kmjs/loader');
-const LOADER_DIST = resolve(WD, 'dist');
-module.exports.LOADER_DIST = LOADER_DIST;
-module.exports.LOADER_DIST_FILE = resolve(LOADER_DIST, basename(distFiles));
-
 // 版本号主要用来给loader.js加后缀
 const version = JSON.parse(readFileSync(resolve(__dirname, '../package.json'), 'utf8')).version;
 module.exports.VERSION = version;
+
+// Note: 如果是从其他node包引用,则在临时文件中工作,如果是这个包自己构建自己,则在包本身目录中工作
+function setResultsDirectory(where) {
+	module.exports.LOADER_DIST = where;
+	module.exports.LOADER_DIST_FILE = resolve(where, 'loader.' + version + extname(distFiles));
+}
+setResultsDirectory(resolve(tmpdir(), 'kmjs/loader'));
+module.exports.setResultsDirectory = setResultsDirectory;
 
 // 第二步: 最终文件(loader.VERSION.js)的构建任务
 const taskConcatLoader = buildTask(
@@ -43,15 +47,15 @@ const taskConcatLoader = buildTask(
 	'./**/*.js',
 	false,
 	() => {
-		info('Start concat...');
+		info('Start concat... [save: %s]', module.exports.LOADER_DIST_FILE);
 
 		return gulpSrcFrom(outDir, distFiles)
-			.pipe(rename())
 			.pipe(sourcemapsInit())
 			.pipe(prependText(scopeStart))
 			.pipe(appendText(scopeEnd))
+			.pipe(rename())
 			.pipe(sourcemapsWrite())
-			.pipe(gulpDest(LOADER_DIST));
+			.pipe(gulpDest(module.exports.LOADER_DIST));
 	}
 );
 
@@ -70,16 +74,15 @@ module.exports.gulpActionWatchLoader = gulpTask(
 /** @returns {NodeJS.ReadWriteStream} */
 function onePass() {
 	return build(() => {})
-		.pipe(rename())
 		.pipe(sourcemapsInit())
 		.pipe(prependText(scopeStart))
-		.pipe(appendText(scopeEnd));
+		.pipe(appendText(scopeEnd))
+		.pipe(rename());
 }
 module.exports.buildOnce = onePass;
 
-/** 可以通过copyModules收集loader的依赖
- * @var {ICopyModuleInput} */
-module.exports.RequiredNativeModules = {
+/** 可以通过copyModules收集loader的依赖 */
+const RequiredNativeModules = {
 	nodeModulesDir: resolve(__dirname, '../node_modules'),
 	moduleList: [
 		{
@@ -124,11 +127,22 @@ module.exports.RequiredNativeModules = {
 		},
 	],
 };
+module.exports.RequiredNativeModules = RequiredNativeModules;
+
+module.exports.gulpCopyRequiredNativeModules = function gulpCopyRequiredNativeModules() {
+	info('    copy to: %s', module.exports.LOADER_DIST);
+	return gulpManualyLoadModules(RequiredNativeModules)
+		.pipe(sourcemapsWrite())
+		.pipe(gulpDest(module.exports.LOADER_DIST));
+};
 
 /* 工具们 */
 function rename() {
-	return gulpTransformer((file) => {
-		file.path = resolve(file.dirname, 'loader.' + version + file.extname);
+	return gulpTransformer(async function (file) {
+		file.path = resolve(file.dirname, basename(module.exports.LOADER_DIST_FILE));
+
+		this.push(createMeta(file, { name: 'loader' }));
+
 		return file;
 	});
 }

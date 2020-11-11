@@ -19,5 +19,11 @@
 	"[jsonc]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"task.autoDetect": "off"
+	"task.autoDetect": "off",
+	"remote.SSH.defaultForwardedPorts": [
+		{
+			"remotePort": 15080,
+			"name": "tools.gongt.me server"
+		}
+	]
 }

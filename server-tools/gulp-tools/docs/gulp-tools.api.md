@@ -6,18 +6,35 @@
 
 import { DestOptions } from 'vinyl-fs';
 import { Duplex } from 'stream';
-import * as File from 'vinyl';
+import File from 'vinyl';
 import { watch as gulpWatch } from 'gulp';
 import { PassThrough } from 'stream';
 import { SrcOptions } from 'vinyl-fs';
 import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
+import _ts from 'typescript';
+import { WriteOptions } from 'gulp-sourcemaps';
 
 // Warning: (ae-missing-release-tag) "buildTask" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function buildTask(name: string, title: string, base: string, glob: string, immediate: boolean, buildAction: TaskFunction): IBuildBundle;
+
+// Warning: (ae-missing-release-tag) "createJsonFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createJsonFile(target: string, creator: ICreateFunction): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createJsonFileSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createJsonFileSync(target: string, creator: ICreateFunction): void;
+
+// Warning: (ae-missing-release-tag) "createMeta" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createMeta(source: VinylFile, metadata: any): VinylFile;
 
 // Warning: (ae-forgotten-export) The symbol "Function" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-forgotten-export) The symbol "DebounceController" needs to be exported by the entry point _export_all_in_one_index.d.ts
@@ -25,6 +42,16 @@ export function buildTask(name: string, title: string, base: string, glob: strin
 //
 // @public (undocumented)
 export function debounce<T, FN extends Function_2<T>>(debounceMs: number, cooldownMs: number, fn: FN): FN & DebounceController;
+
+// Warning: (ae-missing-release-tag) "findTsc" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function findTsc(location?: string): string;
+
+// Warning: (ae-missing-release-tag) "getTypescriptAt" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function getTypescriptAt(location: string, library?: string): string;
 
 // Warning: (ae-missing-release-tag) "gulpDest" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -138,6 +165,14 @@ export interface ICopyModuleInput {
     vfsRoot?: string;
 }
 
+// Warning: (ae-missing-release-tag) "ICreateFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface ICreateFunction {
+    // (undocumented)
+    (jsonData: any): any | undefined | void;
+}
+
 // Warning: (ae-missing-release-tag) "IFileSpecifier" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -199,7 +234,7 @@ export interface ISpawnTscConfigWatch {
 // @public (undocumented)
 export interface ITransformFunction {
     // (undocumented)
-    (file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
+    (this: NodeJS.WritableStream, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
 }
 
 // Warning: (ae-missing-release-tag) "ITypescriptBuildInfo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -217,6 +252,11 @@ export interface ITypescriptBuildInfo {
 // @public (undocumented)
 export function logPassing(): NodeJS.ReadWriteStream;
 
+// Warning: (ae-missing-release-tag) "readTsconfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function readTsconfig(tsconfig: string, library?: string): _ts.ParsedCommandLine;
+
 // Warning: (ae-missing-release-tag) "sourcemapsInit" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -225,7 +265,7 @@ export function sourcemapsInit(): NodeJS.ReadWriteStream;
 // Warning: (ae-missing-release-tag) "sourcemapsWrite" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function sourcemapsWrite(): NodeJS.ReadWriteStream;
+export function sourcemapsWrite(sourceRoot?: WriteOptions['sourceRoot']): NodeJS.ReadWriteStream;
 
 // Warning: (ae-missing-release-tag) "TscTaskFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -239,10 +279,10 @@ export interface TscTaskFunction {
 // Warning: (ae-missing-release-tag) "VinylFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const VinylFile: typeof File;
+export type VinylFile = File;
 
 // @public (undocumented)
-export type VinylFile = File;
+export const VinylFile: typeof File;
 
 
 // (No @packageDocumentation comment for this package)

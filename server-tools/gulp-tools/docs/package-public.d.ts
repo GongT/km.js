@@ -1,15 +1,23 @@
 /// <reference types="node" />
 import { DestOptions } from 'vinyl-fs';
 import { Duplex } from 'stream';
-import * as File from 'vinyl';
+import File from 'vinyl';
 import { watch as gulpWatch } from 'gulp';
 import { PassThrough } from 'stream';
 import { SrcOptions } from 'vinyl-fs';
 import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
+import _ts from 'typescript';
+import { WriteOptions } from 'gulp-sourcemaps';
 
 export declare function buildTask(name: string, title: string, base: string, glob: string, immediate: boolean, buildAction: TaskFunction): IBuildBundle;
+
+export declare function createJsonFile(target: string, creator: ICreateFunction): Promise<void>;
+
+export declare function createJsonFileSync(target: string, creator: ICreateFunction): void;
+
+export declare function createMeta(source: VinylFile, metadata: any): VinylFile;
 
 export declare function debounce<T, FN extends Function_2<T>>(debounceMs: number, cooldownMs: number, fn: FN): FN & DebounceController;
 
@@ -17,9 +25,13 @@ declare interface DebounceController {
     dispose(): void;
 }
 
+export declare function findTsc(location?: string): string;
+
 declare interface Function_2<T> {
     (...args: any[]): T | Promise<T>;
 }
+
+export declare function getTypescriptAt(location: string, library?: string): string;
 
 export declare function gulpDest(folder: string, opt?: DestOptions): NodeJS.ReadWriteStream;
 
@@ -74,6 +86,10 @@ export declare interface ICopyModuleInput {
     moduleList: IModuleCopy[];
 }
 
+export declare interface ICreateFunction {
+    (jsonData: any): any | undefined | void;
+}
+
 export declare interface IFileSpecifier {
     source: string;
     map?: string;
@@ -102,7 +118,7 @@ export declare interface ISpawnTscConfigWatch {
 }
 
 export declare interface ITransformFunction {
-    (file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
+    (this: NodeJS.WritableStream, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
 }
 
 export declare interface ITypescriptBuildInfo {
@@ -112,16 +128,18 @@ export declare interface ITypescriptBuildInfo {
 
 export declare function logPassing(): NodeJS.ReadWriteStream;
 
+export declare function readTsconfig(tsconfig: string, library?: string): _ts.ParsedCommandLine;
+
 export declare function sourcemapsInit(): NodeJS.ReadWriteStream;
 
-export declare function sourcemapsWrite(): NodeJS.ReadWriteStream;
+export declare function sourcemapsWrite(sourceRoot?: WriteOptions['sourceRoot']): NodeJS.ReadWriteStream;
 
 export declare interface TscTaskFunction {
     (done: (error?: any) => void): Duplex;
 }
 
-export declare const VinylFile: typeof File;
-
 export declare type VinylFile = File;
+
+export declare const VinylFile: typeof File;
 
 export { }

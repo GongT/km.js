@@ -1,0 +1,5 @@
+docs/
+/common/scripts/*
+!/common/scripts/package.json
+/common/project-scripts/output/
+jspm_packages

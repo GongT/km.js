@@ -6,8 +6,11 @@
 	"main": "./scripts/Gulpfile.js",
 	"browser": "./lib/out.js",
 	"exports": {
-		"Gulpfile.js": "./scripts/Gulpfile.js",
-		"metadata.json": "./dist/filesmeta.json"
+		"./Gulpfile.js": "./scripts/Gulpfile.js",
+		".": {
+			"node": "./scripts/Gulpfile.js",
+			"default": "./lib/out.js"
+		}
 	},
 	"types": "./types.d.ts",
 	"scripts": {
@@ -16,15 +19,15 @@
 	"dependencies": {
 		"es6-promise": "^4.2.8",
 		"regenerator-runtime": "^0.13.7",
-		"systemjs": "^6.6.1",
+		"systemjs": "^6.7.1",
 		"systemjs-transform-babel": "^0.1.2",
-		"tslib": "^2.0.1",
-		"whatwg-fetch": "^3.4.1",
+		"tslib": "^2.0.3",
+		"whatwg-fetch": "^3.5.0",
 		"@km.js/gulp-tools": "^0.0.0",
-		"typescript": "^4.0.2",
+		"typescript": "^4.0.5",
 		"fancy-log": "^1.3.3",
 		"gulp-append-prepend": "^1.0.8",
-		"es-module-shims": "^0.6.0"
+		"es-module-shims": "^0.7.1"
 	},
 	"devDependencies": {
 		"gulp": "^4.0.2"

@@ -8,3 +8,5 @@ export declare const LOADER_DIST_FILE: string;
 export declare const VERSION: string;
 export declare function buildOnce(): Duplex;
 export declare const RequiredNativeModules: ICopyModuleInput;
+export declare function gulpCopyRequiredNativeModules(): Duplex;
+export declare function setResultsDirectory(path: string): void;

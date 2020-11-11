@@ -1,22 +1,15 @@
-import { resolve } from 'path';
 import { md5 } from '@idlebox/node';
 import { Router } from 'express';
 import serveStatic from 'serve-static';
 import { MIME_IMPORTMAP_JSON_UTF8 } from '../../data/mime';
-import { buildMap as buildImportMap, createServerRoute, IImportMap } from './importmap';
-
-let virtualUrlBase = '/';
-
-export function setApplicationRootUrl(base: string) {
-	virtualUrlBase = resolve('/', base);
-}
+import { clientNamespace, IImportMap } from './importmap';
 
 let importmap: IImportMap;
 
 export function reloadRouter() {
 	router.stack.length = 0;
 
-	importmap = buildImportMap(virtualUrlBase);
+	importmap = clientNamespace.getImportMap();
 	const importmapString = JSON.stringify(importmap, null, 4);
 	const hash = md5(Buffer.from(importmapString));
 	router.get('/importmap.json', (req, res) => {
@@ -29,7 +22,8 @@ export function reloadRouter() {
 		}
 	});
 
-	for (const { mountpoint, path, serveOptions } of createServerRoute(virtualUrlBase)) {
+	for (const { mountpoint, path, serveOptions } of clientNamespace.getRouteInfo()) {
+		// console.log('use: %s => %s', mountpoint, path);
 		router.use(mountpoint, serveStatic(path, serveOptions));
 	}
 }
@@ -37,10 +31,15 @@ export function reloadRouter() {
 let router: Router = Router();
 
 export function getApplicationRouter() {
-	reloadRouter();
+	if (!importmap) {
+		reloadRouter();
+	}
 	return router;
 }
 
 export function getBuildMap() {
+	if (!importmap) {
+		reloadRouter();
+	}
 	return importmap;
 }

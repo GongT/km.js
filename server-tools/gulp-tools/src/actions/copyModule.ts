@@ -1,8 +1,9 @@
-import { basename, dirname, extname, join, resolve } from 'path';
-import { Duplex, PassThrough } from 'stream';
 import { info } from 'fancy-log';
 import { pathExists, pathExistsSync, readFile, readJson, stat } from 'fs-extra';
+import { basename, dirname, extname, join, resolve } from 'path';
+import { Duplex, PassThrough } from 'stream';
 import { VinylFile } from '../tasks';
+import { createMeta } from './meta';
 
 export interface ICopyModuleInput {
 	/** where to save (relative to vfs root) */
@@ -82,7 +83,6 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 	info('copy module files from %s', node_modules);
 
 	(async function emitter() {
-		const mapperJson: Record<string, string> = {};
 		for (const request of opt.moduleList) {
 			info('    * %s', request.packageName);
 			if (!request.importName) request.importName = request.packageName;
@@ -100,8 +100,6 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 			for (const [importPath, input] of Object.entries(request.files)) {
 				const { source, map, fileName: fileNameSet } = parseInput(input);
 				const fileName = createName(source, version, fileNameSet);
-
-				mapperJson[join(request.importName, importPath || '.')] = fileName;
 
 				const sourcemapPath = map || (await findSourceMap(source));
 
@@ -127,16 +125,14 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 				}
 
 				resultStream.write(file);
+
+				resultStream.write(
+					createMeta(file, {
+						name: join(request.importName, importPath || '.'),
+					})
+				);
 			}
 		}
-
-		const file = new VinylFile({
-			base: vfsRoot,
-			cwd: baseDirectory,
-			path: resolve(baseDirectory, 'filesmeta.json'),
-			contents: Buffer.from(JSON.stringify(mapperJson, null, 4)),
-		});
-		resultStream.write(file);
 	})().then(
 		() => {
 			resultStream.end();

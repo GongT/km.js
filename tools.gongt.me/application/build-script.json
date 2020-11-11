@@ -1,7 +1,6 @@
 {
+	"load": [{ "file": "@km.js/gulp-tools/make", "args": ["./src/tsconfig.json", "ttypescript"] }],
 	"alias": {
-		"build-ts": "tsc -p src",
-		"watch-ts": "tsc -w -p src",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
@@ -9,9 +8,13 @@
 		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
 	},
 	"command": {
+		"watch": {
+			"title": "Watch mode build project",
+			"run": []
+		},
 		"build": {
 			"title": "Build project",
-			"run": ["build-ts"]
+			"run": ["@make:postbuild"]
 		},
 		"distclean": {
 			"title": "Delete git ignore files (without node_modules)",
@@ -39,10 +42,6 @@
 		"upgrade": {
 			"title": "Do project dependency upgrade",
 			"run": ["upgrade-node-modules"]
-		},
-		"watch": {
-			"title": "Watch mode build project",
-			"run": ["watch-ts"]
 		}
 	}
 }

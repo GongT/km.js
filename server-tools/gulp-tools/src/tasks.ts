@@ -1,14 +1,14 @@
-import { resolve } from 'path';
 import { info } from 'fancy-log';
 import { mkdirpSync } from 'fs-extra';
 import { dest, parallel, series, src, task, TaskFunction, watch, WatchOptions } from 'gulp';
+import { resolve } from 'path';
 import { Task } from 'undertaker';
+import File from 'vinyl';
 import { DestOptions, SrcOptions } from 'vinyl-fs';
-import { handleQuit } from './lifecycle';
-import * as File from 'vinyl';
+import { handleQuit } from './inc/lifecycle';
 
-export const VinylFile: typeof File = File;
 export type VinylFile = File;
+export const VinylFile: typeof File = File;
 
 export { watch as gulpWatch } from 'gulp';
 

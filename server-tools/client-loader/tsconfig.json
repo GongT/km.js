@@ -10,6 +10,7 @@
 		"inlineSources": true,
 		"sourceRoot": "/",
 		"noEmitOnError": true,
-		"moduleResolution": "Node"
+		"moduleResolution": "Node",
+		"esModuleInterop": true
 	}
 }

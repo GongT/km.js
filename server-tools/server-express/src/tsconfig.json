@@ -7,6 +7,10 @@
 		"declaration": false,
 		"declarationMap": false,
 		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true
-	}
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react",
+		"jsxFactory": "vhtml",
+		"types": ["node", "react"]
+	},
+	"includes": ["**/*.ts", "**/*.tsx"]
 }

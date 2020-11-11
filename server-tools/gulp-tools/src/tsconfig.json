@@ -4,8 +4,7 @@
 		"outDir": "../lib",
 		"rootDir": ".",
 		"declaration": false,
-		"declarationMap": false,
-		"allowSyntheticDefaultImports": false,
-		"esModuleInterop": false
-	}
+		"declarationMap": false
+	},
+	"exclude": ["./make/**"]
 }

@@ -1,6 +1,4 @@
 const gulp = require('gulp');
-const { loadToGulp } = require('@build-script/builder');
-
-gulp.task('test1', async () => {});
-
-const tasks = loadToGulp(gulp, __dirname);
+// const { loadToGulp } = require('@build-script/builder');
+const { loadToGulp } = require('/data/DevelopmentRoot/github.com/gongt/baobao/@build-script/builder/api.cjs');
+loadToGulp(gulp, __dirname);

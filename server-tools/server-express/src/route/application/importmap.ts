@@ -1,6 +1,9 @@
-import { resolve } from 'path';
+import { boundMethod } from 'autobind-decorator';
+import { posix, basename } from 'path';
 import { ServeStaticOptions } from 'serve-static';
 import { passConfig } from './config';
+import { createCommonOptions, ResourceType } from './browser-cache';
+import { MIME_JSON_UTF8 } from '../../data/mime';
 
 export interface IImportMap {
 	imports: Record<string, string>;
@@ -14,63 +17,161 @@ interface IServeParam {
 	serveOptions: ServeStaticOptions;
 }
 
-/** @internal */
-export function createServerRoute(base: string): IServeParam[] {
-	const result: IServeParam[] = [];
-	for (const { middleUrl, registry, serveOptions } of Object.values(packages)) {
-		for (const [specifier, path] of Object.entries(registry)) {
-			const lastUrl = resolve('/' + base + '/' + middleUrl + '/' + specifier).replace(/^\/+/, '');
-			result.push({ mountpoint: lastUrl, path, serveOptions });
-		}
-	}
-	return result;
+interface lconfig {
+	id: string;
+	isScope: boolean;
+	path?: string;
+	url?: string;
+	serveConfig?: ServeStaticOptions;
 }
 
-/** @internal */
-export function buildMap(base: string): IImportMap {
-	const imports: Record<string, string> = {};
+class FileRegister {
+	private config: lconfig;
 
-	for (const { middleUrl, registry } of Object.values(packages)) {
-		for (const specifier of Object.keys(registry)) {
-			const lastUrl = resolve('/' + base + '/' + middleUrl + '/' + specifier).replace(/^\/+/, '');
-			imports[specifier] = lastUrl;
-		}
+	constructor(packageId: string, private readonly rootUrl: string, private readonly _reset: Function) {
+		this.config = { id: packageId, isScope: false };
 	}
 
-	return { imports, config: passConfig };
-}
+	/** @internal */
+	toJSON() {
+		const ret = {
+			...this.config,
+		};
+		if (!ret.path) {
+			throw new Error(`dont know where to find module "${ret.id}"`);
+		}
+		return ret;
+	}
 
-export interface IServeInfo {
-	filePath: string;
-	mountpoint?: string;
+	asScopeFolder() {
+		this._reset();
+		this.config.isScope = true;
+		return this;
+	}
+	fromFilesystem(fileAbs: string) {
+		this._reset();
+		this.config.path = fileAbs;
+		return this;
+	}
+	throughUrl(middleUrl: string) {
+		this._reset();
+		this.config.url = middleUrl;
+		return this;
+	}
+	withHttpConfig(serveConfig: ServeStaticOptions) {
+		this._reset();
+		this.config.serveConfig = serveConfig;
+		return this;
+	}
+	getMount() {
+		return this.__get(false);
+	}
+	getUrl() {
+		return this.__get(true);
+	}
+
+	private __get(withroot: boolean) {
+		if (!this.config.path) {
+			throw new Error(`dont know where to find module "${this.config.id}"`);
+		}
+		let urls = posix.resolve('/', (withroot ? this.rootUrl : '') + '/' + this.config.url);
+		urls += '/';
+		if (this.config.isScope) {
+			if (!this.config.url) {
+				urls += basename(this.config.path) + '/';
+			}
+		} else {
+			urls += basename(this.config.path);
+		}
+		return urls;
+	}
 }
 
 class PackageRegister {
-	/** @internal */
-	public readonly middleUrl: string;
-	/** @internal */
-	public readonly serveOptions: ServeStaticOptions;
-	/** @internal */
-	public readonly registry: Record<string, string> = {};
+	private readonly map: Record<string, FileRegister> = {};
+	private declare serveConfig: ServeStaticOptions;
+	private rootUrl: string = '/__application__';
+	private _cache?: { importMap: IImportMap; serveInfo: IServeParam[] };
 
-	constructor(middleUrl: string, serveOptions: ServeStaticOptions) {
-		this.middleUrl = middleUrl;
-		this.serveOptions = serveOptions;
+	/** @internal */
+	@boundMethod
+	_reset() {
+		delete this._cache;
 	}
 
-	mapFile(url: string, file: string) {
-		this.registry[url] = file;
+	/**
+	 * module("react").from("/path/to/react.js");
+	 */
+	serveModule(packageId: string) {
+		if (this.map[packageId]) {
+			throw new Error(`duplicate package id: ${packageId}`);
+		}
+
+		this._reset();
+		this.map[packageId] = new FileRegister(packageId, this.rootUrl, this._reset);
+		return this.map[packageId];
 	}
 
-	mapFolder(url: string, path: string) {
-		this.registry[url + '/'] = path + '/';
+	mountTo(rootUrl: string) {
+		this._reset();
+		this.rootUrl = rootUrl;
+		return this;
+	}
+
+	config(serveConfig: ServeStaticOptions) {
+		this._reset();
+		this.serveConfig = serveConfig;
+		return this;
+	}
+
+	private _create() {
+		const imports: Record<string, string> = {};
+		const serveInfo: IServeParam[] = [];
+
+		const mapConfig = createCommonOptions(ResourceType.Dynamic, MIME_JSON_UTF8, true);
+
+		for (const item of Object.values(this.map)) {
+			const info = item.toJSON();
+			const mount = item.getMount();
+			const url = item.getUrl();
+
+			const postfix = info.isScope ? '/' : '';
+			imports[info.id + postfix] = url;
+
+			if (info.isScope) {
+				serveInfo.push({
+					mountpoint: mount + '**/*.map',
+					path: info.path!,
+					serveOptions: mapConfig,
+				});
+			} else {
+				serveInfo.push({
+					mountpoint: mount + '.map',
+					path: info.path! + '.map',
+					serveOptions: mapConfig,
+				});
+			}
+			serveInfo.push({
+				mountpoint: mount,
+				path: info.path!,
+				serveOptions: Object.assign({}, this.serveConfig, info.serveConfig),
+			});
+		}
+
+		this._cache = {
+			importMap: { imports, config: passConfig },
+			serveInfo,
+		};
+	}
+
+	getImportMap() {
+		if (!this._cache) this._create();
+		return this._cache!.importMap;
+	}
+	getRouteInfo() {
+		if (!this._cache) this._create();
+		return this._cache!.serveInfo;
 	}
 }
 
-let packages: Record<string, PackageRegister> = {};
-export function createPackage(middleUrl: string, serveConfig: ServeStaticOptions): PackageRegister {
-	if (!packages[middleUrl]) {
-		packages[middleUrl] = new PackageRegister(middleUrl, serveConfig);
-	}
-	return packages[middleUrl];
-}
+export const clientNamespace = new PackageRegister();
