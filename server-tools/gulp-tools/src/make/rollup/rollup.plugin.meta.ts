@@ -1,5 +1,6 @@
 import { OutputPlugin } from 'rollup';
 
+/** @internal */
 export const importMetaPathPlugin: OutputPlugin = {
 	name: 'dynamic-import-as-systemjs',
 	resolveImportMeta(property, { moduleId }) {

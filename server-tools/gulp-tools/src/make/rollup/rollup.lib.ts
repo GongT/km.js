@@ -1,4 +1,4 @@
-import { basename, resolve } from 'path';
+import { resolve } from 'path';
 import { escapeRegExp } from '@idlebox/common';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -6,28 +6,31 @@ import replacePlugin from '@rollup/plugin-replace';
 import { warn } from 'fancy-log';
 import { Plugin, RollupWarning, WarningHandler } from 'rollup';
 import sourcemapsPlugin from 'rollup-plugin-sourcemaps';
-import { APP_SOURCE, APP_SOURCE_TEMP, WORKING_DIR } from './rollup.args';
+import { INPUT_DIR_NAME, OUTPUT_ROOT } from './rollup.args';
 
+/** @internal */
 export function getAllDependencies(): Record<string, string> {
-	return require(resolve(WORKING_DIR, 'package.json')).dependencies;
+	return require(resolve(process.cwd(), 'package.json')).dependencies;
 }
 
+/** @internal */
 export function onWarning(warning: RollupWarning, defaultHandler: WarningHandler) {
 	translateWarningPath(warning);
 	if (!warning.loc) return defaultHandler(warning);
 	warn('[%s] %s\n    at %s:%s', warning.code, warning.message, warning.loc.file, warning.loc.line);
 }
 
-const tempDirRegexp = new RegExp('\\S*' + escapeRegExp(basename(APP_SOURCE_TEMP)) + '/(.+?).js', 'g');
+const tempDirRegexp = new RegExp('\\S*' + escapeRegExp(INPUT_DIR_NAME) + '/(.+?).js', 'g');
 const upDirRegexp = /\.\.\//g;
 function translateWarningPath(warn: RollupWarning) {
 	warn.message = warn.message
 		.replace(tempDirRegexp, (_m0, file) => {
-			return APP_SOURCE + '/' + file + '.ts';
+			return resolve(OUTPUT_ROOT, INPUT_DIR_NAME + file + '.ts');
 		})
 		.replace(upDirRegexp, '');
 }
 
+/** @internal */
 export function createPlugins(_isProduction: boolean): Plugin[] {
 	const ret: Plugin[] = [
 		sourcemapsPlugin(),

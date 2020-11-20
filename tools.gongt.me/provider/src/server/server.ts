@@ -20,9 +20,8 @@ export class MyServer extends ExpressServer {
 	protected configureClient() {
 		return {
 			API_URL: '/_api',
-			APP_URL: '/_pages',
 			// STATIC_URL: 'https://static.gongt.net/tools',
-			STATIC_URL: '/static',
+			STATIC_URL: '/_static',
 			entryFile: this.APP_LOADER_JS,
 			bootstrap: 'client/entry.js',
 		};

@@ -2,7 +2,7 @@
 	"load": ["@km.js/gulp-tools/make"],
 	"alias": {
 		"build-ts": "tsc -p src",
-		"watch-ts": "tsc -w -p src",
+		"watch-ts": "tsc -w -p src --preserveWatchOutput",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",

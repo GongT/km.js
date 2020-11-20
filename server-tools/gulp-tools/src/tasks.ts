@@ -1,7 +1,7 @@
+import { resolve } from 'path';
 import { info } from 'fancy-log';
 import { mkdirpSync } from 'fs-extra';
 import { dest, parallel, series, src, task, TaskFunction, watch, WatchOptions } from 'gulp';
-import { resolve } from 'path';
 import { Task } from 'undertaker';
 import File from 'vinyl';
 import { DestOptions, SrcOptions } from 'vinyl-fs';
@@ -68,22 +68,53 @@ export interface IBuildBundle {
 	watch: TaskFunction;
 }
 
-export function buildTask(
-	name: string,
-	title: string,
-	base: string,
-	glob: string,
-	immediate: boolean,
-	buildAction: TaskFunction
-): IBuildBundle {
-	const taskBuild = gulpTask('build:' + name, `[BUILD] ${title}`, buildAction);
+export interface IBuildTaskDefine {
+	name: string;
+	title: string;
+	base: string;
+	glob: string;
+	action: TaskFunction;
+	immediate?: boolean;
+	ignorePermissionErrors?: WatchOptions['ignorePermissionErrors'];
+	alwaysStat?: WatchOptions['alwaysStat'];
+	depth?: WatchOptions['depth'];
+	ignored?: WatchOptions['ignored'];
+	followSymlinks?: WatchOptions['followSymlinks'];
+	disableGlobbing?: WatchOptions['disableGlobbing'];
+}
+
+export function buildTask({
+	name,
+	title,
+	action,
+	base,
+	glob,
+	immediate,
+	...watchOptions
+}: IBuildTaskDefine): IBuildBundle {
+	const taskBuild = gulpTask('build:' + name, `[BUILD] ${title}`, action);
 	const taskWatch = gulpTask('watch:' + name, `[WATCH] ${title}`, () => {
 		mkdirpSync(base);
+		console.log('buildTask[%s]: %s', name, resolve(base, glob));
 		const watchStream = watch(
 			resolve(base, glob),
-			({ delay: 1000, queue: true, ignoreInitial: !immediate } as unknown) as WatchOptions,
-			buildAction
+			{
+				...watchOptions,
+				cwd: base,
+				delay: 1000,
+				queue: true,
+				ignoreInitial: !immediate,
+				atomic: 1000,
+				awaitWriteFinish: {
+					stabilityThreshold: 800,
+					pollInterval: 100,
+				},
+			},
+			action
 		);
+		// watchStream.on('raw', (event, path, details) => {
+		// 	console.error('\x1B[2mRaw event info: %s %s: %j\x1B[0m', event, path, details);
+		// });
 
 		handleQuit(() => {
 			info('监视%s已停止', title);

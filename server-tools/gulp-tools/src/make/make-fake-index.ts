@@ -1,22 +1,19 @@
+import { resolve } from 'path';
 import { FSWatcher, WatchHelper } from '@idlebox/chokidar';
 import { writeFileIfChange, writeFileIfChangeSync } from '@idlebox/node';
 import execa from 'execa';
 import { info } from 'fancy-log';
-import { existsSync, mkdirpSync, readJSON } from 'fs-extra';
+import { mkdirpSync, readJSON } from 'fs-extra';
 import { sync as globSync } from 'glob';
-import { resolve } from 'path';
 import { findTsc, getTypescriptAt } from '../inc/typescript';
 import { parseArguments } from './inc/args';
 
 const options = parseArguments();
-const cwd = options.cwd;
-if (!existsSync(cwd)) {
-	mkdirpSync(cwd);
-	process.chdir(cwd);
-}
-info('Watching %s', cwd);
 
-const tmpdir = resolve(cwd, '../import-temp');
+if (typeof options.output !== 'string') {
+	throw new Error('missing argument: --output=');
+}
+const tmpdir = options.output;
 mkdirpSync(tmpdir);
 
 const tsconfig = resolve(tmpdir, 'tsconfig.json');
@@ -39,15 +36,16 @@ const distFile = resolve(tmpdir, 'index.ts');
 
 const chokidar = new FSWatcher({
 	ignoreInitial: false,
-	cwd,
+	cwd: tmpdir,
 });
 
 const tsc = findTsc(getTypescriptAt(tsconfig));
 
 const watch = new WatchHelper(chokidar, async () => {
-	const files = globSync('**/*.importinfo', { cwd, absolute: true });
+	const files = globSync('**/*.importinfo', { cwd: tmpdir, absolute: true });
 	const imports: string[] = [];
 	for (const file of files) {
+		imports.push('// + ' + file);
 		const data: any = await readJSON(file);
 		if (!data.externals) {
 			continue;
@@ -66,7 +64,7 @@ const watch = new WatchHelper(chokidar, async () => {
 		startTSC();
 	}
 });
-watch.addWatch(resolve(cwd, '**/*.importinfo'));
+watch.addWatch(resolve(tmpdir, '**/*.importinfo'));
 
 let tscRun = false;
 
@@ -84,8 +82,13 @@ function startTSC() {
 	});
 }
 
-function createImport({ specifier, type, identifiers }: any) {
-	if (type === 'commonjs') {
+function createImport({ specifier, identifiers }: any) {
+	if (identifiers.length > 0) {
+		return `import "${specifier}";`;
+	} else {
+		return '// only types from ' + specifier;
+	}
+	/*if (type === 'commonjs') {
 		return `import "${specifier}";`;
 	} else {
 		// const sp = nodeResolve || specifier;
@@ -94,5 +97,5 @@ function createImport({ specifier, type, identifiers }: any) {
 		} else {
 			return `import "${specifier}";`;
 		}
-	}
+	}*/
 }

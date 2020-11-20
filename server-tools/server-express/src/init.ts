@@ -28,6 +28,7 @@ export interface IServerConfig {
 }
 export interface IClientConfig extends Record<string, any> {
 	entryFile?: string;
+	STATIC_URL?: string;
 }
 
 export abstract class ExpressServer {
@@ -85,6 +86,9 @@ export abstract class ExpressServer {
 		this.init(app);
 
 		const config = this.configureClient();
+		if (!config.STATIC_URL) {
+			config.STATIC_URL = '/';
+		}
 
 		passThroughConfig(config);
 		Object.assign(app.locals, config);
@@ -97,7 +101,7 @@ export abstract class ExpressServer {
 
 		app.get(/./, this.serveHtml);
 
-		await new Promise((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			this.listen(myCfg.listenPort || 1551, resolve, reject);
 		});
 	}
@@ -141,7 +145,7 @@ export abstract class ExpressServer {
 	async shutdown(rejectOnError = false) {
 		if (this.server) {
 			info('express server is stopping...');
-			await new Promise((resolve, reject) => {
+			await new Promise<void>((resolve, reject) => {
 				this.server!.close((e) => {
 					info('express server closed', e ? '(with error).' : '.');
 					if (e) {

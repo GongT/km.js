@@ -51,6 +51,7 @@ export declare function getBuildMap(): IImportMap;
 
 export declare interface IClientConfig extends Record<string, any> {
     entryFile?: string;
+    STATIC_URL?: string;
 }
 
 export declare interface IImportMap {

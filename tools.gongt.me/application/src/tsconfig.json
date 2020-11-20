@@ -5,6 +5,7 @@
 		"rootDir": ".",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"lib": ["dom", "esnext"],
+		"importHelpers": true,
 		"plugins": [
 			{
 				"transform": "@build-script/typescript-transformer-resolve-info"

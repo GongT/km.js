@@ -67,6 +67,8 @@ export function getBuildMap(): IImportMap;
 export interface IClientConfig extends Record<string, any> {
     // (undocumented)
     entryFile?: string;
+    // (undocumented)
+    STATIC_URL?: string;
 }
 
 // Warning: (ae-missing-release-tag) "IImportMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)

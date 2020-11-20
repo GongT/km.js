@@ -1,10 +1,11 @@
 import { resolve } from 'path';
 import { relativePath } from '@idlebox/node';
-import { APP_SOURCE_TEMP, WORKING_DIR } from './rollup.args';
+import { OUTPUT_ROOT } from './rollup.args';
 
+/** @internal */
 export function sourcemapPathTransform(path: string) {
 	// console.log(p)
-	const p = relativePath(WORKING_DIR, resolve(APP_SOURCE_TEMP, path)).replace(/^[./]+/, '');
+	const p = relativePath(process.cwd(), resolve(OUTPUT_ROOT, path)).replace(/^[./]+/, '');
 	// console.log('\x1B[2m%s\x1B[0m | %s', resolve(APP_SOURCE_TEMP, p), p);
 	if (p.startsWith('node_modules/')) {
 		return '/' + p.replace(/\/\.pnpm\/[^/]+\//g, '/');
@@ -16,6 +17,7 @@ export function sourcemapPathTransform(path: string) {
 	}
 }
 
+/** @internal */
 export function sourcemapPathTransformDev(path: string) {
 	return path;
 	// if (!p.includes('/')) {

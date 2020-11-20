@@ -1,8 +1,9 @@
 import { basename, dirname } from 'path';
 import { Duplex, PassThrough } from 'stream';
 import { ICommand, spawnWithoutOutput } from '@idlebox/node';
-import { info } from 'fancy-log';
+import { error, info } from 'fancy-log';
 import { TaskFunctionParams } from 'undertaker';
+import { handleQuit } from '../inc/lifecycle';
 import { findTsc, getTypescriptAt, readTsconfig } from '../inc/typescript';
 import { gulpSrcFrom, gulpTask } from '../tasks';
 
@@ -50,6 +51,19 @@ function parseOptions(options: ISpawnTscConfig): IToRun {
 	}
 	args.push('--outDir', outDir);
 
+	if (args.includes('-w') || args.includes('--watch')) {
+		const pos1 = args.indexOf('-w');
+		if (pos1 !== -1) {
+			args.splice(pos1, 1);
+			console.warn('\x1B[38;5;11mWarn: no effect -w option.\x1B[0m');
+		}
+		const pos2 = args.indexOf('--watch');
+		if (pos2 !== -1) {
+			args.splice(pos2, 1);
+			console.warn('\x1B[38;5;11mWarn: no effect --watch option.\x1B[0m');
+		}
+	}
+
 	return {
 		exec: [tsc, '-p', options.tsconfig, ...args],
 		cwd: dirname(options.tsconfig),
@@ -94,18 +108,27 @@ export function gulpTypescriptTask(
 	options: ISpawnTscConfig
 ): IBuildBundleStream & ITypescriptBuildInfo {
 	const run = parseOptions(options);
-	const runWat: IToRun = JSON.parse(JSON.stringify(run));
-	runWat.exec.push('-w');
+	const runWatch: IToRun = JSON.parse(JSON.stringify(run));
+	runWatch.exec.push('-w', '--preserveWatchOutput');
 
 	return {
-		build: gulpTask('build:' + name, '[BUILD] ' + title, () => {
+		build: gulpTask('build:' + name + ':tsc', '[BUILD] ' + title, () => {
 			return spawnLog(run);
 		}),
-		watch: gulpTask('watch:' + name, '[WATCH] ' + title, () => {
-			return spawnLog(run);
+		watch: gulpTask('watch:' + name + ':tsc', '[WATCH] ' + title, () => {
+			let isquit = false;
+			handleQuit(() => {
+				isquit = true;
+			});
+			return spawnLog(runWatch).catch((e) => {
+				if (isquit) {
+					return;
+				}
+				error('[typescript] %s', e.message);
+			});
 		}),
-		outDir: runWat.outDir,
-		distFiles: runWat.distFiles,
+		outDir: run.outDir,
+		distFiles: run.distFiles,
 	};
 }
 

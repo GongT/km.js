@@ -1,5 +1,6 @@
+import { oneDay, oneHour } from '@idlebox/common';
 import { ServeStaticOptions } from 'serve-static';
-import { oneDay, oneHour, oneYear } from '../../data/datetime';
+import { oneYear } from '../../data/datetime';
 
 export enum ResourceType {
 	Dynamic, // change every request

@@ -5,6 +5,5 @@
 		"rootDir": ".",
 		"declaration": false,
 		"declarationMap": false
-	},
-	"exclude": ["./make/**"]
+	}
 }

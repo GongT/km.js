@@ -8,8 +8,6 @@
 	"alias": {
 		"build-ts": "ttsc -p src",
 		"watch-ts": "ttsc -w -p src",
-		"build-make-ts": "ttsc -p src/make",
-		"watch-make-ts": "ttsc -w -p src/make",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
@@ -19,7 +17,7 @@
 	"command": {
 		"build": {
 			"title": "Build project",
-			"run": ["build-ts", "build-make-ts"]
+			"run": ["build-ts"]
 		},
 		"distclean": {
 			"title": "Delete git ignore files (without node_modules)",
@@ -50,7 +48,7 @@
 		},
 		"watch": {
 			"title": "Watch mode build project",
-			"run": ["watch-ts", "watch-make-ts"]
+			"run": ["watch-ts"]
 		}
 	}
 }

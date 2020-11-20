@@ -1,33 +1,16 @@
 import { resolve } from 'path';
 import { findUpUntilSync } from '@idlebox/node';
 import { error } from 'fancy-log';
+import { APPLICATION_HASH, INPUT_DIR_NAME, OUTPUT_ROOT, VENDOR_HASH } from './rollup.args';
 import { getAllDependencies } from './rollup.lib';
-import { APP_SOURCE_TEMP, APPLICATION_HASH, VENDOR_HASH } from './rollup.args';
 
 const VENDOR_CHUNK = 'vendor.' + VENDOR_HASH;
+const INPUT_PATH = resolve(OUTPUT_ROOT, INPUT_DIR_NAME);
 
-export function createManualChunks(isProduction: boolean, entrys: Record<string, string>) {
-	if (isProduction) {
-		return manualChunksProduction(entrys);
-	} else {
-		return manualChunksDevelopment(entrys);
-	}
-}
-
-export function createManualChunksForDev(entrys: Record<string, string>) {
-	const knownEntrys = Object.values(entrys);
+/** @internal */
+export function manualChunksProduction(entrys: string) {
 	return (id: string) => {
-		if (knownEntrys.includes(id)) {
-			return;
-		}
-		return 'vendor-dev';
-	};
-}
-
-function manualChunksProduction(entrys: Record<string, string>) {
-	const knownEntrys = Object.values(entrys);
-	return (id: string) => {
-		if (knownEntrys.includes(id)) {
+		if (id.startsWith(entrys)) {
 			return;
 		}
 		if (id.charCodeAt(0) === 0) {
@@ -39,21 +22,20 @@ function manualChunksProduction(entrys: Record<string, string>) {
 		if (!id.includes('/')) {
 			return VENDOR_CHUNK;
 		}
-		if (id.startsWith(APP_SOURCE_TEMP)) {
+		if (id.startsWith(INPUT_PATH)) {
 			return 'application.' + APPLICATION_HASH;
 		}
 		error('not set any chunk: %s', id);
 		return undefined;
 	};
 }
-function manualChunksDevelopment(entrys: Record<string, string>) {
-	const knownEntrys = Object.values(entrys);
 
+/** @internal */
+export function manualChunksDevelopment(entrys: string) {
 	const dependencies = getAllDependencies();
 
 	return (id: string) => {
-		if (knownEntrys.includes(id)) {
-			// don't chunk entry
+		if (id.startsWith(entrys)) {
 			return;
 		}
 		if (!id.includes('/')) {
@@ -76,8 +58,8 @@ function manualChunksDevelopment(entrys: Record<string, string>) {
 			}
 		}
 
-		if (id.startsWith(APP_SOURCE_TEMP)) {
-			return '@@app/' + id.replace(APP_SOURCE_TEMP, '').replace(/^\/+/, '').replace(/\.js/, '');
+		if (id.startsWith(INPUT_PATH)) {
+			return '@@app/' + id.replace(INPUT_PATH, '').replace(/^\/+/, '').replace(/\.js/, '');
 		}
 		error('not set any chunk: %s', id);
 		return undefined;

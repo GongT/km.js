@@ -40,13 +40,12 @@ setResultsDirectory(resolve(tmpdir(), 'kmjs/loader'));
 module.exports.setResultsDirectory = setResultsDirectory;
 
 // 第二步: 最终文件(loader.VERSION.js)的构建任务
-const taskConcatLoader = buildTask(
-	'loader:concat',
-	'Concat (build) loader application',
-	outDir,
-	'./**/*.js',
-	false,
-	() => {
+const taskConcatLoader = buildTask({
+	name: 'loader:join',
+	title: 'Concat (build) loader application',
+	base: outDir,
+	glob: 'out.js',
+	action() {
 		info('Start concat... [save: %s]', module.exports.LOADER_DIST_FILE);
 
 		return gulpSrcFrom(outDir, distFiles)
@@ -56,8 +55,8 @@ const taskConcatLoader = buildTask(
 			.pipe(rename())
 			.pipe(sourcemapsWrite())
 			.pipe(gulpDest(module.exports.LOADER_DIST));
-	}
-);
+	},
+});
 
 module.exports.gulpActionBuildLoader = gulpTask(
 	'build:loader',

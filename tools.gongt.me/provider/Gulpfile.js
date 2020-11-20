@@ -16,8 +16,6 @@ const tasks = loadToGulp(gulp, __dirname);
 
 const libraries = gulpTask('copy:modules', '复制依赖', gulpCopyRequiredNativeModules);
 
-const buildScriptWatch = tasks.watch;
-gulp.task('watch', gulp.parallel(buildScriptWatch, gulpActionWatchLoader, libraries));
+gulp.task('watch', gulp.parallel(tasks.watch, gulpActionWatchLoader, libraries));
 
-const buildScriptBuild = tasks.build;
-gulp.task('build', gulp.series(buildScriptBuild, gulpActionBuildLoader, libraries));
+gulp.task('build', gulp.series(tasks.build, gulpActionBuildLoader, libraries));

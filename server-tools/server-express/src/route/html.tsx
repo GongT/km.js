@@ -11,8 +11,11 @@ function _renderDefaultHtml(options: Record<string, any>) {
 		<html lang="zh-cn">
 			<head>
 				<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+				<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<title>:)</title>
-				<link rel="stylesheet" href={`${options.STATIC_URL}/app/styles/global.css`} />
+				<link rel="shortcut icon" href={`${options.STATIC_URL}/favicon.png`} type="image/png" />
+				<link rel="stylesheet" href={`${options.STATIC_URL}/styles/global.css`} />
 				<link id="applicationStyleSheet" rel="stylesheet" />
 				<script
 					type="systemjs-importmap"
