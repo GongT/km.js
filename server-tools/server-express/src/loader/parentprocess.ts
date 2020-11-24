@@ -30,7 +30,7 @@ class ChildProcessLifecycle {
 			this.currentProcess.removeListener('exit', this.onExit);
 			this.currentProcess.removeListener('error', this.onError);
 
-			const p = new Promise((resolve) => {
+			const p = new Promise<void>((resolve) => {
 				this.currentProcess!.on('exit', () => resolve());
 			});
 			this.currentProcess.kill(term ? 'SIGTERM' : 'SIGINT');
@@ -83,8 +83,8 @@ class ChildProcessLifecycle {
 		p.on('exit', this.onExit);
 		p.on('error', this.onError);
 
-		return new Promise((resolve) => {
-			this.reject = resolve;
+		return new Promise<void>((resolve, reject) => {
+			this.reject = reject;
 
 			p.on('message', (data: any) => {
 				if (data.error) {

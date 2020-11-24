@@ -22,52 +22,12 @@
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function buildTask(name: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", title: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", base: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", glob: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", immediate: "
-            },
-            {
-              "kind": "Content",
-              "text": "boolean"
-            },
-            {
-              "kind": "Content",
-              "text": ", buildAction: "
+              "text": "export declare function buildTask({ name, title, action, base, glob, immediate, ...watchOptions }: "
             },
             {
               "kind": "Reference",
-              "text": "TaskFunction",
-              "canonicalReference": "@types/gulp!~GulpClient.TaskFunction:type"
+              "text": "IBuildTaskDefine",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine:interface"
             },
             {
               "kind": "Content",
@@ -84,52 +44,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 13,
-            "endIndex": 14
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
           "parameters": [
             {
-              "parameterName": "name",
+              "parameterName": "{ name, title, action, base, glob, immediate, ...watchOptions }",
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
-            },
-            {
-              "parameterName": "title",
-              "parameterTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              }
-            },
-            {
-              "parameterName": "base",
-              "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
-              }
-            },
-            {
-              "parameterName": "glob",
-              "parameterTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 8
-              }
-            },
-            {
-              "parameterName": "immediate",
-              "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
-              }
-            },
-            {
-              "parameterName": "buildAction",
-              "parameterTypeTokenRange": {
-                "startIndex": 11,
-                "endIndex": 12
               }
             }
           ],
@@ -1617,6 +1542,365 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 4
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IBuildTaskDefine "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "IBuildTaskDefine",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#action:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "action: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TaskFunction",
+                  "canonicalReference": "@types/gulp!~GulpClient.TaskFunction:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "action",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#alwaysStat:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "alwaysStat?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['alwaysStat']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "alwaysStat",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#base:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "base: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "base",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#depth:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "depth?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['depth']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "depth",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#disableGlobbing:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "disableGlobbing?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['disableGlobbing']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "disableGlobbing",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#followSymlinks:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "followSymlinks?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['followSymlinks']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "followSymlinks",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#glob:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "glob: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "glob",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#ignored:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ignored?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['ignored']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "ignored",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#ignorePermissionErrors:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ignorePermissionErrors?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "WatchOptions",
+                  "canonicalReference": "@types/gulp!~GulpClient.WatchOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "['ignorePermissionErrors']"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "ignorePermissionErrors",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#immediate:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "immediate?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "immediate",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#name:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/gulp-tools!IBuildTaskDefine#title:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "title: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "title",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],

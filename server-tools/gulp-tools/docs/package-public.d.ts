@@ -9,9 +9,10 @@ import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
 import _ts from 'typescript';
+import { WatchOptions } from 'gulp';
 import { WriteOptions } from 'gulp-sourcemaps';
 
-export declare function buildTask(name: string, title: string, base: string, glob: string, immediate: boolean, buildAction: TaskFunction): IBuildBundle;
+export declare function buildTask({ name, title, action, base, glob, immediate, ...watchOptions }: IBuildTaskDefine): IBuildBundle;
 
 export declare function createJsonFile(target: string, creator: ICreateFunction): Promise<void>;
 
@@ -74,6 +75,21 @@ export declare interface IBuildBundle {
 export declare interface IBuildBundleStream {
     build: TscTaskFunction & TaskFunctionParams;
     watch: TscTaskFunction & TaskFunctionParams;
+}
+
+export declare interface IBuildTaskDefine {
+    name: string;
+    title: string;
+    base: string;
+    glob: string;
+    action: TaskFunction;
+    immediate?: boolean;
+    ignorePermissionErrors?: WatchOptions['ignorePermissionErrors'];
+    alwaysStat?: WatchOptions['alwaysStat'];
+    depth?: WatchOptions['depth'];
+    ignored?: WatchOptions['ignored'];
+    followSymlinks?: WatchOptions['followSymlinks'];
+    disableGlobbing?: WatchOptions['disableGlobbing'];
 }
 
 export declare interface ICopyModuleInput {

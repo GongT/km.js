@@ -13,6 +13,9 @@ export function getTypescriptAt(location: string, library = 'typescript') {
 
 export function readTsconfig(tsconfig: string, library = 'typescript') {
 	tsconfig = resolve(process.cwd(), tsconfig);
+	if (!pathExistsSync(tsconfig)) {
+		throw new Error('Missing tsconfig file: ' + tsconfig);
+	}
 
 	const require = createRequire(import.meta.url);
 	const ts = require(getTypescriptAt(tsconfig, library));

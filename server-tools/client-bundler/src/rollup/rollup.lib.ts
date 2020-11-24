@@ -4,9 +4,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replacePlugin from '@rollup/plugin-replace';
 import { warn } from 'fancy-log';
-import { Plugin, RollupWarning, WarningHandler } from 'rollup';
+import { MergedRollupOptions, OutputOptions, OutputPlugin, Plugin, RollupWarning, WarningHandler } from 'rollup';
 import sourcemapsPlugin from 'rollup-plugin-sourcemaps';
-import { INPUT_DIR_NAME, OUTPUT_ROOT } from './rollup.args';
+import { INPUT_DIR_PATH } from './rollup.args';
+import { dynamicImportPlugin } from './rollup.plugin.dynamic-import';
+import { createApplicationImportMapPlugin } from './rollup.plugin.importmap';
+import { importMetaPathPlugin } from './rollup.plugin.meta';
 
 /** @internal */
 export function getAllDependencies(): Record<string, string> {
@@ -20,12 +23,12 @@ export function onWarning(warning: RollupWarning, defaultHandler: WarningHandler
 	warn('[%s] %s\n    at %s:%s', warning.code, warning.message, warning.loc.file, warning.loc.line);
 }
 
-const tempDirRegexp = new RegExp('\\S*' + escapeRegExp(INPUT_DIR_NAME) + '/(.+?).js', 'g');
+const tempDirRegexp = new RegExp('\\S*' + escapeRegExp(INPUT_DIR_PATH) + '/(.+?).js', 'g');
 const upDirRegexp = /\.\.\//g;
 function translateWarningPath(warn: RollupWarning) {
 	warn.message = warn.message
 		.replace(tempDirRegexp, (_m0, file) => {
-			return resolve(OUTPUT_ROOT, INPUT_DIR_NAME + file + '.ts');
+			return resolve(INPUT_DIR_PATH, file + '.ts');
 		})
 		.replace(upDirRegexp, '');
 }
@@ -44,4 +47,18 @@ export function createPlugins(_isProduction: boolean): Plugin[] {
 	];
 
 	return ret;
+}
+
+export const rollupBasicOptions: Partial<MergedRollupOptions> = {
+	context: 'window',
+};
+
+export const rollupBasicOptionsOutput: Partial<OutputOptions> = {
+	sourcemap: true,
+	exports: 'named',
+	strict: true,
+};
+
+export function createOutputPlugins(_isProduction: boolean): OutputPlugin[] {
+	return [dynamicImportPlugin, importMetaPathPlugin, createApplicationImportMapPlugin];
 }

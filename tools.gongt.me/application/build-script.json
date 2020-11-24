@@ -1,5 +1,5 @@
 {
-	"load": [{ "file": "@km.js/gulp-tools/make", "args": ["./src/tsconfig.json", "ttypescript"] }],
+	"load": [{ "file": "@km.js/client-bundler", "args": ["./src/tsconfig.json", "ttypescript"] }],
 	"alias": {
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
@@ -14,7 +14,7 @@
 		},
 		"build": {
 			"title": "Build project",
-			"run": ["@make:postbuild"]
+			"run": []
 		},
 		"distclean": {
 			"title": "Delete git ignore files (without node_modules)",

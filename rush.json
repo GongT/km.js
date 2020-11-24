@@ -97,6 +97,11 @@
 			"packageName": "@tools.gongt.me/application",
 			"projectFolder": "tools.gongt.me/application",
 			"shouldPublish": false
+		},
+		{
+			"packageName": "@km.js/client-bundler",
+			"projectFolder": "server-tools/client-bundler",
+			"shouldPublish": true
 		}
 	]
 }

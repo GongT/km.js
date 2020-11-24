@@ -14,12 +14,13 @@ import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
 import _ts from 'typescript';
+import { WatchOptions } from 'gulp';
 import { WriteOptions } from 'gulp-sourcemaps';
 
 // Warning: (ae-missing-release-tag) "buildTask" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function buildTask(name: string, title: string, base: string, glob: string, immediate: boolean, buildAction: TaskFunction): IBuildBundle;
+export function buildTask({ name, title, action, base, glob, immediate, ...watchOptions }: IBuildTaskDefine): IBuildBundle;
 
 // Warning: (ae-missing-release-tag) "createJsonFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -152,6 +153,36 @@ export interface IBuildBundleStream {
     build: TscTaskFunction & TaskFunctionParams;
     // (undocumented)
     watch: TscTaskFunction & TaskFunctionParams;
+}
+
+// Warning: (ae-missing-release-tag) "IBuildTaskDefine" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IBuildTaskDefine {
+    // (undocumented)
+    action: TaskFunction;
+    // (undocumented)
+    alwaysStat?: WatchOptions['alwaysStat'];
+    // (undocumented)
+    base: string;
+    // (undocumented)
+    depth?: WatchOptions['depth'];
+    // (undocumented)
+    disableGlobbing?: WatchOptions['disableGlobbing'];
+    // (undocumented)
+    followSymlinks?: WatchOptions['followSymlinks'];
+    // (undocumented)
+    glob: string;
+    // (undocumented)
+    ignored?: WatchOptions['ignored'];
+    // (undocumented)
+    ignorePermissionErrors?: WatchOptions['ignorePermissionErrors'];
+    // (undocumented)
+    immediate?: boolean;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    title: string;
 }
 
 // Warning: (ae-missing-release-tag) "ICopyModuleInput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)

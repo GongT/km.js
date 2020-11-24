@@ -4,7 +4,7 @@
 		"outDir": "../lib",
 		"rootDir": ".",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"lib": ["dom", "esnext"],
+		"lib": ["esnext"],
 		"importHelpers": true
 	}
 }
