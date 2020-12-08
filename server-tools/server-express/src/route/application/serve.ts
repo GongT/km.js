@@ -22,9 +22,15 @@ export function reloadRouter() {
 		}
 	});
 
-	for (const { mountpoint, path, serveOptions } of clientNamespace.getRouteInfo()) {
-		// console.log('use: %s => %s', mountpoint, path);
-		router.use(mountpoint, serveStatic(path, serveOptions));
+	for (const { mountpoint, paths } of clientNamespace.getRouteInfo()) {
+		console.log('use: %s', mountpoint);
+		router.use(
+			mountpoint,
+			...paths.map(({ path, options }) => {
+				console.log('        => %s', path, options);
+				return serveStatic(path, options);
+			})
+		);
 	}
 }
 

@@ -30,6 +30,7 @@ export function manualChunksProduction(entrys: string) {
 
 export function manualChunksDevelopment(entrys: string) {
 	const dependencies = getAllDependencies();
+	// console.error('dependencies=%j',dependencies)
 
 	return (id: string) => {
 		if (id.startsWith(entrys)) {
@@ -45,13 +46,13 @@ export function manualChunksDevelopment(entrys: string) {
 			}
 			const packageName = moduleName(id);
 			if (dependencies[packageName]) {
-				return packageName.replace('/', '$');
+				return packageName;
 			} else {
 				// const info = api.getModuleInfo(id);
 				// if (info.importedIds.length === 0) {
 				// 	return HELPER_CHUNK;
 				// }
-				return 'sub_dependencies/' + packageName.replace('/', '$');
+				return '_sub_dependencies/' + packageName;
 			}
 		}
 

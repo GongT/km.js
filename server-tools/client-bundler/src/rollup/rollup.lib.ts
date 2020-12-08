@@ -3,17 +3,33 @@ import { escapeRegExp } from '@idlebox/common';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replacePlugin from '@rollup/plugin-replace';
-import { warn } from 'fancy-log';
+import { warn, error } from 'fancy-log';
 import { MergedRollupOptions, OutputOptions, OutputPlugin, Plugin, RollupWarning, WarningHandler } from 'rollup';
 import sourcemapsPlugin from 'rollup-plugin-sourcemaps';
-import { INPUT_DIR_PATH } from './rollup.args';
+import { INPUT_DIR_PATH, SOURCE_MAP_ROOT } from './rollup.args';
 import { dynamicImportPlugin } from './rollup.plugin.dynamic-import';
 import { createApplicationImportMapPlugin } from './rollup.plugin.importmap';
 import { importMetaPathPlugin } from './rollup.plugin.meta';
+import { findUpUntilSync } from '@idlebox/node';
 
+let projectDeps: Record<string, string>;
 /** @internal */
 export function getAllDependencies(): Record<string, string> {
-	return require(resolve(process.cwd(), 'package.json')).dependencies;
+	if (!projectDeps) {
+		const pkgFile = findUpUntilSync(SOURCE_MAP_ROOT, 'package.json');
+		if (pkgFile) {
+			const pkg = require(pkgFile);
+			projectDeps = Object.assign({}, pkg.devDependencies, pkg.dependencies);
+			if (!projectDeps) {
+				error('no dependencies field in %s', pkgFile);
+				projectDeps = {};
+			}
+		} else {
+			error('failed find package.json from %s', SOURCE_MAP_ROOT);
+			projectDeps = {};
+		}
+	}
+	return projectDeps;
 }
 
 /** @internal */
@@ -59,6 +75,6 @@ export const rollupBasicOptionsOutput: Partial<OutputOptions> = {
 	strict: true,
 };
 
-export function createOutputPlugins(_isProduction: boolean): OutputPlugin[] {
+export function createOutputPlugins(): OutputPlugin[] {
 	return [dynamicImportPlugin, importMetaPathPlugin, createApplicationImportMapPlugin];
 }

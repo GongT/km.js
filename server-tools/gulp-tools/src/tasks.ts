@@ -1,26 +1,35 @@
 import { resolve } from 'path';
+import { gulpParallel, gulpSeries } from '@build-script/gulp-chain-simplify';
 import { info } from 'fancy-log';
 import { mkdirpSync } from 'fs-extra';
-import { dest, parallel, series, src, task, TaskFunction, watch, WatchOptions } from 'gulp';
-import { Task } from 'undertaker';
+import { dest, src, task, TaskFunction, watch, WatchOptions } from 'gulp';
+import { Task, TaskFunctionParams } from 'undertaker';
 import File from 'vinyl';
 import { DestOptions, SrcOptions } from 'vinyl-fs';
 import { handleQuit } from './inc/lifecycle';
 
 export type VinylFile = File;
 export const VinylFile: typeof File = File;
+export interface NamedTaskFunction extends TaskFunction, TaskFunctionParams {
+	displayName: string;
+}
 
 export { watch as gulpWatch } from 'gulp';
 
-export function gulpPublicTask(name: string, description: string, callback: TaskFunction): Task {
+export function gulpPublicTask(name: string, description: string, callback: TaskFunction): string {
 	task(name, gulpTask(name, description, callback));
 	return name;
 }
 
-export function gulpTask(name: string, description: string, callback: TaskFunction): TaskFunction;
-export function gulpTask(name: string, callback: TaskFunction): TaskFunction;
+export function gulpPublishTask(callback: NamedTaskFunction): string /* Task */ {
+	task(callback.displayName, callback);
+	return callback.displayName;
+}
 
-export function gulpTask(name: string, description: TaskFunction | string, callback?: TaskFunction): TaskFunction {
+export function gulpTask(name: string, description: string, callback: TaskFunction): NamedTaskFunction;
+export function gulpTask(name: string, callback: TaskFunction): NamedTaskFunction;
+
+export function gulpTask(name: string, description: TaskFunction | string, callback?: TaskFunction): NamedTaskFunction {
 	if (typeof description === 'string') {
 		return Object.assign(callback, { displayName: name, description });
 	} else {
@@ -28,20 +37,12 @@ export function gulpTask(name: string, description: TaskFunction | string, callb
 	}
 }
 
-export function gulpNamedSerise(name: string, ...tasks: Task[]): TaskFunction {
-	return gulpTask(name, series(...tasks));
+export function gulpNamedSerise(name: string, ...tasks: Task[]) {
+	return gulpTask(name, gulpSeries(...tasks));
 }
 
-export function gulpNamedParallel(name: string, ...tasks: Task[]): TaskFunction {
-	return gulpTask(name, parallel(...tasks));
-}
-
-export function gulpSerise(...tasks: Task[]): TaskFunction {
-	return series(...tasks);
-}
-
-export function gulpParallel(...tasks: Task[]): TaskFunction {
-	return parallel(...tasks);
+export function gulpNamedParallel(name: string, ...tasks: Task[]) {
+	return gulpTask(name, gulpParallel(...tasks));
 }
 
 export function gulpSrc(globs: string | string[], opt: SrcOptions = {}): NodeJS.ReadWriteStream {
@@ -64,8 +65,8 @@ export function gulpDest(folder: string, opt?: DestOptions): NodeJS.ReadWriteStr
 }
 
 export interface IBuildBundle {
-	build: TaskFunction;
-	watch: TaskFunction;
+	build: NamedTaskFunction;
+	watch: NamedTaskFunction;
 }
 
 export interface IBuildTaskDefine {

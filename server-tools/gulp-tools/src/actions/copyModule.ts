@@ -1,7 +1,7 @@
-import { info } from 'fancy-log';
-import { pathExists, pathExistsSync, readFile, readJson, stat } from 'fs-extra';
 import { basename, dirname, extname, join, resolve } from 'path';
 import { Duplex, PassThrough } from 'stream';
+import { info } from 'fancy-log';
+import { pathExists, pathExistsSync, readFile, readJson, stat } from 'fs-extra';
 import { VinylFile } from '../tasks';
 import { createMeta } from './meta';
 
@@ -83,6 +83,7 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 	info('copy module files from %s', node_modules);
 
 	(async function emitter() {
+		const metaFile: Record<string, string> = {};
 		for (const request of opt.moduleList) {
 			info('    * %s', request.packageName);
 			if (!request.importName) request.importName = request.packageName;
@@ -100,6 +101,7 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 			for (const [importPath, input] of Object.entries(request.files)) {
 				const { source, map, fileName: fileNameSet } = parseInput(input);
 				const fileName = createName(source, version, fileNameSet);
+				const importAs = join(request.importName, importPath || '.');
 
 				const sourcemapPath = map || (await findSourceMap(source));
 
@@ -122,16 +124,22 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 						return request.packageName + resolve('/', value);
 					});
 					file.sourceMap = mapData;
+
+					metaFile[importAs + '.map'] = fileName + '.map';
 				}
 
 				resultStream.write(file);
-
-				resultStream.write(
-					createMeta(file, {
-						name: join(request.importName, importPath || '.'),
-					})
-				);
+				metaFile[importAs] = fileName;
 			}
+
+			resultStream.write(
+				new VinylFile({
+					base: vfsRoot,
+					cwd: baseDirectory,
+					path: resolve(baseDirectory, 'filemap.json'),
+					contents: Buffer.from(JSON.stringify(metaFile, null, 4)),
+				})
+			);
 		}
 	})().then(
 		() => {

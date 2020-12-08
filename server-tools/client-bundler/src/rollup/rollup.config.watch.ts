@@ -30,7 +30,7 @@ const rollupOptions: MergedRollupOptions = {
 			format: 'system',
 			dir: OUTPUT_DIR_PATH,
 			sourcemapPathTransform: sourcemapPathTransformDev,
-			plugins: createOutputPlugins(false),
+			plugins: createOutputPlugins(),
 		},
 	],
 	onwarn: onWarning,

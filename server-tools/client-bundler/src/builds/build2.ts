@@ -1,14 +1,12 @@
 import { dirname, resolve } from 'path';
 import { buildContext } from '@build-script/builder';
-import { getBuildContextConstant } from '../inc/buildScriptContext';
-
-const {
+import {
 	rollupBin,
 	buildOutputLV1,
 	myselfPath,
-	buildOutputFinal: buildOutputLV2,
+	buildOutputFinal as buildOutputLV2,
 	sourceProjectConfigFile,
-} = getBuildContextConstant();
+} from '../inc/buildScriptContext';
 
 buildContext.postfixAction('build', ['tools:postbuild'] as any);
 buildContext.addAction('tools:postbuild', ['tools:build-rollup']);

@@ -5,6 +5,8 @@
 		"rootDir": ".",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"lib": ["dom", "esnext"],
-		"importHelpers": true
+		"importHelpers": true,
+		"declaration": false,
+		"declarationMap": false
 	}
 }

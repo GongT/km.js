@@ -2,10 +2,9 @@ import { basename, dirname } from 'path';
 import { Duplex, PassThrough } from 'stream';
 import { ICommand, spawnWithoutOutput } from '@idlebox/node';
 import { error, info } from 'fancy-log';
-import { TaskFunctionParams } from 'undertaker';
 import { handleQuit } from '../inc/lifecycle';
 import { findTsc, getTypescriptAt, readTsconfig } from '../inc/typescript';
-import { gulpSrcFrom, gulpTask } from '../tasks';
+import { gulpSrcFrom, gulpTask, NamedTaskFunction } from '../tasks';
 
 export interface ISpawnTscConfigWatch {
 	watchMode?: true;
@@ -99,8 +98,8 @@ export interface TscTaskFunction {
 	(done: (error?: any) => void): Duplex;
 }
 export interface IBuildBundleStream {
-	build: TscTaskFunction & TaskFunctionParams;
-	watch: TscTaskFunction & TaskFunctionParams;
+	build: TscTaskFunction & NamedTaskFunction;
+	watch: TscTaskFunction & NamedTaskFunction;
 }
 export function gulpTypescriptTask(
 	name: string,

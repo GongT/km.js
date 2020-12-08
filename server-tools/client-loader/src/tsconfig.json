@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"module": "None",
+		"target": "ES3",
+		"rootDir": ".",
+		"outFile": "../lib/tsc/out.js",
+		"lib": ["esnext", "dom"],
+		"types": [],
+		"sourceMap": true,
+		"inlineSources": true,
+		"sourceRoot": "/",
+		"noEmitOnError": true,
+		"moduleResolution": "Node",
+		"esModuleInterop": true
+	}
+}

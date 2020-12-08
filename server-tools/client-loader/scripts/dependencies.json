@@ -1,0 +1,42 @@
+[
+	{
+		"packageName": "es6-promise",
+		"files": {
+			"source": "dist/es6-promise.min.js",
+			"map": "dist/es6-promise.min.map"
+		}
+	},
+	{
+		"packageName": "regenerator-runtime",
+		"files": "runtime.js"
+	},
+	{
+		"packageName": "es-module-shims",
+		"files": {
+			"source": "dist/es-module-shims.min.js",
+			"map": "dist/es-module-shims.min.js.map"
+		}
+	},
+	{
+		"packageName": "whatwg-fetch",
+		"files": "dist/fetch.umd.js"
+	},
+	{
+		"packageName": "systemjs",
+		"files": {
+			".": {
+				"source": "dist/system.min.js",
+				"map": "dist/system.min.js.map"
+			},
+			"transform": {
+				"source": "dist/extras/transform.min.js",
+				"map": "dist/extras/transform.min.js.map",
+				"fileName": "systemjs.transform.VERSION"
+			}
+		}
+	},
+	{
+		"packageName": "systemjs-transform-babel",
+		"files": "dist/babel-transform.js"
+	}
+]

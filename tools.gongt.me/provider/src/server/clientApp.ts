@@ -1,25 +1,23 @@
-import { createRequire } from 'module';
 import { resolve } from 'path';
 import { clientNamespace, createCommonOptions, MIME_JAVASCRIPT_UTF8, ResourceType } from '@km.js/server-express';
-import { ServeStaticOptions } from 'serve-static';
+import { compiledPath, outputPath, sourcePath } from '@tools.gongt.me/application';
 
 export function attachClientApplication() {
-	const require = createRequire(__dirname);
-	const applicationDistFolder = resolve(require.resolve('@tools.gongt.me/application'), '../lib/system');
-	console.log('serving application: %s', applicationDistFolder);
+	console.log('serving application: %s', outputPath);
 
-	let serveConfig: ServeStaticOptions, version: string;
-	if (process.env.NODE_ENV === 'production') {
-		serveConfig = createCommonOptions(ResourceType.Application, MIME_JAVASCRIPT_UTF8, false);
-		version = '.' + require('../../package.json').version;
-	} else {
-		serveConfig = createCommonOptions(ResourceType.Dynamic, MIME_JAVASCRIPT_UTF8, false);
-		version = 'dev' + Date.now();
-	}
-	clientNamespace
+	const version = '.' + require(resolve(__dirname, '../../package.json')).version;
+
+	const clientScope = clientNamespace
 		.serveModule('client')
 		.asScopeFolder()
-		.fromFilesystem(applicationDistFolder)
+		.withHttpConfig(createCommonOptions(ResourceType.Application, MIME_JAVASCRIPT_UTF8, false))
 		.throughUrl('my-program' + version)
-		.withHttpConfig(serveConfig);
+		.fromFilesystem(outputPath);
+
+	if (compiledPath) {
+		console.log('    and: %s', compiledPath);
+		const dynamicOpt = createCommonOptions(ResourceType.Dynamic, MIME_JAVASCRIPT_UTF8, false);
+		clientScope.fromFilesystem(compiledPath, dynamicOpt);
+		clientScope.fromFilesystem(sourcePath, dynamicOpt);
+	}
 }

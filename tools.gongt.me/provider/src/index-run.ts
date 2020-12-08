@@ -1,6 +1,7 @@
 import { startChokidar } from '@idlebox/chokidar';
 import { loadServerAsChildProcess } from '@km.js/server-express';
 import { resolve } from 'path';
+import { fileMapPath } from '@tools.gongt.me/application';
 
 const program = resolve(__dirname, 'server/start');
 
@@ -11,4 +12,5 @@ if (process.env.NODE_ENV === 'production') {
 
 	const watch = startChokidar(loadServerAsChildProcess(program));
 	watch.addWatch(resolve(__dirname, '**/*.js'));
+	watch.addWatch(fileMapPath);
 }

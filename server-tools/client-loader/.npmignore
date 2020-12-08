@@ -3,4 +3,4 @@ scripts
 *.log
 *.tgz
 .*
-dist
+lib/tsc

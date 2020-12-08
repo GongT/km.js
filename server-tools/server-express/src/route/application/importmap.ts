@@ -1,9 +1,10 @@
+import { posix } from 'path';
 import { boundMethod } from 'autobind-decorator';
-import { posix, basename } from 'path';
 import { ServeStaticOptions } from 'serve-static';
-import { passConfig } from './config';
-import { createCommonOptions, ResourceType } from './browser-cache';
 import { MIME_JSON_UTF8 } from '../../data/mime';
+import { createCommonOptions, ResourceType } from './browser-cache';
+import { passConfig } from './config';
+import { existsSync } from '@idlebox/node';
 
 export interface IImportMap {
 	imports: Record<string, string>;
@@ -11,16 +12,20 @@ export interface IImportMap {
 	config: any;
 }
 
+interface IProvideFs {
+	path: string;
+	options: ServeStaticOptions;
+}
+
 interface IServeParam {
 	mountpoint: string;
-	path: string;
-	serveOptions: ServeStaticOptions;
+	paths: IProvideFs[];
 }
 
 interface lconfig {
 	id: string;
 	isScope: boolean;
-	path?: string;
+	path?: Record<string, true>;
 	url?: string;
 	serveConfig?: ServeStaticOptions;
 }
@@ -28,7 +33,12 @@ interface lconfig {
 class FileRegister {
 	private config: lconfig;
 
-	constructor(packageId: string, private readonly rootUrl: string, private readonly _reset: Function) {
+	constructor(
+		packageId: string,
+		private readonly rootUrl: string,
+		private readonly _reset: Function,
+		public readonly hiddenFromMap = false
+	) {
 		this.config = { id: packageId, isScope: false };
 	}
 
@@ -50,7 +60,13 @@ class FileRegister {
 	}
 	fromFilesystem(fileAbs: string) {
 		this._reset();
-		this.config.path = fileAbs;
+		if (!this.config.path) {
+			this.config.path = {};
+		}
+		if (this.config.path[fileAbs]) {
+			throw new Error('duplicate serve path: ' + fileAbs);
+		}
+		this.config.path[fileAbs] = true;
 		return this;
 	}
 	throughUrl(middleUrl: string) {
@@ -75,14 +91,17 @@ class FileRegister {
 			throw new Error(`dont know where to find module "${this.config.id}"`);
 		}
 		let urls = posix.resolve('/', (withroot ? this.rootUrl : '') + '/' + this.config.url);
-		urls += '/';
 		if (this.config.isScope) {
-			if (!this.config.url) {
-				urls += basename(this.config.path) + '/';
-			}
-		} else {
-			urls += basename(this.config.path);
+			urls += '/';
 		}
+		// urls += '/';
+		// if (this.config.isScope) {
+		// 	if (!this.config.url) {
+		// 		urls += basename(this.config.path) + '/';
+		// 	}
+		// } else {
+		// 	urls += basename(this.config.path);
+		// }
 		return urls;
 	}
 }
@@ -99,16 +118,13 @@ class PackageRegister {
 		delete this._cache;
 	}
 
-	/**
-	 * module("react").from("/path/to/react.js");
-	 */
 	serveModule(packageId: string) {
 		if (this.map[packageId]) {
 			throw new Error(`duplicate package id: ${packageId}`);
 		}
 
 		this._reset();
-		this.map[packageId] = new FileRegister(packageId, this.rootUrl, this._reset);
+		this.map[packageId] = new FileRegister(packageId, this.rootUrl, this._reset, packageId.endsWith('.map'));
 		return this.map[packageId];
 	}
 
@@ -136,25 +152,38 @@ class PackageRegister {
 			const url = item.getUrl();
 
 			const postfix = info.isScope ? '/' : '';
-			imports[info.id + postfix] = url;
 
-			if (info.isScope) {
-				serveInfo.push({
-					mountpoint: mount + '**/*.map',
-					path: info.path!,
-					serveOptions: mapConfig,
+			if (!item.hiddenFromMap) {
+				imports[info.id + postfix] = url;
+			}
+
+			const paths: IProvideFs[] = [];
+			const defOpts = Object.assign({}, mapConfig, this.serveConfig, info.serveConfig);
+			for (const path of Object.keys(info.path!)) {
+				paths.push({
+					path,
+					options: Object.assign({}, defOpts, { fallthrough: true }),
 				});
-			} else {
-				serveInfo.push({
-					mountpoint: mount + '.map',
-					path: info.path! + '.map',
-					serveOptions: mapConfig,
-				});
+			}
+			const last = paths[paths.length - 1];
+			last.options.fallthrough = defOpts.fallthrough;
+
+			if (!info.isScope) {
+				for (const { path, options } of paths) {
+					const map = path + '.map';
+					if (existsSync(map)) {
+						serveInfo.push({
+							mountpoint: mount + '.map',
+							paths: paths.map(({}) => {
+								return { path: map, options };
+							}),
+						});
+					}
+				}
 			}
 			serveInfo.push({
 				mountpoint: mount,
-				path: info.path!,
-				serveOptions: Object.assign({}, this.serveConfig, info.serveConfig),
+				paths: paths,
 			});
 		}
 

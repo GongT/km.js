@@ -5,7 +5,7 @@
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"private": true,
 	"type": "commonjs",
-	"main": "./load.js",
+	"main": "./lib/index.js",
 	"scripts": {
 		"build": "gulp build",
 		"clean": "rimraf lib",
@@ -22,7 +22,7 @@
 		"react": "^17.0.1",
 		"tslib": "^2.0.3",
 		"@types/react": "^16.9.56",
-		"@build-script/builder": "^2.1.4",
+		"@build-script/builder": "^2.1.6",
 		"@build-script/single-dog-asset": "^1.0.10",
 		"@build-script/typescript-transformer-resolve-info": "^0.1.1",
 		"@build-script/typescript-transformer-static-resolve": "^0.0.7",

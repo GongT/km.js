@@ -37,7 +37,7 @@ declare class FileRegister {
     private config;
     constructor(packageId: string, rootUrl: string, _reset: Function);
     asScopeFolder(): this;
-    fromFilesystem(fileAbs: string): this;
+    fromFilesystem(fileAbs: string, overwriteConfig?: ServeStaticOptions): this;
     throughUrl(middleUrl: string): this;
     withHttpConfig(serveConfig: ServeStaticOptions): this;
     getMount(): string;
@@ -62,10 +62,14 @@ export declare interface IImportMap {
 export declare interface IPassThroughConfig extends Record<string, any> {
 }
 
+declare interface IProvideFs {
+    path: string;
+    options: ServeStaticOptions;
+}
+
 declare interface IServeParam {
     mountpoint: string;
-    path: string;
-    serveOptions: ServeStaticOptions;
+    paths: IProvideFs[];
 }
 
 export declare interface IServerConfig {

@@ -1,6 +1,7 @@
-import { resolve } from 'path';
+import { md5 } from '@idlebox/node';
 import { NormalizedOutputOptions, OutputBundle, OutputPlugin } from 'rollup';
 import { INDEX_FILE_NAME } from '../inc/constants';
+import { IFileMap } from '../inc/loader';
 
 export class ImportMapImpl implements OutputPlugin {
 	public readonly name = 'create-importmap';
@@ -15,34 +16,29 @@ export class ImportMapImpl implements OutputPlugin {
 			return; // first run
 		}
 
-		const imports: Record<string, string> = {};
+		const imports: IFileMap = {};
 		for (const bundle of Object.values(bundles)) {
 			if (bundle.type === 'asset') continue;
+
 			const { fileName, name } = bundle;
 
-			imports[name] = resolve(options.dir, fileName);
-
-			const moduleName = recoverName(name);
-			if (moduleName) {
-				imports[moduleName] = imports[name];
+			if (name.startsWith('_')) {
+				continue;
 			}
+			imports[name] = {
+				path: fileName,
+				hash: md5(Buffer.from(bundle.code)),
+			};
 		}
 
-		bundles['importmap.json'] = {
-			fileName: 'importmap.json',
+		bundles['filemap.json'] = {
+			fileName: 'filemap.json',
 			type: 'asset',
-			name: '@@importmap@@',
-			source: JSON.stringify({ imports }, null, 2),
+			name: '@@filemap@@',
+			source: JSON.stringify(imports, null, 2),
 			isAsset: true,
 		};
 	}
-}
-
-function recoverName(name: string) {
-	if (name.startsWith('_')) {
-		return;
-	}
-	return name.replace('$', '/');
 }
 
 export const createApplicationImportMapPlugin: OutputPlugin = new ImportMapImpl();

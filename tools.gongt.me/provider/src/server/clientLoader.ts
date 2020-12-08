@@ -1,23 +1,16 @@
 import { resolve } from 'path';
-import { createCommonOptions, clientNamespace, MIME_JAVASCRIPT_UTF8, ResourceType } from '@km.js/server-express';
-import { readJsonSync } from 'fs-extra';
-import { sync as globSync } from 'glob';
+import { distPath, filemap } from '@km.js/client-loader';
+import { clientNamespace, createCommonOptions, MIME_JAVASCRIPT_UTF8, ResourceType } from '@km.js/server-express';
 
 export function attachClientLoader() {
-	const config = createCommonOptions(ResourceType.ThirdParty, MIME_JAVASCRIPT_UTF8, false);
-	const loaderPath = resolve(__dirname, '../loader');
+	for (const [importSpecifier, fileName] of Object.entries(filemap)) {
+		const url = `loader/${fileName}`;
 
-	const files = globSync('**/*.meta.json', {
-		cwd: loaderPath,
-		absolute: true,
-	});
-
-	for (const metaFile of files) {
-		// console.log('loading %s', metaFile);
-
-		const { name } = readJsonSync(metaFile);
-		const file = metaFile.replace(/\.meta\.json$/, '');
-
-		clientNamespace.serveModule(name).fromFilesystem(file).throughUrl('loader').withHttpConfig(config);
+		const sourceAbs = resolve(distPath, fileName);
+		clientNamespace
+			.serveModule(importSpecifier)
+			.fromFilesystem(sourceAbs)
+			.throughUrl(url)
+			.withHttpConfig(createCommonOptions(ResourceType.Application, MIME_JAVASCRIPT_UTF8, false));
 	}
 }

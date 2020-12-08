@@ -1,7 +1,5 @@
 import { buildContext } from '@build-script/builder';
-import { getBuildContextConstant } from '../inc/buildScriptContext';
-
-const { typescriptCompilerBin, sourceProjectConfigFile, buildOutputLV1 } = getBuildContextConstant();
+import { typescriptCompilerBin, sourceProjectConfigFile, buildOutputLV1 } from '../inc/buildScriptContext';
 
 buildContext.registerAlias('build-ts', typescriptCompilerBin, [
 	'-p',

@@ -2,29 +2,22 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Watch All",
+			"label": "Watch All 8 Projects",
+			"problemMatcher": [],
 			"dependsOn": [
-				"监视 - @km.js/react-aliyun-human-verify",
-				"监视 - @km.js/server-express",
-				"监视 - @km.js/gulp-tools",
-				"监视 - @tools.gongt.me/api",
-				"监视 - @tools.gongt.me/provider",
-				"监视 - @tools.gongt.me/application"
-			],
-			"isBackground": true,
-			"presentation": {
-				"echo": true,
-				"reveal": "never",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": true
-			},
-			"problemMatcher": []
+				"监视（1） - @km.js/react-aliyun-human-verify",
+				"监视（2） - @km.js/server-express",
+				"监视（3） - @km.js/client-loader",
+				"监视（4） - @km.js/gulp-tools",
+				"监视（5） - @tools.gongt.me/api",
+				"监视（6） - @tools.gongt.me/provider",
+				"监视（7） - @tools.gongt.me/application",
+				"监视（8） - @km.js/client-bundler"
+			]
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @km.js/react-aliyun-human-verify",
+			"label": "监视（1） - @km.js/react-aliyun-human-verify",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -52,7 +45,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @km.js/gulp-tools",
+			"label": "监视（4） - @km.js/gulp-tools",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -80,7 +73,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @tools.gongt.me/api",
+			"label": "监视（5） - @tools.gongt.me/api",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -108,7 +101,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @tools.gongt.me/provider",
+			"label": "监视（6） - @tools.gongt.me/provider",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -136,7 +129,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @tools.gongt.me/application",
+			"label": "监视（7） - @tools.gongt.me/application",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -164,7 +157,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @km.js/server-express",
+			"label": "监视（2） - @km.js/server-express",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -188,6 +181,62 @@
 			"options": {
 				"_is_build": "true",
 				"cwd": "${workspaceFolder}/server-tools/server-express"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（8） - @km.js/client-bundler",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/server-tools/client-bundler"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/server-tools/client-bundler"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（3） - @km.js/client-loader",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/server-tools/client-loader"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/server-tools/client-loader"
 			}
 		}
 	]

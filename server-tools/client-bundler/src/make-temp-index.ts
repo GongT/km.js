@@ -6,12 +6,14 @@ import { INDEX_FILE_NAME } from './inc/constants';
 
 const lv1Dir = requireArgument('lv1');
 const lv2Dir = requireArgument('lv2');
-if (!pathExistsSync(lv2Dir)) {
-	mkdirSync(lv2Dir);
-}
 const distFile = resolve(lv2Dir, INDEX_FILE_NAME);
 
-writeFileSync(distFile, '// awaiting file create...\n');
+if (!pathExistsSync(distFile)) {
+	if (!pathExistsSync(lv2Dir)) {
+		mkdirSync(lv2Dir);
+	}
+	writeFileSync(distFile, '// awaiting file create...\n');
+}
 
 const extend = requireArgument('extend');
 

@@ -1,20 +1,58 @@
 import { resolve } from 'path';
 import { buildContext } from '@build-script/builder';
-import { getBuildContextConstant } from '../inc/buildScriptContext';
+import { relativePath, writeFileIfChangeSync } from '@idlebox/node';
+import { gulpPublicTask } from '@km.js/gulp-tools';
+import {
+	buildOutputFinal,
+	sourceProjectOptions,
+	buildTempDir,
+	watchOutputFinal,
+	watchOutputLV1,
+} from '../inc/buildScriptContext';
 
-// 从path loader复制dev.js到lib目录种
+// 创建包入口文件
 
-const { myselfPath, buildTempDir } = getBuildContextConstant();
+gulpPublicTask('tools:copy-path-loader:build', 'create index.js', () => {
+	return create(buildOutputFinal);
+});
+gulpPublicTask('tools:copy-path-loader:watch', 'create index.js', () => {
+	return create(watchOutputFinal, watchOutputLV1);
+});
 
-buildContext.addAction('build', [create('prod')]);
-buildContext.addAction('watch', [create('dev')]);
+async function create(depDistFolder: string, appDistFolder?: string) {
+	let scripts: string[] = [];
+	let defines: string[] = [];
 
-function create(type: string) {
-	buildContext.registerAlias(`tools:copy-path-loader:${type}`, process.argv0, [
-		resolve(myselfPath, 'create-path-loader'),
-		`--output=${buildTempDir}`,
-		`--type=${type}`,
-	]);
+	function define(name: string, type: string, value: string) {
+		scripts.push(`const ${name} = module.exports.${name} = ${value};`);
+		defines.push(`export const ${name}: ${type};`);
+	}
 
-	return `tools:copy-path-loader:${type}`;
+	scripts.push(`const path = require('path');`);
+
+	define('packageDistPath', 'string', `__dirname`);
+	define('fileMapPath', 'string', relativeScript(`${depDistFolder}/filemap.json`));
+
+	defines.push(`export interface IFileMap {
+		[id: string]: {
+			path: string;
+			hash: string;
+		}
+	}`);
+	define('fileMap', 'IFileMap', `require(fileMapPath)`);
+
+	define('outputPath', 'string', relativeScript(depDistFolder));
+	define('sourcePath', 'string', relativeScript(sourceProjectOptions.rootDir!));
+	define('compiledPath', 'string | undefined', appDistFolder ? relativeScript(appDistFolder) : 'undefined');
+
+	writeFileIfChangeSync(resolve(buildTempDir, 'index.js'), scripts.join('\n'));
+	writeFileIfChangeSync(resolve(buildTempDir, 'index.d.ts'), defines.join('\n'));
 }
+
+function relativeScript(path: string) {
+	const relPath = relativePath(buildTempDir, path);
+	return `path.resolve(packageDistPath, ${JSON.stringify(relPath)})`;
+}
+
+buildContext.addAction('build', ['tools:copy-path-loader:build']);
+buildContext.addAction('watch', ['tools:copy-path-loader:watch']);

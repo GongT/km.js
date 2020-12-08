@@ -38,17 +38,15 @@ export declare function gulpDest(folder: string, opt?: DestOptions): NodeJS.Read
 
 export declare function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex;
 
-export declare function gulpNamedParallel(name: string, ...tasks: Task[]): TaskFunction;
+export declare function gulpNamedParallel(name: string, ...tasks: Task[]): NamedTaskFunction;
 
-export declare function gulpNamedSerise(name: string, ...tasks: Task[]): TaskFunction;
+export declare function gulpNamedSerise(name: string, ...tasks: Task[]): NamedTaskFunction;
 
-export declare function gulpParallel(...tasks: Task[]): TaskFunction;
+export declare function gulpPublicTask(name: string, description: string, callback: TaskFunction): string;
 
-export declare function gulpPublicTask(name: string, description: string, callback: TaskFunction): Task;
+export declare function gulpPublishTask(callback: NamedTaskFunction): string;
 
 export declare function gulpRimraf(folder: string): TaskFunction;
-
-export declare function gulpSerise(...tasks: Task[]): TaskFunction;
 
 export declare function gulpSpawnTsc(options: ISpawnTscConfig & ISpawnTscConfigWatch): PassThrough;
 
@@ -56,9 +54,9 @@ export declare function gulpSrc(globs: string | string[], opt?: SrcOptions): Nod
 
 export declare function gulpSrcFrom(parentDir: string, globs: string | string[]): NodeJS.ReadWriteStream;
 
-export declare function gulpTask(name: string, description: string, callback: TaskFunction): TaskFunction;
+export declare function gulpTask(name: string, description: string, callback: TaskFunction): NamedTaskFunction;
 
-export declare function gulpTask(name: string, callback: TaskFunction): TaskFunction;
+export declare function gulpTask(name: string, callback: TaskFunction): NamedTaskFunction;
 
 export declare function gulpTransformer(action: ITransformFunction): NodeJS.ReadWriteStream;
 
@@ -68,13 +66,13 @@ export { gulpWatch }
 export declare function handleQuit(dispose: () => void): void;
 
 export declare interface IBuildBundle {
-    build: TaskFunction;
-    watch: TaskFunction;
+    build: NamedTaskFunction;
+    watch: NamedTaskFunction;
 }
 
 export declare interface IBuildBundleStream {
-    build: TscTaskFunction & TaskFunctionParams;
-    watch: TscTaskFunction & TaskFunctionParams;
+    build: TscTaskFunction & NamedTaskFunction;
+    watch: TscTaskFunction & NamedTaskFunction;
 }
 
 export declare interface IBuildTaskDefine {
@@ -143,6 +141,10 @@ export declare interface ITypescriptBuildInfo {
 }
 
 export declare function logPassing(): NodeJS.ReadWriteStream;
+
+export declare interface NamedTaskFunction extends TaskFunction, TaskFunctionParams {
+    displayName: string;
+}
 
 export declare function readTsconfig(tsconfig: string, library?: string): _ts.ParsedCommandLine;
 

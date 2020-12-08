@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { FSWatcher, WatchHelper } from '@idlebox/chokidar';
 import { writeFileIfChange } from '@idlebox/node';
 import { info } from 'fancy-log';
-import { mkdirpSync, pathExistsSync, readJSON } from 'fs-extra';
+import { mkdirpSync, mkdirSync, pathExistsSync, readJSON } from 'fs-extra';
 import { sync as globSync } from 'glob';
 import { requireArgument } from './inc/childProcessContext';
 import { INDEX_FILE_NAME } from './inc/constants';
@@ -30,29 +30,30 @@ const watch = new WatchHelper(chokidar, doCreateIndex);
 watch.addWatch('**/*.importinfo');
 info('watching changes in %s', lv1Dir);
 
+if (!pathExistsSync(lv2Dir)) {
+	mkdirSync(lv2Dir);
+}
+
 async function doCreateIndex() {
 	info('check import info change');
 	const files = globSync('**/*.importinfo', { cwd: lv1Dir, absolute: true });
-	const imports: string[] = [];
+	const imports = new Set<string>();
 	for (const file of files) {
-		imports.push('// + ' + file);
 		const data: any = await readJSON(file);
-		for (const extModule of data?.imports ?? []) {
-			imports.push(createImport(extModule));
+		for (const { specifier, values } of data?.imports ?? []) {
+			if (values.length > 0) {
+				imports.add(specifier);
+			}
 		}
 	}
-	const data = imports.join('\n') + '\n';
+
+	let data = '';
+	for (const item of imports.values()) {
+		data += `import "${item}";\n`;
+	}
 
 	const change = await writeFileIfChange(distFile, data);
 	if (change) {
 		info('recreate %s', distFile);
-	}
-}
-
-function createImport({ specifier, values }: any) {
-	if (values.length > 0) {
-		return `import "${specifier}";`;
-	} else {
-		return '// only types from ' + specifier;
 	}
 }

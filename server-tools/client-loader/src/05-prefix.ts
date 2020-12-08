@@ -4,7 +4,7 @@ Object.assign(window, {
 const pageLoadStartAt = new Date().getTime();
 // a
 if (console && console.groupCollapsed) {
-	console.groupCollapsed('1==================== BOOTSTRAP ====================');
+	console.groupCollapsed('==================== BOOTSTRAP ====================');
 }
 
 function bootstrapComplete() {

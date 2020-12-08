@@ -67,32 +67,27 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex;
 // Warning: (ae-missing-release-tag) "gulpNamedParallel" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function gulpNamedParallel(name: string, ...tasks: Task[]): TaskFunction;
+export function gulpNamedParallel(name: string, ...tasks: Task[]): NamedTaskFunction;
 
 // Warning: (ae-missing-release-tag) "gulpNamedSerise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function gulpNamedSerise(name: string, ...tasks: Task[]): TaskFunction;
-
-// Warning: (ae-missing-release-tag) "gulpParallel" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function gulpParallel(...tasks: Task[]): TaskFunction;
+export function gulpNamedSerise(name: string, ...tasks: Task[]): NamedTaskFunction;
 
 // Warning: (ae-missing-release-tag) "gulpPublicTask" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function gulpPublicTask(name: string, description: string, callback: TaskFunction): Task;
+export function gulpPublicTask(name: string, description: string, callback: TaskFunction): string;
+
+// Warning: (ae-missing-release-tag) "gulpPublishTask" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function gulpPublishTask(callback: NamedTaskFunction): string;
 
 // Warning: (ae-missing-release-tag) "gulpRimraf" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function gulpRimraf(folder: string): TaskFunction;
-
-// Warning: (ae-missing-release-tag) "gulpSerise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function gulpSerise(...tasks: Task[]): TaskFunction;
 
 // Warning: (ae-missing-release-tag) "gulpSpawnTsc" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -113,10 +108,10 @@ export function gulpSrcFrom(parentDir: string, globs: string | string[]): NodeJS
 // Warning: (ae-missing-release-tag) "gulpTask" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function gulpTask(name: string, description: string, callback: TaskFunction): TaskFunction;
+export function gulpTask(name: string, description: string, callback: TaskFunction): NamedTaskFunction;
 
 // @public (undocumented)
-export function gulpTask(name: string, callback: TaskFunction): TaskFunction;
+export function gulpTask(name: string, callback: TaskFunction): NamedTaskFunction;
 
 // Warning: (ae-missing-release-tag) "gulpTransformer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -140,9 +135,9 @@ export function handleQuit(dispose: () => void): void;
 // @public (undocumented)
 export interface IBuildBundle {
     // (undocumented)
-    build: TaskFunction;
+    build: NamedTaskFunction;
     // (undocumented)
-    watch: TaskFunction;
+    watch: NamedTaskFunction;
 }
 
 // Warning: (ae-missing-release-tag) "IBuildBundleStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -150,9 +145,9 @@ export interface IBuildBundle {
 // @public (undocumented)
 export interface IBuildBundleStream {
     // (undocumented)
-    build: TscTaskFunction & TaskFunctionParams;
+    build: TscTaskFunction & NamedTaskFunction;
     // (undocumented)
-    watch: TscTaskFunction & TaskFunctionParams;
+    watch: TscTaskFunction & NamedTaskFunction;
 }
 
 // Warning: (ae-missing-release-tag) "IBuildTaskDefine" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -282,6 +277,14 @@ export interface ITypescriptBuildInfo {
 //
 // @public (undocumented)
 export function logPassing(): NodeJS.ReadWriteStream;
+
+// Warning: (ae-missing-release-tag) "NamedTaskFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface NamedTaskFunction extends TaskFunction, TaskFunctionParams {
+    // (undocumented)
+    displayName: string;
+}
 
 // Warning: (ae-missing-release-tag) "readTsconfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -34,6 +34,6 @@ export class MyServer extends ExpressServer {
 		attachClientApplication();
 		const importMap = getBuildMap();
 
-		this.APP_LOADER_JS = importMap.imports['loader'];
+		this.APP_LOADER_JS = importMap.imports['client-loader'];
 	}
 }
