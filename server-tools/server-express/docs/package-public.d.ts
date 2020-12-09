@@ -1,84 +1,97 @@
 /// <reference types="node" />
 import { Application } from 'express';
 import { Handler } from 'express';
+import { IRouter } from 'express';
 import { Request } from 'express';
 import { Response } from 'express';
-import { Router } from 'express';
 import { Server } from 'http';
 import { ServeStaticOptions } from 'serve-static';
 
-export declare const clientNamespace: PackageRegister;
+export declare class ClientGlobalRegister {
+    private readonly router;
+    readonly appBaseUrl: string;
+    constructor(app: Application);
+    map(specifier: string, url: string, fsPath: string, options: ServeStaticOptions): void;
+    serve(url: string, fsPath: string, options: ServeStaticOptions): void;
+    createScope(scopeUrl: string): ClientScopeRegister;
+    finalize(cdn?: string): IImportMap;
+}
+
+export declare class ClientScopeRegister {
+    private readonly router;
+    private readonly scope;
+    readonly scopeUrl: string;
+    constructor(parent: IRouter, scopeUrl: string);
+    mapOnly(specifier: string, url: string): void;
+    map(specifier: string, url: string, fsPath: string, options: ServeStaticOptions): void;
+    serve(url: string, fsPath: string, options: ServeStaticOptions): void;
+}
+
+export declare function contributePageHtml(fn: IContribution): void;
+
+export declare function contributeScriptTag(url: string): void;
 
 export declare function createApplication(): Application;
 
 export declare function createCommonOptions(resourceType: ResourceType, mime: string, fallthrough?: boolean): ServeStaticOptions;
 
+export declare function createImportScope(path: string): Record<string, string>;
+
+export declare const DEFAULT_APPLICATION_ROOT = "/__application__";
+
+export declare const DEFAULT_STATIC_ROOT = "/__static__";
+
+export declare enum ExpressConfigKind {
+    RootStatic = "staticUrl",
+    RootApplication = "applicationUrl",
+    RoutingCaseSensitive = "case sensitive routing",
+    RoutingStrictFolder = "strict routing",
+    ResponseJsonEscape = "json escape",
+    ResponseJsonSpaces = "json spaces",
+    RequestParser = "query parser",
+    RequestTrustProxy = "trust proxy"
+}
+
 export declare abstract class ExpressServer {
-    private server?;
-    private app?;
+    protected readonly server: Server;
+    protected readonly app: Application;
+    protected client: ClientGlobalRegister;
     readonly isDev: boolean;
     private started;
+    private stopped;
     private connections;
+    readonly listenPort: number;
     constructor();
-    private _create_base;
+    protected set(name: ExpressConfigKind, value: any): void;
     startServe(): Promise<void>;
     private listen;
     shutdown(rejectOnError?: boolean): Promise<void>;
-    get httpServer(): Server | undefined;
+    get httpServer(): Server;
     protected serveHtml(req: Request, res: Response): void;
-    protected abstract configureServer(): IServerConfig;
-    protected abstract configureClient(): IClientConfig;
-    protected abstract init(express: Application): void;
+    protected abstract configureApplication?(): IApplicationConfig | Promise<IApplicationConfig>;
+    protected abstract initialize(): void | Promise<void>;
 }
 
-declare class FileRegister {
-    private readonly rootUrl;
-    private readonly _reset;
-    private config;
-    constructor(packageId: string, rootUrl: string, _reset: Function);
-    asScopeFolder(): this;
-    fromFilesystem(fileAbs: string, overwriteConfig?: ServeStaticOptions): this;
-    throughUrl(middleUrl: string): this;
-    withHttpConfig(serveConfig: ServeStaticOptions): this;
-    getMount(): string;
-    getUrl(): string;
-    private __get;
-}
+export declare type IApplicationConfig = {
+    [k in ExpressConfigKind]?: any;
+};
 
-export declare function getApplicationRouter(): Router;
-
-export declare function getBuildMap(): IImportMap;
-
-export declare interface IClientConfig extends Record<string, any> {
-    entryFile?: string;
-    STATIC_URL?: string;
+export declare interface IContribution {
+    head?(request: Request, locals: any, globalStorage: Record<string, any>): string;
+    headString?: string;
+    body?(request: Request, locals: any, globalStorage: Record<string, any>): string;
+    bodyString?: string;
 }
 
 export declare interface IImportMap {
-    imports: Record<string, string>;
+    imports: ImportRecord;
+    scopes: Record<string, ImportRecord>;
     config: any;
 }
 
+declare type ImportRecord = Record<string, string>;
+
 export declare interface IPassThroughConfig extends Record<string, any> {
-}
-
-declare interface IProvideFs {
-    path: string;
-    options: ServeStaticOptions;
-}
-
-declare interface IServeParam {
-    mountpoint: string;
-    paths: IProvideFs[];
-}
-
-export declare interface IServerConfig {
-    listenPort?: string | number;
-    viewEngine?: string;
-    viewPath?: string;
-    applicationRootUrl?: string;
-    preloadHtml?: string;
-    preloadHtmlFile?: string;
 }
 
 export declare function loadServerAsChildProcess(serverProgram: string): () => Promise<void>;
@@ -105,27 +118,17 @@ export declare const oneYear: number;
 
 export declare function onServerStartListen(): void;
 
-declare class PackageRegister {
-    private readonly map;
-    private serveConfig;
-    private rootUrl;
-    private _cache?;
-    /**
-     * module("react").from("/path/to/react.js");
-     */
-    serveModule(packageId: string): FileRegister;
-    mountTo(rootUrl: string): this;
-    config(serveConfig: ServeStaticOptions): this;
-    private _create;
-    getImportMap(): IImportMap;
-    getRouteInfo(): IServeParam[];
-}
+export declare function passThroughConfig(name: string, value: any): void;
 
 export declare function passThroughConfig(merge: IPassThroughConfig): void;
 
-export declare function reloadRouter(): void;
+export declare function preloadHtmlFromFile(file: string): void;
 
-export declare function renderDefaultHtml(options: Record<string, any>): string;
+export declare function preloadHtmlString(html: string): void;
+
+export declare function registerGlobalMapping(specifier: string, url: string): void;
+
+export declare function renderHtml(request: Request, locals: any, options: Record<string, any>): string;
 
 export declare enum ResourceType {
     Dynamic = 0,
@@ -134,8 +137,20 @@ export declare enum ResourceType {
     Assets = 3
 }
 
+export declare function serveFavicon(app: Application, url: string, fsPath: string): void;
+
+export declare function serveImportMap(appUrlRoot?: string): Handler & WithReload & WithImportMap;
+
 export declare function terminate404(message?: string, extraData?: string): Handler;
 
 export declare function terminate404Js(script: string): Handler;
+
+declare interface WithImportMap {
+    importMap: IImportMap;
+}
+
+declare interface WithReload {
+    reload(root?: string): void;
+}
 
 export { }

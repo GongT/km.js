@@ -1,11 +1,9 @@
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
 import { FSWatcher, WatchHelper } from '@idlebox/chokidar';
-import { writeFileIfChange } from '@idlebox/node';
 import { info } from 'fancy-log';
-import { mkdirpSync, mkdirSync, pathExistsSync, readJSON } from 'fs-extra';
+import { emptyDirSync, mkdirpSync, mkdirSync, pathExistsSync, readJSON, writeFileSync } from 'fs-extra';
 import { sync as globSync } from 'glob';
 import { requireArgument } from './inc/childProcessContext';
-import { INDEX_FILE_NAME } from './inc/constants';
 
 const lv1Dir = requireArgument('lv1');
 if (!pathExistsSync(lv1Dir)) {
@@ -14,7 +12,6 @@ if (!pathExistsSync(lv1Dir)) {
 process.chdir(lv1Dir);
 
 const lv2Dir = requireArgument('lv2');
-const distFile = resolve(lv2Dir, INDEX_FILE_NAME);
 
 const chokidar = new FSWatcher({
 	ignoreInitial: false,
@@ -32,28 +29,62 @@ info('watching changes in %s', lv1Dir);
 
 if (!pathExistsSync(lv2Dir)) {
 	mkdirSync(lv2Dir);
+} else {
+	emptyDirSync(lv2Dir);
 }
+
+const diffCache = new Map<string, string>();
+const imports = new Map<string, Set<string>>();
 
 async function doCreateIndex() {
 	info('check import info change');
 	const files = globSync('**/*.importinfo', { cwd: lv1Dir, absolute: true });
-	const imports = new Set<string>();
 	for (const file of files) {
 		const data: any = await readJSON(file);
 		for (const { specifier, values } of data?.imports ?? []) {
 			if (values.length > 0) {
-				imports.add(specifier);
+				if (!imports.has(specifier)) {
+					imports.set(specifier, new Set());
+				}
+				const set = imports.get(specifier)!;
+				if (set.has('*')) {
+					continue;
+				}
+				for (const name of values) {
+					set.add(name);
+				}
 			}
 		}
 	}
 
-	let data = '';
-	for (const item of imports.values()) {
-		data += `import "${item}";\n`;
-	}
+	for (const [specifier, items] of imports.entries()) {
+		let data: string[] = [];
 
-	const change = await writeFileIfChange(distFile, data);
-	if (change) {
-		info('recreate %s', distFile);
+		if (items.has('*')) {
+			data.push(`export * from "${specifier}";`);
+		} else {
+			if (items.has('default')) {
+				data.push(`import imported from "${specifier}";`);
+				data.push(`export default imported;`);
+				items.delete('default');
+			}
+			if (items.size > 0) {
+				const names = [...items.values()].join(', ');
+				data.push(`export { ${names} } from "${specifier}";`);
+			}
+		}
+
+		const script = data.join('\n');
+		if (diffCache.get(specifier) !== script) {
+			const distFile = resolve(lv2Dir, specifier + '.js');
+			info('recreate %s', distFile);
+
+			if (specifier.includes('/')) {
+				mkdirpSync(dirname(distFile));
+			}
+			writeFileSync(distFile, script, 'utf8');
+
+			diffCache.set(specifier, script);
+		}
 	}
 }

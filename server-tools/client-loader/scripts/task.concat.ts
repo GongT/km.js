@@ -9,10 +9,13 @@ import {
 	gulpTypescriptTask,
 	sourcemapsInit,
 	sourcemapsWrite,
+	VinylFile,
 } from '@km.js/gulp-tools';
 import { info } from 'fancy-log';
 import { appendText, prependText } from 'gulp-append-prepend';
-import { LOADER_DIST_DIR, LOADER_DIST_FILE } from './consts';
+import { libRoot, LOADER_DIST_DIR } from './consts';
+import { md5 } from '@idlebox/node';
+import { Transform } from 'stream';
 
 // 最终loader文件的头尾
 const scopeStart = '"use strict";(function main() {';
@@ -30,7 +33,7 @@ const taskConcatLoader = buildTask({
 	base: outDir,
 	glob: 'out.js',
 	action() {
-		info('Start concat... [save: %s]', LOADER_DIST_FILE);
+		info('Start concat...');
 
 		return gulpSrcFrom(outDir, distFiles)
 			.pipe(sourcemapsInit())
@@ -38,7 +41,7 @@ const taskConcatLoader = buildTask({
 			.pipe(appendText(scopeEnd))
 			.pipe(rename())
 			.pipe(sourcemapsWrite())
-			.pipe(gulpDest(LOADER_DIST_DIR));
+			.pipe(gulpDest(libRoot));
 	},
 });
 
@@ -56,8 +59,16 @@ export const gulpActionWatchLoader = gulpTask(
 /* 工具们 */
 function rename() {
 	return gulpTransformer(async function (file) {
-		const fileName = basename(LOADER_DIST_FILE);
-		file.path = resolve(file.dirname, fileName);
+		const hash = md5(file.contents as Buffer);
+		const fileName = `loader.${hash.slice(0, 8)}.js`;
+		file.path = resolve(file.dirname, 'dist', fileName);
+
+		const map = new VinylFile({
+			base: file.dirname,
+			path: resolve(file.dirname, 'name.js'),
+			contents: Buffer.from('module.exports = ' + JSON.stringify(fileName)),
+		});
+		this.push(map);
 
 		return file;
 	});

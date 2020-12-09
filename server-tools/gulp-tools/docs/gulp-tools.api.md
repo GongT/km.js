@@ -13,6 +13,7 @@ import { SrcOptions } from 'vinyl-fs';
 import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
+import { Transform } from 'stream';
 import _ts from 'typescript';
 import { WatchOptions } from 'gulp';
 import { WriteOptions } from 'gulp-sourcemaps';
@@ -31,11 +32,6 @@ export function createJsonFile(target: string, creator: ICreateFunction): Promis
 //
 // @public (undocumented)
 export function createJsonFileSync(target: string, creator: ICreateFunction): void;
-
-// Warning: (ae-missing-release-tag) "createMeta" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createMeta(source: VinylFile, metadata: any): VinylFile;
 
 // Warning: (ae-forgotten-export) The symbol "Function" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-forgotten-export) The symbol "DebounceController" needs to be exported by the entry point _export_all_in_one_index.d.ts
@@ -260,7 +256,7 @@ export interface ISpawnTscConfigWatch {
 // @public (undocumented)
 export interface ITransformFunction {
     // (undocumented)
-    (this: NodeJS.WritableStream, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
+    (this: Transform, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
 }
 
 // Warning: (ae-missing-release-tag) "ITypescriptBuildInfo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)

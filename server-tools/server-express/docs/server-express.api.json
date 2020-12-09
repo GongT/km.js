@@ -16,26 +16,740 @@
       "name": "",
       "members": [
         {
-          "kind": "Variable",
-          "canonicalReference": "@km.js/server-express!clientNamespace:var",
+          "kind": "Class",
+          "canonicalReference": "@km.js/server-express!ClientGlobalRegister:class",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "clientNamespace: "
-            },
-            {
-              "kind": "Reference",
-              "text": "PackageRegister",
-              "canonicalReference": "@km.js/server-express!~PackageRegister:class"
+              "text": "export declare class ClientGlobalRegister "
             }
           ],
           "releaseTag": "Public",
-          "name": "clientNamespace",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
+          "name": "ClientGlobalRegister",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ClientGlobalRegister` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(app: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Application",
+                  "canonicalReference": "@types/express!~e.Application:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "app",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister#appBaseUrl:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly appBaseUrl: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "appBaseUrl",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister#createScope:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createScope(scopeUrl: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ClientScopeRegister",
+                  "canonicalReference": "@km.js/server-express!ClientScopeRegister:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "scopeUrl",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "createScope"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister#finalize:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "finalize(cdn?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IImportMap",
+                  "canonicalReference": "@km.js/server-express!IImportMap:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "cdn",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "finalize"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister#map:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "map(specifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fsPath: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ServeStaticOptions",
+                  "canonicalReference": "@types/serve-static!~serveStatic.ServeStaticOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "specifier",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "fsPath",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 8
+                  }
+                }
+              ],
+              "name": "map"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientGlobalRegister#serve:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "serve(url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fsPath: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ServeStaticOptions",
+                  "canonicalReference": "@types/serve-static!~serveStatic.ServeStaticOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "fsPath",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "serve"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@km.js/server-express!ClientScopeRegister:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class ClientScopeRegister "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ClientScopeRegister",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@km.js/server-express!ClientScopeRegister:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ClientScopeRegister` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(parent: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IRouter",
+                  "canonicalReference": "@types/express!~e.IRouter:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", scopeUrl: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "parent",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "scopeUrl",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientScopeRegister#map:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "map(specifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fsPath: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ServeStaticOptions",
+                  "canonicalReference": "@types/serve-static!~serveStatic.ServeStaticOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "specifier",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "fsPath",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 8
+                  }
+                }
+              ],
+              "name": "map"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientScopeRegister#mapOnly:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "mapOnly(specifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "specifier",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "mapOnly"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ClientScopeRegister#scopeUrl:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly scopeUrl: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "scopeUrl",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ClientScopeRegister#serve:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "serve(url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fsPath: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ServeStaticOptions",
+                  "canonicalReference": "@types/serve-static!~serveStatic.ServeStaticOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "fsPath",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "serve"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!contributePageHtml:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function contributePageHtml(fn: "
+            },
+            {
+              "kind": "Reference",
+              "text": "IContribution",
+              "canonicalReference": "@km.js/server-express!IContribution:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "fn",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "contributePageHtml"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!contributeScriptTag:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function contributeScriptTag(url: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "url",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "contributeScriptTag"
         },
         {
           "kind": "Function",
@@ -141,6 +855,271 @@
           "name": "createCommonOptions"
         },
         {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!createImportScope:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createImportScope(path: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, string>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "path",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "createImportScope"
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@km.js/server-express!DEFAULT_APPLICATION_ROOT:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "DEFAULT_APPLICATION_ROOT = \"/__application__\""
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DEFAULT_APPLICATION_ROOT",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@km.js/server-express!DEFAULT_STATIC_ROOT:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "DEFAULT_STATIC_ROOT = \"/__static__\""
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DEFAULT_STATIC_ROOT",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Enum",
+          "canonicalReference": "@km.js/server-express!ExpressConfigKind:enum",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare enum ExpressConfigKind "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ExpressConfigKind",
+          "members": [
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RequestParser:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RequestParser = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"query parser\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RequestParser",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RequestTrustProxy:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RequestTrustProxy = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"trust proxy\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RequestTrustProxy",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.ResponseJsonEscape:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ResponseJsonEscape = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"json escape\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "ResponseJsonEscape",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.ResponseJsonSpaces:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ResponseJsonSpaces = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"json spaces\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "ResponseJsonSpaces",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RootApplication:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RootApplication = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"applicationUrl\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RootApplication",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RootStatic:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RootStatic = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"staticUrl\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RootStatic",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RoutingCaseSensitive:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RoutingCaseSensitive = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"case sensitive routing\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RoutingCaseSensitive",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind.RoutingStrictFolder:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RoutingStrictFolder = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"strict routing\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RoutingStrictFolder",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ]
+        },
+        {
           "kind": "Class",
           "canonicalReference": "@km.js/server-express!ExpressServer:class",
           "docComment": "",
@@ -168,18 +1147,18 @@
               "parameters": []
             },
             {
-              "kind": "Method",
-              "canonicalReference": "@km.js/server-express!ExpressServer#configureClient:member(1)",
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ExpressServer#app:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected abstract configureClient(): "
+                  "text": "protected readonly app: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "IClientConfig",
-                  "canonicalReference": "@km.js/server-express!IClientConfig:interface"
+                  "text": "Application",
+                  "canonicalReference": "@types/express!~e.Application:interface"
                 },
                 {
                   "kind": "Content",
@@ -187,45 +1166,93 @@
                 }
               ],
               "isOptional": false,
-              "isStatic": false,
-              "returnTypeTokenRange": {
+              "releaseTag": "Public",
+              "name": "app",
+              "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ExpressServer#client:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected client: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ClientGlobalRegister",
+                  "canonicalReference": "@km.js/server-express!ClientGlobalRegister:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
               "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [],
-              "name": "configureClient"
+              "name": "client",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
             },
             {
               "kind": "Method",
-              "canonicalReference": "@km.js/server-express!ExpressServer#configureServer:member(1)",
+              "canonicalReference": "@km.js/server-express!ExpressServer#configureApplication:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected abstract configureServer(): "
+                  "text": "protected abstract configureApplication?(): "
                 },
                 {
                   "kind": "Reference",
-                  "text": "IServerConfig",
-                  "canonicalReference": "@km.js/server-express!IServerConfig:interface"
+                  "text": "IApplicationConfig",
+                  "canonicalReference": "@km.js/server-express!IApplicationConfig:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IApplicationConfig",
+                  "canonicalReference": "@km.js/server-express!IApplicationConfig:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
                 },
                 {
                   "kind": "Content",
                   "text": ";"
                 }
               ],
-              "isOptional": false,
+              "isOptional": true,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 2
+                "endIndex": 7
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
               "parameters": [],
-              "name": "configureServer"
+              "name": "configureApplication"
             },
             {
               "kind": "Property",
@@ -243,10 +1270,6 @@
                 },
                 {
                   "kind": "Content",
-                  "text": " | undefined"
-                },
-                {
-                  "kind": "Content",
                   "text": ";"
                 }
               ],
@@ -255,31 +1278,31 @@
               "name": "httpServer",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false
             },
             {
               "kind": "Method",
-              "canonicalReference": "@km.js/server-express!ExpressServer#init:member(1)",
+              "canonicalReference": "@km.js/server-express!ExpressServer#initialize:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected abstract init(express: "
+                  "text": "protected abstract initialize(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void | "
                 },
                 {
                   "kind": "Reference",
-                  "text": "Application",
-                  "canonicalReference": "@types/express!~e.Application:interface"
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "void"
+                  "text": "<void>"
                 },
                 {
                   "kind": "Content",
@@ -289,21 +1312,13 @@
               "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 3,
+                "startIndex": 1,
                 "endIndex": 4
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "express",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "init"
+              "parameters": [],
+              "name": "initialize"
             },
             {
               "kind": "Property",
@@ -326,6 +1341,33 @@
               "isOptional": false,
               "releaseTag": "Public",
               "name": "isDev",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ExpressServer#listenPort:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly listenPort: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "listenPort",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -393,6 +1435,95 @@
                 }
               ],
               "name": "serveHtml"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@km.js/server-express!ExpressServer#server:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected readonly server: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Server",
+                  "canonicalReference": "!\"\\\"http\\\"\".Server:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "server",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@km.js/server-express!ExpressServer#set:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected set(name: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ExpressConfigKind",
+                  "canonicalReference": "@km.js/server-express!ExpressConfigKind:enum"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", value: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "value",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "set"
             },
             {
               "kind": "Method",
@@ -482,91 +1613,140 @@
           "implementsTokenRanges": []
         },
         {
-          "kind": "Function",
-          "canonicalReference": "@km.js/server-express!getApplicationRouter:function(1)",
+          "kind": "TypeAlias",
+          "canonicalReference": "@km.js/server-express!IApplicationConfig:type",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function getApplicationRouter(): "
+              "text": "export declare type IApplicationConfig = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [k in "
             },
             {
               "kind": "Reference",
-              "text": "Router",
-              "canonicalReference": "@types/express!~e.Router:interface"
+              "text": "ExpressConfigKind",
+              "canonicalReference": "@km.js/server-express!ExpressConfigKind:enum"
+            },
+            {
+              "kind": "Content",
+              "text": "]?: any;\n}"
             },
             {
               "kind": "Content",
               "text": ";"
             }
           ],
-          "returnTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          },
           "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [],
-          "name": "getApplicationRouter"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "@km.js/server-express!getBuildMap:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function getBuildMap(): "
-            },
-            {
-              "kind": "Reference",
-              "text": "IImportMap",
-              "canonicalReference": "@km.js/server-express!IImportMap:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
+          "name": "IApplicationConfig",
+          "typeTokenRange": {
             "startIndex": 1,
-            "endIndex": 2
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [],
-          "name": "getBuildMap"
+            "endIndex": 4
+          }
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@km.js/server-express!IClientConfig:interface",
+          "canonicalReference": "@km.js/server-express!IContribution:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface IClientConfig extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "Record",
-              "canonicalReference": "!Record:type"
-            },
-            {
-              "kind": "Content",
-              "text": "<string, any> "
+              "text": "export interface IContribution "
             }
           ],
           "releaseTag": "Public",
-          "name": "IClientConfig",
+          "name": "IContribution",
           "members": [
             {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IClientConfig#entryFile:member",
+              "kind": "MethodSignature",
+              "canonicalReference": "@km.js/server-express!IContribution#body:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "entryFile?: "
+                  "text": "body?(request: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Request",
+                  "canonicalReference": "@types/express!~e.Request:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", locals: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", globalStorage: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "request",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "locals",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "globalStorage",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "body"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/server-express!IContribution#bodyString:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "bodyString?: "
                 },
                 {
                   "kind": "Content",
@@ -579,20 +1759,100 @@
               ],
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "entryFile",
+              "name": "bodyString",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               }
             },
             {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IClientConfig#STATIC_URL:member",
+              "kind": "MethodSignature",
+              "canonicalReference": "@km.js/server-express!IContribution#head:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "STATIC_URL?: "
+                  "text": "head?(request: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Request",
+                  "canonicalReference": "@types/express!~e.Request:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", locals: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", globalStorage: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "request",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "locals",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "globalStorage",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 7
+                  }
+                }
+              ],
+              "name": "head"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/server-express!IContribution#headString:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "headString?: "
                 },
                 {
                   "kind": "Content",
@@ -605,19 +1865,14 @@
               ],
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "STATIC_URL",
+              "name": "headString",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               }
             }
           ],
-          "extendsTokenRanges": [
-            {
-              "startIndex": 1,
-              "endIndex": 3
-            }
-          ]
+          "extendsTokenRanges": []
         },
         {
           "kind": "Interface",
@@ -669,12 +1924,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Record",
-                  "canonicalReference": "!Record:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<string, string>"
+                  "text": "ImportRecord",
+                  "canonicalReference": "@km.js/server-express!~ImportRecord:type"
                 },
                 {
                   "kind": "Content",
@@ -686,7 +1937,47 @@
               "name": "imports",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/server-express!IImportMap#scopes:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "scopes: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImportRecord",
+                  "canonicalReference": "@km.js/server-express!~ImportRecord:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "scopes",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
               }
             }
           ],
@@ -720,178 +2011,6 @@
               "endIndex": 3
             }
           ]
-        },
-        {
-          "kind": "Interface",
-          "canonicalReference": "@km.js/server-express!IServerConfig:interface",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export interface IServerConfig "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "IServerConfig",
-          "members": [
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#applicationRootUrl:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "applicationRootUrl?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "applicationRootUrl",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#listenPort:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "listenPort?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string | number"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "listenPort",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#preloadHtml:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "preloadHtml?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "preloadHtml",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#preloadHtmlFile:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "preloadHtmlFile?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "preloadHtmlFile",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#viewEngine:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "viewEngine?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "viewEngine",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@km.js/server-express!IServerConfig#viewPath:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "viewPath?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "viewPath",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "extendsTokenRanges": []
         },
         {
           "kind": "Function",
@@ -1169,6 +2288,64 @@
           "excerptTokens": [
             {
               "kind": "Content",
+              "text": "export declare function passThroughConfig(name: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", value: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "name",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "value",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "passThroughConfig"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!passThroughConfig:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
               "text": "export declare function passThroughConfig(merge: "
             },
             {
@@ -1194,7 +2371,7 @@
             "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 1,
+          "overloadIndex": 2,
           "parameters": [
             {
               "parameterName": "merge",
@@ -1208,12 +2385,20 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@km.js/server-express!reloadRouter:function(1)",
+          "canonicalReference": "@km.js/server-express!preloadHtmlFromFile:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function reloadRouter(): "
+              "text": "export declare function preloadHtmlFromFile(file: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
             },
             {
               "kind": "Content",
@@ -1225,22 +2410,148 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
-          "parameters": [],
-          "name": "reloadRouter"
+          "parameters": [
+            {
+              "parameterName": "file",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "preloadHtmlFromFile"
         },
         {
           "kind": "Function",
-          "canonicalReference": "@km.js/server-express!renderDefaultHtml:function(1)",
+          "canonicalReference": "@km.js/server-express!preloadHtmlString:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function renderDefaultHtml(options: "
+              "text": "export declare function preloadHtmlString(html: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "html",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "preloadHtmlString"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!registerGlobalMapping:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function registerGlobalMapping(specifier: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", url: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "specifier",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "url",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "registerGlobalMapping"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!renderHtml:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function renderHtml(request: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Request",
+              "canonicalReference": "@types/express!~e.Request:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", locals: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", options: "
             },
             {
               "kind": "Reference",
@@ -1265,21 +2576,35 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 4,
-            "endIndex": 5
+            "startIndex": 8,
+            "endIndex": 9
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
           "parameters": [
             {
-              "parameterName": "options",
+              "parameterName": "request",
               "parameterTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "locals",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
               }
             }
           ],
-          "name": "renderDefaultHtml"
+          "name": "renderHtml"
         },
         {
           "kind": "Enum",
@@ -1379,6 +2704,142 @@
               }
             }
           ]
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!serveFavicon:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function serveFavicon(app: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Application",
+              "canonicalReference": "@types/express!~e.Application:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", url: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", fsPath: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "app",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "url",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "fsPath",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "serveFavicon"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!serveImportMap:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function serveImportMap(appUrlRoot?: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Handler",
+              "canonicalReference": "@types/express!~e.Handler:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "WithReload",
+              "canonicalReference": "@km.js/server-express!~WithReload:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "WithImportMap",
+              "canonicalReference": "@km.js/server-express!~WithImportMap:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "appUrlRoot",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "serveImportMap"
         },
         {
           "kind": "Function",

@@ -71,7 +71,7 @@ export const rollupBasicOptions: Partial<MergedRollupOptions> = {
 
 export const rollupBasicOptionsOutput: Partial<OutputOptions> = {
 	sourcemap: true,
-	exports: 'named',
+	// exports: 'named',
 	strict: true,
 };
 

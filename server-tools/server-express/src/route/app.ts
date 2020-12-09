@@ -1,14 +1,13 @@
 import express, { Application } from 'express';
+import { defaultOpts } from '../data/defaultPath';
 
 export function createApplication(): Application {
 	const app = express();
 
-	app.set('case sensitive routing', true);
-	app.set('json escape', false);
-	app.set('json spaces', 4);
-	app.set('query parser', 'extended');
-	app.set('strict routing', true);
-	app.set('trust proxy', true);
+	Object.assign(app.locals, defaultOpts);
+	for (const [k, v] of Object.entries(defaultOpts)) {
+		app.set(k, v);
+	}
 
 	return app;
 }

@@ -1,6 +1,4 @@
-import { resolve } from 'path';
 import { MergedRollupOptions } from 'rollup';
-import { INDEX_FILE_NAME } from '../inc/constants';
 import { INPUT_DIR_PATH, OUTPUT_DIR_PATH } from './rollup.args';
 import { manualChunksDevelopment } from './rollup.chunks';
 import {
@@ -12,9 +10,15 @@ import {
 } from './rollup.lib';
 import { sourcemapPathTransformDev } from './rollup.sourcemap';
 
+const cache = {
+	modules: [],
+	plugins: {},
+};
+
 const rollupOptions: MergedRollupOptions = {
 	...rollupBasicOptions,
-	input: resolve(INPUT_DIR_PATH, INDEX_FILE_NAME),
+	cache: cache,
+	input: INPUT_DIR_PATH,
 	watch: {
 		buildDelay: 2,
 		chokidar: {
@@ -23,10 +27,11 @@ const rollupOptions: MergedRollupOptions = {
 		clearScreen: false,
 		// include
 	},
-	treeshake: false, // MUST NOT ENABLE DURING DEV
+	treeshake: false,
 	output: [
 		{
 			...rollupBasicOptionsOutput,
+			entryFileNames: '[name]-[hash].js',
 			format: 'system',
 			dir: OUTPUT_DIR_PATH,
 			sourcemapPathTransform: sourcemapPathTransformDev,

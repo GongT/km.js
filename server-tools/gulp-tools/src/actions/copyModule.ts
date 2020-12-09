@@ -3,7 +3,6 @@ import { Duplex, PassThrough } from 'stream';
 import { info } from 'fancy-log';
 import { pathExists, pathExistsSync, readFile, readJson, stat } from 'fs-extra';
 import { VinylFile } from '../tasks';
-import { createMeta } from './meta';
 
 export interface ICopyModuleInput {
 	/** where to save (relative to vfs root) */
@@ -124,8 +123,6 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 						return request.packageName + resolve('/', value);
 					});
 					file.sourceMap = mapData;
-
-					metaFile[importAs + '.map'] = fileName + '.map';
 				}
 
 				resultStream.write(file);

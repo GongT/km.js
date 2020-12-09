@@ -46,13 +46,13 @@ export function manualChunksDevelopment(entrys: string) {
 			}
 			const packageName = moduleName(id);
 			if (dependencies[packageName]) {
-				return packageName;
+				return 'dependencies/' + packageName;
 			} else {
 				// const info = api.getModuleInfo(id);
 				// if (info.importedIds.length === 0) {
 				// 	return HELPER_CHUNK;
 				// }
-				return '_sub_dependencies/' + packageName;
+				return 'dependencies/_sub/' + packageName;
 			}
 		}
 

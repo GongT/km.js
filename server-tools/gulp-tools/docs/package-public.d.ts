@@ -8,6 +8,7 @@ import { SrcOptions } from 'vinyl-fs';
 import { Task } from 'undertaker';
 import { TaskFunction } from 'gulp';
 import { TaskFunctionParams } from 'undertaker';
+import { Transform } from 'stream';
 import _ts from 'typescript';
 import { WatchOptions } from 'gulp';
 import { WriteOptions } from 'gulp-sourcemaps';
@@ -17,8 +18,6 @@ export declare function buildTask({ name, title, action, base, glob, immediate, 
 export declare function createJsonFile(target: string, creator: ICreateFunction): Promise<void>;
 
 export declare function createJsonFileSync(target: string, creator: ICreateFunction): void;
-
-export declare function createMeta(source: VinylFile, metadata: any): VinylFile;
 
 export declare function debounce<T, FN extends Function_2<T>>(debounceMs: number, cooldownMs: number, fn: FN): FN & DebounceController;
 
@@ -132,7 +131,7 @@ export declare interface ISpawnTscConfigWatch {
 }
 
 export declare interface ITransformFunction {
-    (this: NodeJS.WritableStream, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
+    (this: Transform, file: VinylFile): VinylFile | null | Promise<VinylFile | null>;
 }
 
 export declare interface ITypescriptBuildInfo {

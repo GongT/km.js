@@ -6,17 +6,53 @@
 
 import { Application } from 'express';
 import { Handler } from 'express';
+import { IRouter } from 'express';
 import { Request } from 'express';
 import { Response } from 'express';
-import { Router } from 'express';
 import { Server } from 'http';
 import { ServeStaticOptions } from 'serve-static';
 
-// Warning: (ae-forgotten-export) The symbol "PackageRegister" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "clientNamespace" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ClientGlobalRegister" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const clientNamespace: PackageRegister;
+export class ClientGlobalRegister {
+    constructor(app: Application);
+    // (undocumented)
+    readonly appBaseUrl: string;
+    // (undocumented)
+    createScope(scopeUrl: string): ClientScopeRegister;
+    // (undocumented)
+    finalize(cdn?: string): IImportMap;
+    // (undocumented)
+    map(specifier: string, url: string, fsPath: string, options: ServeStaticOptions): void;
+    // (undocumented)
+    serve(url: string, fsPath: string, options: ServeStaticOptions): void;
+}
+
+// Warning: (ae-missing-release-tag) "ClientScopeRegister" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class ClientScopeRegister {
+    constructor(parent: IRouter, scopeUrl: string);
+    // (undocumented)
+    map(specifier: string, url: string, fsPath: string, options: ServeStaticOptions): void;
+    // (undocumented)
+    mapOnly(specifier: string, url: string): void;
+    // (undocumented)
+    readonly scopeUrl: string;
+    // (undocumented)
+    serve(url: string, fsPath: string, options: ServeStaticOptions): void;
+}
+
+// Warning: (ae-missing-release-tag) "contributePageHtml" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function contributePageHtml(fn: IContribution): void;
+
+// Warning: (ae-missing-release-tag) "contributeScriptTag" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function contributeScriptTag(url: string): void;
 
 // Warning: (ae-missing-release-tag) "createApplication" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -28,47 +64,93 @@ export function createApplication(): Application;
 // @public (undocumented)
 export function createCommonOptions(resourceType: ResourceType, mime: string, fallthrough?: boolean): ServeStaticOptions;
 
+// Warning: (ae-missing-release-tag) "createImportScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createImportScope(path: string): Record<string, string>;
+
+// Warning: (ae-missing-release-tag) "DEFAULT_APPLICATION_ROOT" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const DEFAULT_APPLICATION_ROOT = "/__application__";
+
+// Warning: (ae-missing-release-tag) "DEFAULT_STATIC_ROOT" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const DEFAULT_STATIC_ROOT = "/__static__";
+
+// Warning: (ae-missing-release-tag) "ExpressConfigKind" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum ExpressConfigKind {
+    // (undocumented)
+    RequestParser = "query parser",
+    // (undocumented)
+    RequestTrustProxy = "trust proxy",
+    // (undocumented)
+    ResponseJsonEscape = "json escape",
+    // (undocumented)
+    ResponseJsonSpaces = "json spaces",
+    // (undocumented)
+    RootApplication = "applicationUrl",
+    // (undocumented)
+    RootStatic = "staticUrl",
+    // (undocumented)
+    RoutingCaseSensitive = "case sensitive routing",
+    // (undocumented)
+    RoutingStrictFolder = "strict routing"
+}
+
 // Warning: (ae-missing-release-tag) "ExpressServer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export abstract class ExpressServer {
     constructor();
     // (undocumented)
-    protected abstract configureClient(): IClientConfig;
+    protected readonly app: Application;
     // (undocumented)
-    protected abstract configureServer(): IServerConfig;
+    protected client: ClientGlobalRegister;
     // (undocumented)
-    get httpServer(): Server | undefined;
+    protected abstract configureApplication?(): IApplicationConfig | Promise<IApplicationConfig>;
     // (undocumented)
-    protected abstract init(express: Application): void;
+    get httpServer(): Server;
+    // (undocumented)
+    protected abstract initialize(): void | Promise<void>;
     // (undocumented)
     readonly isDev: boolean;
     // (undocumented)
+    readonly listenPort: number;
+    // (undocumented)
     protected serveHtml(req: Request, res: Response): void;
+    // (undocumented)
+    protected readonly server: Server;
+    // (undocumented)
+    protected set(name: ExpressConfigKind, value: any): void;
     // (undocumented)
     shutdown(rejectOnError?: boolean): Promise<void>;
     // (undocumented)
     startServe(): Promise<void>;
-}
+    }
 
-// Warning: (ae-missing-release-tag) "getApplicationRouter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IApplicationConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getApplicationRouter(): Router;
+export type IApplicationConfig = {
+    [k in ExpressConfigKind]?: any;
+};
 
-// Warning: (ae-missing-release-tag) "getBuildMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IContribution" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getBuildMap(): IImportMap;
-
-// Warning: (ae-missing-release-tag) "IClientConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface IClientConfig extends Record<string, any> {
+export interface IContribution {
     // (undocumented)
-    entryFile?: string;
+    body?(request: Request, locals: any, globalStorage: Record<string, any>): string;
     // (undocumented)
-    STATIC_URL?: string;
+    bodyString?: string;
+    // (undocumented)
+    head?(request: Request, locals: any, globalStorage: Record<string, any>): string;
+    // (undocumented)
+    headString?: string;
 }
 
 // Warning: (ae-missing-release-tag) "IImportMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -77,32 +159,18 @@ export interface IClientConfig extends Record<string, any> {
 export interface IImportMap {
     // (undocumented)
     config: any;
+    // Warning: (ae-forgotten-export) The symbol "ImportRecord" needs to be exported by the entry point _export_all_in_one_index.d.ts
+    //
     // (undocumented)
-    imports: Record<string, string>;
+    imports: ImportRecord;
+    // (undocumented)
+    scopes: Record<string, ImportRecord>;
 }
 
 // Warning: (ae-missing-release-tag) "IPassThroughConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IPassThroughConfig extends Record<string, any> {
-}
-
-// Warning: (ae-missing-release-tag) "IServerConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface IServerConfig {
-    // (undocumented)
-    applicationRootUrl?: string;
-    // (undocumented)
-    listenPort?: string | number;
-    // (undocumented)
-    preloadHtml?: string;
-    // (undocumented)
-    preloadHtmlFile?: string;
-    // (undocumented)
-    viewEngine?: string;
-    // (undocumented)
-    viewPath?: string;
 }
 
 // Warning: (ae-missing-release-tag) "loadServerAsChildProcess" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -166,19 +234,33 @@ export const oneYear: number;
 export function onServerStartListen(): void;
 
 // Warning: (ae-missing-release-tag) "passThroughConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "passThroughConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
+// @public (undocumented)
+export function passThroughConfig(name: string, value: any): void;
+
 // @public (undocumented)
 export function passThroughConfig(merge: IPassThroughConfig): void;
 
-// Warning: (ae-missing-release-tag) "reloadRouter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "preloadHtmlFromFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function reloadRouter(): void;
+export function preloadHtmlFromFile(file: string): void;
 
-// Warning: (ae-missing-release-tag) "renderDefaultHtml" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "preloadHtmlString" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function renderDefaultHtml(options: Record<string, any>): string;
+export function preloadHtmlString(html: string): void;
+
+// Warning: (ae-missing-release-tag) "registerGlobalMapping" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function registerGlobalMapping(specifier: string, url: string): void;
+
+// Warning: (ae-missing-release-tag) "renderHtml" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function renderHtml(request: Request, locals: any, options: Record<string, any>): string;
 
 // Warning: (ae-missing-release-tag) "ResourceType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -193,6 +275,18 @@ export enum ResourceType {
     // (undocumented)
     ThirdParty = 1
 }
+
+// Warning: (ae-missing-release-tag) "serveFavicon" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function serveFavicon(app: Application, url: string, fsPath: string): void;
+
+// Warning: (ae-forgotten-export) The symbol "WithReload" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WithImportMap" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "serveImportMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function serveImportMap(appUrlRoot?: string): Handler & WithReload & WithImportMap;
 
 // Warning: (ae-missing-release-tag) "terminate404" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

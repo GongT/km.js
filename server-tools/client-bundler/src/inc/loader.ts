@@ -1,6 +1,6 @@
 export type IFileMap = Record<string, IFileMapItem>;
 
 export interface IFileMapItem {
-	path: string;
+	fileName: string;
 	hash: string;
 }

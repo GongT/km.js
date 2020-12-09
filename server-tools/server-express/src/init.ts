@@ -1,48 +1,41 @@
-import { debug, info, warn } from 'console';
-import { readFile as readFileAsync } from 'fs';
+import { debug, info } from 'console';
 import { createServer, Server } from 'http';
 import { Socket } from 'net';
-import { resolve } from 'path';
-import { promisify } from 'util';
 import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { boundMethod } from 'autobind-decorator';
 import { Application, Request, Response } from 'express';
 import morgan from 'morgan';
+import { ExpressConfigKind } from './data/defaultPath';
 import { onServerStartListen } from './loader/childprocess';
 import { createApplication } from './route/app';
-import { passThroughConfig } from './route/application/config';
-import { clientNamespace } from './route/application/importmap';
-import { getApplicationRouter, getBuildMap } from './route/application/serve';
-import { renderDefaultHtml } from './route/html';
-import { terminate404Js } from './route/static/404-not-found';
+import { ClientGlobalRegister } from './route/application/importmap.fs';
+import { contributePageHtml, renderHtml } from './route/html/main';
 
-const readFile = promisify(readFileAsync);
+export type IApplicationConfig = {
+	[k in ExpressConfigKind]?: any;
+};
 
-export interface IServerConfig {
-	listenPort?: string | number;
-	viewEngine?: string;
-	viewPath?: string;
-	applicationRootUrl?: string;
-	preloadHtml?: string;
-	preloadHtmlFile?: string;
-}
-export interface IClientConfig extends Record<string, any> {
-	entryFile?: string;
-	STATIC_URL?: string;
-}
+// export interface IServerConfig {
+// 	listenPort?: string | number;
+// 	applicationRootUrl?: string;
+// }
+// export interface IClientConfig extends Record<string, any> {
+// 	entryFile?: string;
+// 	STATIC_URL?: string;
+// }
 
 export abstract class ExpressServer {
-	private server?: Server;
-	private app?: Application;
+	protected readonly server: Server;
+	protected readonly app: Application;
+	protected declare client: ClientGlobalRegister;
 	public readonly isDev: boolean;
 	private started = false;
+	private stopped = false;
 	private connections = new Set<Socket>();
+	public readonly listenPort: number = 1551;
 
 	constructor() {
 		this.isDev = process.env.NODE_ENV !== 'production';
-	}
-
-	private _create_base() {
 		this.app = createApplication();
 		this.server = createServer(this.app);
 		this.server.on('connection', (socket) => {
@@ -57,52 +50,40 @@ export abstract class ExpressServer {
 		}
 	}
 
+	protected set(name: ExpressConfigKind, value: any) {
+		this.app.set(name, value);
+		this.app.locals[name] = value;
+	}
+
 	async startServe() {
 		if (this.started) {
 			throw new Error('duplicate call to startServe');
 		}
 		this.started = true;
 
-		this._create_base();
-		const app = this.app!;
+		const app = this.app;
 
-		const myCfg = this.configureServer();
-		if (myCfg.viewPath) {
-			app.set('views', myCfg.viewPath);
-		}
-		if (myCfg.viewEngine) {
-			app.set('view engine', myCfg.viewEngine);
+		if (this.configureApplication) {
+			const config = await this.configureApplication();
+			for (const [k, v] of Object.entries(config)) {
+				this.set(k as any, v);
+			}
 		}
 
-		if (myCfg.preloadHtmlFile) {
-			app.locals.preloadHtml = await readFile(myCfg.preloadHtmlFile, 'utf8');
-		} else if (myCfg.preloadHtml) {
-			app.locals.preloadHtml = myCfg.preloadHtml;
-		}
+		this.client = new ClientGlobalRegister(this.app);
 
-		const applicationRootUrl = resolve('/', myCfg.applicationRootUrl || '/__application__');
-		clientNamespace.mountTo(applicationRootUrl);
+		await this.initialize();
 
-		this.init(app);
-
-		const config = this.configureClient();
-		if (!config.STATIC_URL) {
-			config.STATIC_URL = '/';
-		}
-
-		passThroughConfig(config);
-		Object.assign(app.locals, config);
-
-		const importMap = getBuildMap();
-		app.locals.IMPORT_MAP_JSON = JSON.stringify(importMap);
-		app.locals.IMPORT_MAP_JSON_TAG = `<script type="systemjs-importmap" id="AppConfig">${app.locals.IMPORT_MAP_JSON}</script>`;
-
-		app.use(applicationRootUrl, getApplicationRouter(), terminate404Js(`alert('Something wrong');`));
+		const importMap = this.client.finalize();
+		const imString = JSON.stringify(importMap, null, this.isDev ? 4 : undefined);
+		contributePageHtml({
+			headString: `<script type="systemjs-importmap" id="AppConfig">${imString}</script>`,
+		});
 
 		app.get(/./, this.serveHtml);
 
 		await new Promise<void>((resolve, reject) => {
-			this.listen(myCfg.listenPort || 1551, resolve, reject);
+			this.listen(this.listenPort, resolve, reject);
 		});
 	}
 
@@ -132,46 +113,43 @@ export abstract class ExpressServer {
 		registerGlobalLifecycle(
 			toDisposable(() => {
 				info('Closing express server...');
-				server.close((err) => {
-					info('Express server closed.');
-					if (err) {
-						warn('   %s', err.stack || err.message);
-					}
-				});
+				return this.shutdown(false);
 			})
 		);
 	}
 
 	async shutdown(rejectOnError = false) {
-		if (this.server) {
-			info('express server is stopping...');
-			await new Promise<void>((resolve, reject) => {
-				this.server!.close((e) => {
-					info('express server closed', e ? '(with error).' : '.');
-					if (e) {
-						if (rejectOnError) {
-							reject(e);
-						} else {
-							console.error(e.stack);
-							resolve();
-						}
+		if (!this.started) {
+			info('express server did not started.');
+			return;
+		}
+		if (this.stopped) {
+			info('express server already stopped.');
+			return;
+		}
+		this.stopped = true;
+
+		info('express server is stopping...');
+		await new Promise<void>((resolve, reject) => {
+			this.server!.close((e) => {
+				info('express server closed', e ? '(with error).' : '.');
+				if (e) {
+					if (rejectOnError) {
+						reject(e);
 					} else {
+						console.error(e.stack);
 						resolve();
 					}
-				});
-
-				const sockets = [...this.connections.values()];
-				for (const socket of sockets) {
-					socket.end();
+				} else {
+					resolve();
 				}
 			});
 
-			this.started = false;
-			delete this.server;
-			delete this.app;
-		} else {
-			info('express server did not started.');
-		}
+			const sockets = [...this.connections.values()];
+			for (const socket of sockets) {
+				socket.end();
+			}
+		});
 	}
 
 	get httpServer() {
@@ -180,20 +158,14 @@ export abstract class ExpressServer {
 
 	@boundMethod
 	protected serveHtml(req: Request, res: Response): void {
-		// res.locals.http2 = req.header('http2');
-		// res.locals.https = req.header('https');
-
 		res.send(
-			renderDefaultHtml({
-				...this.app!.locals,
-				...res.locals,
+			renderHtml(req, this.app.locals, {
 				originalUrl: req.originalUrl,
 				url: req.url,
 			})
 		);
 	}
 
-	protected abstract configureServer(): IServerConfig;
-	protected abstract configureClient(): IClientConfig;
-	protected abstract init(express: Application): void;
+	protected abstract configureApplication?(): IApplicationConfig | Promise<IApplicationConfig>;
+	protected abstract initialize(): void | Promise<void>;
 }

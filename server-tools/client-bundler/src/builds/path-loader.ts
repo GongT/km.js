@@ -35,7 +35,7 @@ async function create(depDistFolder: string, appDistFolder?: string) {
 
 	defines.push(`export interface IFileMap {
 		[id: string]: {
-			path: string;
+			fileName: string;
 			hash: string;
 		}
 	}`);

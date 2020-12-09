@@ -1,11 +1,14 @@
 console.log('HELLO~');
 
-import { isAbsolute, isWeb, MapLike } from '@idlebox/common';
-import React from 'react';
+import { isAbsolute, isWeb } from '@idlebox/common';
 import { boundMethod } from 'autobind-decorator';
+import React from 'react';
 
-const r: MapLike<string> = {};
-console.log('HELLO', isWeb, isAbsolute, React.createElement('h1'), r);
+debugger;
+
+console.log('@idlebox/common', isWeb, isAbsolute);
+console.log('react', React);
+console.log('react test h1s', React.createElement('h1'));
 
 const xxx: typeof boundMethod[] = [];
 for (const item of [...xxx]) {

@@ -1,19 +1,9 @@
 import { basename, dirname, resolve } from 'path';
 import { relativePath, writeFileIfChangeSync } from '@idlebox/node';
-import { mkdirSync, pathExistsSync, readFileSync, writeFileSync } from 'fs-extra';
+import { pathExistsSync, readFileSync, writeFileSync } from 'fs-extra';
 import { requireArgument } from './inc/childProcessContext';
-import { INDEX_FILE_NAME } from './inc/constants';
 
 const lv1Dir = requireArgument('lv1');
-const lv2Dir = requireArgument('lv2');
-const distFile = resolve(lv2Dir, INDEX_FILE_NAME);
-
-if (!pathExistsSync(distFile)) {
-	if (!pathExistsSync(lv2Dir)) {
-		mkdirSync(lv2Dir);
-	}
-	writeFileSync(distFile, '// awaiting file create...\n');
-}
 
 const extend = requireArgument('extend');
 

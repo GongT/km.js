@@ -1,6 +1,5 @@
 import { md5 } from '@idlebox/node';
 import { NormalizedOutputOptions, OutputBundle, OutputPlugin } from 'rollup';
-import { INDEX_FILE_NAME } from '../inc/constants';
 import { IFileMap } from '../inc/loader';
 
 export class ImportMapImpl implements OutputPlugin {
@@ -11,7 +10,6 @@ export class ImportMapImpl implements OutputPlugin {
 			throw new Error('rollup output no "dir" option');
 		}
 
-		delete bundles[INDEX_FILE_NAME];
 		if (Object.keys(bundles).length === 0) {
 			return; // first run
 		}
@@ -25,8 +23,11 @@ export class ImportMapImpl implements OutputPlugin {
 			if (name.startsWith('_')) {
 				continue;
 			}
+			if (name.startsWith('dependencies/')) {
+				continue;
+			}
 			imports[name] = {
-				path: fileName,
+				fileName: fileName,
 				hash: md5(Buffer.from(bundle.code)),
 			};
 		}

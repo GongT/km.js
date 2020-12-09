@@ -7,8 +7,8 @@ function parseArguments() {
 			throw new Error(`Invalid argument: ${item}`);
 		}
 		const eqSign = item.indexOf('=');
-		const name = item.slice(2, eqSign);
 		if (eqSign === -1) {
+			const name = item.slice(2);
 			const next = args[0];
 			if (next && !next.startsWith('--')) {
 				ret[name] = next;
@@ -17,6 +17,7 @@ function parseArguments() {
 				ret[name] = true;
 			}
 		} else {
+			const name = item.slice(2, eqSign);
 			const value = item.slice(eqSign + 1);
 			ret[name] = value;
 		}
@@ -36,6 +37,7 @@ export function requireArgument(name: string): string {
 	if (typeof options[name] === 'string' && options[name]) {
 		return options[name];
 	} else {
+		console.log(options);
 		throw new Error(`missing argument: --${name}`);
 	}
 }
@@ -46,6 +48,7 @@ export function optionalArgument(name: string): string | undefined {
 	if (typeof options[name] === 'string' && options[name]) {
 		return options[name];
 	} else {
+		console.log(options);
 		throw new Error(`missing argument: --${name}`);
 	}
 }
