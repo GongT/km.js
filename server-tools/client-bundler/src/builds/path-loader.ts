@@ -39,7 +39,6 @@ async function create(depDistFolder: string, appDistFolder?: string) {
 			hash: string;
 		}
 	}`);
-	define('fileMap', 'IFileMap', `require(fileMapPath)`);
 
 	define('outputPath', 'string', relativeScript(depDistFolder));
 	define('sourcePath', 'string', relativeScript(sourceProjectOptions.rootDir!));

@@ -3,10 +3,14 @@ import { ServeStaticOptions } from 'serve-static';
 import { oneYear } from '../../data/datetime';
 
 export enum ResourceType {
-	Dynamic, // change every request
-	ThirdParty, // not change for long time
-	Application, // may change any time
-	Assets, // file with version in it's name
+	/* must change every request */
+	Dynamic,
+	/** not change for long time */
+	ThirdParty,
+	/** may change any time */
+	Application,
+	/** file with version in it's name */
+	Assets,
 }
 
 export function createCommonOptions(resourceType: ResourceType, mime: string, fallthrough = false): ServeStaticOptions {

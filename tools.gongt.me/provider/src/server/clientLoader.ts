@@ -1,5 +1,5 @@
 import { join, resolve } from 'path';
-import { distPath, entryFileName, filemap } from '@km.js/client-loader';
+import { distPath, entryFileName, filemap, version } from '@km.js/client-loader';
 import {
 	ClientGlobalRegister,
 	contributeScriptTag,
@@ -30,5 +30,5 @@ export function attachClientLoader(client: ClientGlobalRegister) {
 		createCommonOptions(ResourceType.Dynamic, MIME_JSON_UTF8)
 	);
 
-	contributeScriptTag(join(DEFAULT_APPLICATION_ROOT, id));
+	contributeScriptTag(join(DEFAULT_APPLICATION_ROOT, id) + '?_=' + version);
 }

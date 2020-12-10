@@ -23,7 +23,8 @@ export async function createIndexFile() {
 		defines.push(`export const ${name}: ${type};`);
 	}
 
-	define('entryFileName', 'string', 'require("./name.js")');
+	define('entryFileName', 'string', `"loader.js"`);
+	define('version', 'string', `require("./version.js");`);
 	define('distPath', 'string', relativeScript(LOADER_DIST_DIR));
 	define('id', 'string', `'client-loader'`);
 	define('packageJsonPath', 'string', relativeScript(resolve(__dirname, '../package.json')));

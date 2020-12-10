@@ -60,15 +60,20 @@ export const gulpActionWatchLoader = gulpTask(
 function rename() {
 	return gulpTransformer(async function (file) {
 		const hash = md5(file.contents as Buffer);
-		const fileName = `loader.${hash.slice(0, 8)}.js`;
-		file.path = resolve(file.dirname, 'dist', fileName);
+		file.path = resolve(file.dirname, 'dist/loader.js');
 
-		const map = new VinylFile({
+		/*const map = new VinylFile({
 			base: file.dirname,
 			path: resolve(file.dirname, 'name.js'),
 			contents: Buffer.from('module.exports = ' + JSON.stringify(fileName)),
 		});
-		this.push(map);
+		this.push(map);*/
+		const versionFile = new VinylFile({
+			base: file.dirname,
+			path: resolve(file.dirname, 'version.js'),
+			contents: Buffer.from('module.exports = ' + JSON.stringify(hash)),
+		});
+		this.push(versionFile);
 
 		return file;
 	});
