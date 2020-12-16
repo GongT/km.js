@@ -4,6 +4,7 @@ type ImportRecord = Record<string /* Import specifier */, string /* URL */>;
 export interface IImportMap {
 	imports: ImportRecord;
 	scopes: Record<string, ImportRecord>;
+	depcache: Record<string, string[]>;
 	config: any;
 }
 
@@ -12,6 +13,7 @@ export const importMap: IImportMap = {
 	imports: {},
 	scopes: {},
 	config: undefined,
+	depcache: {},
 };
 
 export function registerGlobalMapping(specifier: string, url: string) {
@@ -23,4 +25,11 @@ export function createImportScope(path: string) {
 		importMap.scopes[path] = {};
 	}
 	return importMap.scopes[path];
+}
+
+export function mapDependencyCache(url: string, deps: string[]) {
+	if (!importMap.depcache[url]) {
+		importMap.depcache[url] = [];
+	}
+	importMap.depcache[url].push(...deps);
 }

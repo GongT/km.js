@@ -1,3 +1,5 @@
+window.criticalError = criticalError;
+
 // @ts-ignore
 function criticalError(e: any): never {
 	console.groupEnd();

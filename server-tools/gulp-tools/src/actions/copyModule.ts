@@ -1,6 +1,6 @@
-import { basename, dirname, extname, join, resolve } from 'path';
+import { basename, dirname, extname, join, relative, resolve } from 'path';
 import { Duplex, PassThrough } from 'stream';
-import { info } from 'fancy-log';
+import { info, warn } from 'fancy-log';
 import { pathExists, pathExistsSync, readFile, readJson, stat } from 'fs-extra';
 import { VinylFile } from '../tasks';
 
@@ -120,7 +120,19 @@ export function gulpManualyLoadModules(opt: ICopyModuleInput): Duplex {
 					const mapData = await readJson(absolute);
 					mapData.file = '../' + basename(fileName);
 					mapData.sources = mapData.sources.map((value: string) => {
-						return request.packageName + resolve('/', value);
+						if (value.startsWith('/')) {
+							warn(`absolute sourcemap path in package "${request.packageName}": ${value}`);
+							return value;
+						} else {
+							const abs = resolve(absolute, '..', value);
+							const rel = relative(folder, abs);
+							if (rel.startsWith('..')) {
+								warn(
+									`none standard sourcemap path in package "${request.packageName}": out of scope (${rel})`
+								);
+							}
+							return '/node_modules/' + request.packageName + '/' + rel;
+						}
 					});
 					file.sourceMap = mapData;
 				}

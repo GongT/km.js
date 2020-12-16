@@ -102,6 +102,11 @@
 			"packageName": "@km.js/client-bundler",
 			"projectFolder": "server-tools/client-bundler",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@km.js/cdn-china-proxy",
+			"projectFolder": "server-tools/cdn-china-proxy",
+			"shouldPublish": true
 		}
 	]
 }

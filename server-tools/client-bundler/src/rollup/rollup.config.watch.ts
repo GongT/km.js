@@ -31,9 +31,11 @@ const rollupOptions: MergedRollupOptions = {
 	output: [
 		{
 			...rollupBasicOptionsOutput,
-			entryFileNames: '[name]-[hash].js',
+			chunkFileNames: '[name]@[hash].js',
+			entryFileNames: '[name].js',
 			format: 'system',
 			dir: OUTPUT_DIR_PATH,
+			exports: 'named',
 			sourcemapPathTransform: sourcemapPathTransformDev,
 			plugins: createOutputPlugins(),
 		},

@@ -1,9 +1,12 @@
-const importmap = (() => {
+const { importmap, importMapScriptTag } = (() => {
 	const scripts = document.getElementsByTagName('SCRIPT');
 	for (let index = 0; index < scripts.length; index++) {
 		const tag = scripts.item(index) as HTMLScriptElement;
-		if (tag.type === 'systemjs-importmap' || tag.type === 'importmap') {
-			return (void 0 || eval)(('Object.assign(' + tag.innerText ?? '{}') + ');');
+		if (tag.type === 'importmap') {
+			return {
+				importmap: (void 0 || eval)(('Object.assign(' + tag.innerText ?? '{}') + ');'),
+				importMapScriptTag: tag,
+			};
 		}
 	}
 	console.log('No import map on page. application can not load.');

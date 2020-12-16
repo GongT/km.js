@@ -1,16 +1,16 @@
 import { resolve } from 'path';
 import { escapeRegExp } from '@idlebox/common';
+import { findUpUntilSync } from '@idlebox/node';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replacePlugin from '@rollup/plugin-replace';
-import { warn, error } from 'fancy-log';
+import { error, warn } from 'fancy-log';
 import { MergedRollupOptions, OutputOptions, OutputPlugin, Plugin, RollupWarning, WarningHandler } from 'rollup';
 import sourcemapsPlugin from 'rollup-plugin-sourcemaps';
 import { INPUT_DIR_PATH, SOURCE_MAP_ROOT } from './rollup.args';
 import { dynamicImportPlugin } from './rollup.plugin.dynamic-import';
 import { createApplicationImportMapPlugin } from './rollup.plugin.importmap';
 import { importMetaPathPlugin } from './rollup.plugin.meta';
-import { findUpUntilSync } from '@idlebox/node';
 
 let projectDeps: Record<string, string>;
 /** @internal */
@@ -36,6 +36,9 @@ export function getAllDependencies(): Record<string, string> {
 export function onWarning(warning: RollupWarning, defaultHandler: WarningHandler) {
 	translateWarningPath(warning);
 	if (!warning.loc) return defaultHandler(warning);
+	if (warning.code === 'MISSING_EXPORT' && warning.message.includes("'__moduleExports'")) {
+		return;
+	}
 	warn('[%s] %s\n    at %s:%s', warning.code, warning.message, warning.loc.file, warning.loc.line);
 }
 
@@ -55,6 +58,7 @@ export function createPlugins(_isProduction: boolean): Plugin[] {
 		sourcemapsPlugin(),
 		nodeResolve({
 			mainFields: ['browser', 'jsnext', 'module', 'main'],
+			preferBuiltins: false,
 		}),
 		replacePlugin({ 'process.env.NODE_ENV': _isProduction ? '"production"' : '"development"' }),
 		commonjs({

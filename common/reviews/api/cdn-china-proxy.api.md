@@ -1,0 +1,1 @@
+../../../server-tools/cdn-china-proxy/docs/cdn-china-proxy.api.md

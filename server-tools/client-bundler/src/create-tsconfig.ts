@@ -1,13 +1,14 @@
 import { basename, dirname, resolve } from 'path';
 import { relativePath, writeFileIfChangeSync } from '@idlebox/node';
-import { pathExistsSync, readFileSync, writeFileSync } from 'fs-extra';
+import { pathExistsSync, readFileSync, readJsonSync, writeFileSync } from 'fs-extra';
 import { requireArgument } from './inc/childProcessContext';
 
 const lv1Dir = requireArgument('lv1');
-
 const extend = requireArgument('extend');
-
 const tempTSConfig = requireArgument('warpper');
+
+const original = readJsonSync(extend);
+
 writeFileIfChangeSync(
 	tempTSConfig,
 	JSON.stringify(
@@ -16,7 +17,10 @@ writeFileIfChangeSync(
 			compilerOptions: {
 				target: 'ESNext',
 				module: 'system',
-				plugins: [{ transform: require.resolve('@build-script/typescript-transformer-resolve-info') }],
+				plugins: [
+					...(original?.compilerOptions?.plugins ?? []),
+					{ transform: require.resolve('@build-script/typescript-transformer-resolve-info') },
+				],
 				outDir: './' + relativePath(dirname(tempTSConfig), lv1Dir),
 			},
 		},

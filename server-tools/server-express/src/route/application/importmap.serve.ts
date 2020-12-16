@@ -12,6 +12,7 @@ function createString(root: string) {
 	for (const key of Object.keys(map.imports)) {
 		map.imports[key] = join(root, map.imports[key]);
 	}
+
 	const scopes = map.scopes;
 	map.scopes = {};
 	for (const [from, ele] of Object.entries(scopes)) {
@@ -21,6 +22,12 @@ function createString(root: string) {
 		for (const key of Object.keys(ele)) {
 			map.scopes[nfrom][key] = join(root, ele[key]);
 		}
+	}
+
+	const depcache = map.depcache;
+	map.depcache = {};
+	for (const [file, arr] of Object.entries(depcache)) {
+		map.depcache[join(root, file)] = arr.map((e) => join(root, e));
 	}
 
 	const content = Buffer.from(JSON.stringify(map, null, 2));

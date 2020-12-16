@@ -1,4 +1,10 @@
 const gulp = require('gulp');
-// const { loadToGulp } = require('@build-script/builder');
-const { loadToGulp } = require('/data/DevelopmentRoot/github.com/gongt/baobao/@build-script/builder/api.cjs');
+const { resolve } = require('path');
+const { loadToGulp } = require('@build-script/builder');
+
+/*
+const loaderRoot = resolve(__dirname, 'lib/loader-dependency');
+setResultsDirectory(loaderRoot);
+gulpPublicTask('copy:modules', '复制依赖', gulpCopyRequiredNativeModules);
+*/
 loadToGulp(gulp, __dirname);

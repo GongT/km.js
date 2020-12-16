@@ -44,6 +44,11 @@ export class ClientScopeRegister {
     serve(url: string, fsPath: string, options: ServeStaticOptions): void;
 }
 
+// Warning: (ae-missing-release-tag) "contributePageBodyClass" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function contributePageBodyClass(classNames: string): void;
+
 // Warning: (ae-missing-release-tag) "contributePageHtml" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -159,6 +164,8 @@ export interface IContribution {
 export interface IImportMap {
     // (undocumented)
     config: any;
+    // (undocumented)
+    depcache: Record<string, string[]>;
     // Warning: (ae-forgotten-export) The symbol "ImportRecord" needs to be exported by the entry point _export_all_in_one_index.d.ts
     //
     // (undocumented)
@@ -177,6 +184,11 @@ export interface IPassThroughConfig extends Record<string, any> {
 //
 // @public (undocumented)
 export function loadServerAsChildProcess(serverProgram: string): () => Promise<void>;
+
+// Warning: (ae-missing-release-tag) "mapDependencyCache" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function mapDependencyCache(url: string, deps: string[]): void;
 
 // Warning: (ae-missing-release-tag) "MIME_HTML_UTF8" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -266,13 +278,10 @@ export function renderHtml(request: Request, locals: any, options: Record<string
 //
 // @public (undocumented)
 export enum ResourceType {
-    // (undocumented)
     Application = 2,
-    // (undocumented)
     Assets = 3,
-    // (undocumented)
+    DebugResource = 4,
     Dynamic = 0,
-    // (undocumented)
     ThirdParty = 1
 }
 

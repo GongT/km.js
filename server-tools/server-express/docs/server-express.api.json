@@ -666,6 +666,49 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@km.js/server-express!contributePageBodyClass:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function contributePageBodyClass(classNames: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "classNames",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "contributePageBodyClass"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@km.js/server-express!contributePageHtml:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -1915,6 +1958,37 @@
             },
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@km.js/server-express!IImportMap#depcache:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "depcache: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, string[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "depcache",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@km.js/server-express!IImportMap#imports:member",
               "docComment": "",
               "excerptTokens": [
@@ -2063,6 +2137,64 @@
             }
           ],
           "name": "loadServerAsChildProcess"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/server-express!mapDependencyCache:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function mapDependencyCache(url: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", deps: "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "url",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "deps",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "mapDependencyCache"
         },
         {
           "kind": "Variable",
@@ -2622,7 +2754,7 @@
             {
               "kind": "EnumMember",
               "canonicalReference": "@km.js/server-express!ResourceType.Application:member",
-              "docComment": "",
+              "docComment": "/**\n * may change any time\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -2643,7 +2775,7 @@
             {
               "kind": "EnumMember",
               "canonicalReference": "@km.js/server-express!ResourceType.Assets:member",
-              "docComment": "",
+              "docComment": "/**\n * file with version in it's name\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -2663,8 +2795,29 @@
             },
             {
               "kind": "EnumMember",
+              "canonicalReference": "@km.js/server-express!ResourceType.DebugResource:member",
+              "docComment": "/**\n * cache with revalidate\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "DebugResource = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "4"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "DebugResource",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
               "canonicalReference": "@km.js/server-express!ResourceType.Dynamic:member",
-              "docComment": "",
+              "docComment": "/**\n * must change every request\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -2685,7 +2838,7 @@
             {
               "kind": "EnumMember",
               "canonicalReference": "@km.js/server-express!ResourceType.ThirdParty:member",
-              "docComment": "",
+              "docComment": "/**\n * not change for long time\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",

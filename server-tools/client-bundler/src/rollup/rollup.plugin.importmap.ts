@@ -1,6 +1,6 @@
 import { md5 } from '@idlebox/node';
 import { NormalizedOutputOptions, OutputBundle, OutputPlugin } from 'rollup';
-import { IFileMap } from '../inc/loader';
+import { IImportMapProto } from '../inc/loader';
 
 export class ImportMapImpl implements OutputPlugin {
 	public readonly name = 'create-importmap';
@@ -14,29 +14,33 @@ export class ImportMapImpl implements OutputPlugin {
 			return; // first run
 		}
 
-		const imports: IFileMap = {};
+		const importProto: IImportMapProto = {
+			imports: {},
+			depcache: {},
+		};
 		for (const bundle of Object.values(bundles)) {
 			if (bundle.type === 'asset') continue;
 
-			const { fileName, name } = bundle;
+			const { fileName, imports, name } = bundle;
 
-			if (name.startsWith('_')) {
-				continue;
+			if (imports.length > 0) {
+				importProto.depcache[fileName] = imports;
 			}
+
 			if (name.startsWith('dependencies/')) {
 				continue;
 			}
-			imports[name] = {
+			importProto.imports[name] = {
 				fileName: fileName,
 				hash: md5(Buffer.from(bundle.code)),
 			};
 		}
 
-		bundles['filemap.json'] = {
-			fileName: 'filemap.json',
+		bundles['importmap.prototype.json'] = {
+			fileName: 'importmap.prototype.json',
 			type: 'asset',
-			name: '@@filemap@@',
-			source: JSON.stringify(imports, null, 2),
+			name: '@@ImportMapPrototype@@',
+			source: JSON.stringify(importProto, null, 2),
 			isAsset: true,
 		};
 	}

@@ -9,6 +9,7 @@ import {
 	watchOutputFinal,
 	watchOutputLV1,
 } from '../inc/buildScriptContext';
+import { readFileSync } from 'fs-extra';
 
 // 创建包入口文件
 
@@ -31,14 +32,9 @@ async function create(depDistFolder: string, appDistFolder?: string) {
 	scripts.push(`const path = require('path');`);
 
 	define('packageDistPath', 'string', `__dirname`);
-	define('fileMapPath', 'string', relativeScript(`${depDistFolder}/filemap.json`));
+	define('fileMapPath', 'string', relativeScript(`${depDistFolder}/importmap.prototype.json`));
 
-	defines.push(`export interface IFileMap {
-		[id: string]: {
-			fileName: string;
-			hash: string;
-		}
-	}`);
+	defines.push(readFileSync(resolve(__dirname, '../../src/inc/loader.ts'), 'utf8'));
 
 	define('outputPath', 'string', relativeScript(depDistFolder));
 	define('sourcePath', 'string', relativeScript(sourceProjectOptions.rootDir!));

@@ -23,7 +23,5 @@ buildContext.registerAlias('watch-ts', typescriptCompilerBin, [
 	'system',
 	'--inlineSources',
 	'--preserveWatchOutput',
-	'--sourceRoot',
-	'./',
 ]);
 buildContext.addAction('watch', ['watch-ts', createFileMap]);

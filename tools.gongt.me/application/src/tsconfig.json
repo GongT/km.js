@@ -1,12 +1,22 @@
 {
 	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.no-lib.json",
+	"compileOnSave": false,
 	"compilerOptions": {
-		"outDir": "../lib",
-		"rootDir": ".",
-		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"lib": ["dom", "esnext"],
-		"importHelpers": true,
-		"declaration": false,
-		"declarationMap": false
+		"baseUrl": "./",
+		"outDir": "../dist/out-tsc",
+		"target": "ES2016",
+		"module": "ESNext",
+		"lib": ["ESNext", "dom"],
+		"pretty": false
+	},
+	"angularCompilerOptions": {
+		// https://angular.io/guide/angular-compiler-options
+		"annotationsAs": "decorators",
+		"fullTemplateTypeCheck": true,
+		"enableResourceInlining": true,
+		"preserveWhitespaces": true,
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true
 	}
 }

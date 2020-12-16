@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { startChokidar } from '@idlebox/chokidar';
 import { distPath, entryFileName } from '@km.js/client-loader';
 import { loadServerAsChildProcess } from '@km.js/server-express';
-import { fileMapPath } from '@tools.gongt.me/application';
+import { info } from 'console';
 
 const program = resolve(__dirname, 'server/start');
 
@@ -12,7 +12,12 @@ if (process.env.NODE_ENV === 'production') {
 	console.error('Development mode enabled, server PID=%s!', process.pid);
 
 	const watch = startChokidar(loadServerAsChildProcess(program));
-	watch.addWatch(resolve(__dirname, '**/*.js'));
-	watch.addWatch(fileMapPath);
-	watch.addWatch(resolve(distPath, entryFileName));
+
+	function addWatch(p: string) {
+		info(' - Watching %s', p);
+		watch.addWatch(p);
+	}
+	addWatch(resolve(__dirname, '**/*.js'));
+	addWatch(resolve(__dirname, '../view/**/*.html'));
+	addWatch(resolve(distPath, entryFileName));
 }

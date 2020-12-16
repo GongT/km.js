@@ -1,0 +1,330 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.12.0",
+    "schemaVersion": 1003,
+    "oldestForwardsCompatibleVersion": 1001
+  },
+  "kind": "Package",
+  "canonicalReference": "@km.js/cdn-china-proxy!",
+  "docComment": "",
+  "name": "@km.js/cdn-china-proxy",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@km.js/cdn-china-proxy!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/cdn-china-proxy!cdnAddWhitelist:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function cdnAddWhitelist(urls: "
+            },
+            {
+              "kind": "Content",
+              "text": "(string | "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ")[]"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "urls",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "cdnAddWhitelist"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/cdn-china-proxy!cdnLoadStyles:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function cdnLoadStyles(urls: "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "urls",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "cdnLoadStyles"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@km.js/cdn-china-proxy!ContentReplacer:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type ContentReplacer = "
+            },
+            {
+              "kind": "Content",
+              "text": "(body: string) => string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ContentReplacer",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@km.js/cdn-china-proxy!ProxyOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ProxyOptions "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ProxyOptions",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@km.js/cdn-china-proxy!ProxyOptions#contentReplacer:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentReplacer?(body: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "body",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "contentReplacer"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@km.js/cdn-china-proxy!ProxyOptions#proxy:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "proxy: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "proxy",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/cdn-china-proxy!serveChinaCDNProxy:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function serveChinaCDNProxy(rootRouter: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Router",
+              "canonicalReference": "@types/express!~e.Router:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", { proxy, contentReplacer }: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProxyOptions",
+              "canonicalReference": "@km.js/cdn-china-proxy!ProxyOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "rootRouter",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "{ proxy, contentReplacer }",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "serveChinaCDNProxy"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@km.js/cdn-china-proxy!setProxyBaseUrl:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function setProxyBaseUrl(_baseUrl: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "_baseUrl",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "setProxyBaseUrl"
+        }
+      ]
+    }
+  ]
+}

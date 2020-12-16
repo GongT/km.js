@@ -8,7 +8,6 @@ import {
 } from '../inc/buildScriptContext';
 
 // 第一步
-// * 创建一个假的index.js，防止rollup直接报错
 
 buildContext.prefixAction('watch', ['prewatch'] as any);
 buildContext.addAction('prewatch', ['tools:watch-import-loader:prepare']);

@@ -27,7 +27,7 @@ export function attachClientLoader(client: ClientGlobalRegister) {
 	client.serve(
 		id + '.map',
 		resolve(distPath, entryFileName) + '.map',
-		createCommonOptions(ResourceType.Dynamic, MIME_JSON_UTF8)
+		createCommonOptions(ResourceType.DebugResource, MIME_JSON_UTF8)
 	);
 
 	contributeScriptTag(join(DEFAULT_APPLICATION_ROOT, id) + '?_=' + version);

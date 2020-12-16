@@ -1,6 +1,13 @@
 {
-	"load": [{ "file": "@km.js/client-bundler", "args": ["./src/tsconfig.json", "ttypescript"] }],
+	"load": [
+		{
+			"file": "@build-script/export-all-in-one/build-script-register",
+			"args": ["src/tsconfig.json"]
+		}
+	],
 	"alias": {
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc -w -p src",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
@@ -8,13 +15,9 @@
 		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
 	},
 	"command": {
-		"watch": {
-			"title": "Watch mode build project",
-			"run": []
-		},
 		"build": {
 			"title": "Build project",
-			"run": []
+			"run": ["build-ts"]
 		},
 		"distclean": {
 			"title": "Delete git ignore files (without node_modules)",
@@ -42,6 +45,10 @@
 		"upgrade": {
 			"title": "Do project dependency upgrade",
 			"run": ["upgrade-node-modules"]
+		},
+		"watch": {
+			"title": "Watch mode build project",
+			"run": ["watch-ts"]
 		}
 	}
 }

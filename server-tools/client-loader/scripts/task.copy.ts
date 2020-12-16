@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { gulpDest, gulpManualyLoadModules, sourcemapsWrite } from '@km.js/gulp-tools';
+import { gulpDest, gulpManualyLoadModules, gulpTransformer, sourcemapsWrite, VinylFile } from '@km.js/gulp-tools';
 import { info } from 'fancy-log';
 import { LOADER_DIST_DIR } from './consts';
 

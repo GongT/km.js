@@ -77,7 +77,7 @@ export abstract class ExpressServer {
 		const importMap = this.client.finalize();
 		const imString = JSON.stringify(importMap, null, this.isDev ? 4 : undefined);
 		contributePageHtml({
-			headString: `<script type="systemjs-importmap" id="AppConfig">${imString}</script>`,
+			headAssetString: `<script type="importmap" id="AppConfig">${imString}</script>`,
 		});
 
 		app.get(/./, this.serveHtml);

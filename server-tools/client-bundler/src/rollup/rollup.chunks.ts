@@ -1,27 +1,19 @@
 import { resolve } from 'path';
 import { findUpUntilSync } from '@idlebox/node';
 import { error } from 'fancy-log';
-import { APPLICATION_HASH, INPUT_DIR_PATH, VENDOR_HASH } from './rollup.args';
+import { APPLICATION_HASH, INPUT_DIR_PATH } from './rollup.args';
 import { getAllDependencies } from './rollup.lib';
-
-const VENDOR_CHUNK = '_vendor.' + VENDOR_HASH;
 
 export function manualChunksProduction(entrys: string) {
 	return (id: string) => {
 		if (id.startsWith(entrys)) {
 			return;
 		}
-		if (id.charCodeAt(0) === 0) {
-			return VENDOR_CHUNK;
-		}
-		if (id.includes('/node_modules/')) {
-			return VENDOR_CHUNK;
-		}
-		if (!id.includes('/')) {
-			return VENDOR_CHUNK;
+		if (id.charCodeAt(0) === 0 || id.includes('/node_modules/') || !id.includes('/')) {
+			return 'dependencies/_vendor';
 		}
 		if (id.startsWith(INPUT_DIR_PATH)) {
-			return 'application.' + APPLICATION_HASH;
+			return 'application/' + APPLICATION_HASH;
 		}
 		error('not set any chunk: %s', id);
 		return undefined;
@@ -34,10 +26,10 @@ export function manualChunksDevelopment(entrys: string) {
 
 	return (id: string) => {
 		if (id.startsWith(entrys)) {
-			return;
+			return id;
 		}
 		if (!id.includes('/')) {
-			return VENDOR_CHUNK;
+			return 'dependencies/_vendor';
 		}
 
 		if (id.includes('/node_modules/')) {
@@ -52,7 +44,7 @@ export function manualChunksDevelopment(entrys: string) {
 				// if (info.importedIds.length === 0) {
 				// 	return HELPER_CHUNK;
 				// }
-				return 'dependencies/_sub/' + packageName;
+				return 'dependencies/sub/' + packageName;
 			}
 		}
 

@@ -36,12 +36,17 @@ if (!pathExistsSync(lv2Dir)) {
 const diffCache = new Map<string, string>();
 const imports = new Map<string, Set<string>>();
 
+imports.set('tslib', new Set(['*']));
+
 async function doCreateIndex() {
 	info('check import info change');
 	const files = globSync('**/*.importinfo', { cwd: lv1Dir, absolute: true });
 	for (const file of files) {
 		const data: any = await readJSON(file);
-		for (const { specifier, values } of data?.imports ?? []) {
+		for (const { specifier, sourceKind, values } of data?.imports ?? []) {
+			if (sourceKind !== 'external') {
+				continue;
+			}
 			if (values.length > 0) {
 				if (!imports.has(specifier)) {
 					imports.set(specifier, new Set());
@@ -53,6 +58,8 @@ async function doCreateIndex() {
 				for (const name of values) {
 					set.add(name);
 				}
+			} else {
+				imports.set(specifier, new Set(['*']));
 			}
 		}
 	}
@@ -62,6 +69,8 @@ async function doCreateIndex() {
 
 		if (items.has('*')) {
 			data.push(`export * from "${specifier}";`);
+			data.push(`import * as NS from "${specifier}";`);
+			data.push(`if(NS.__moduleExports)exports(NS.__moduleExports);`);
 		} else {
 			if (items.has('default')) {
 				data.push(`import imported from "${specifier}";`);

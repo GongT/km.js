@@ -1,0 +1,154 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"cli": {
+		"packageManager": "pnpm"
+	},
+	"newProjectRoot": "projects",
+	"schematics": {
+		"@schematics/angular:component": {
+			"inlineTemplate": true,
+			"inlineStyle": true,
+			"style": "scss",
+			"styleext": "scss",
+			"export": true,
+			"flat": false,
+			"spec": false,
+			"viewEncapsulation": "ShadowDom",
+			"skipTests": true
+		},
+		"@schematics/angular:class": {
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:directive": {
+			"flat": false,
+			"export": true,
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:guard": {
+			"flat": false,
+			"export": true,
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:interceptor": {
+			"flat": false,
+			"export": true,
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:module": {
+			"flat": false,
+			"export": true,
+			"spec": false,
+			"skipTests": true,
+			"routing": true
+		},
+		"@schematics/angular:pipe": {
+			"flat": false,
+			"export": true,
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:service": {
+			"flat": false,
+			"spec": false,
+			"skipTests": true
+		},
+		"@schematics/angular:application": {
+			"flat": false,
+			"export": true,
+			"strict": true
+		}
+	},
+	"projects": {
+		"application": {
+			"root": "",
+			"projectType": "application",
+			"sourceRoot": "src",
+			"prefix": "g",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/",
+						"index": "src/index.html",
+						"main": "src/main.ts",
+						"polyfills": "src/polyfills.ts",
+						"tsConfig": "src/tsconfig.app.json",
+						"optimization": false,
+						"sourceMap": true,
+						"extractLicenses": true,
+						"outputHashing": "none",
+						"aot": false,
+						"namedChunks": true,
+						"vendorChunk": true,
+						"commonChunk": true,
+						"deleteOutputPath": false,
+						"assets": ["src/favicon.png", "src/assets"],
+						"styles": ["src/styles.scss"],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"deleteOutputPath": true,
+							"aot": true,
+							"namedChunks": false,
+							"vendorChunk": false,
+							"commonChunk": false,
+							"experimentalRollupPass": true,
+							"outputHashing": "all",
+							"optimization": true,
+							"buildOptimizer": true,
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							],
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kb",
+									"maximumError": "1mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "2kb",
+									"maximumError": "4kb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "application:build",
+						"port": 15080,
+						"host": "::",
+						"open": false,
+						"liveReload": false,
+						"publicHost": "localhost",
+						"disableHostCheck": true
+						// "hmr": true
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "application:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "application:build"
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "test"
+}

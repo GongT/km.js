@@ -1,35 +1,43 @@
 {
 	"name": "@tools.gongt.me/application",
 	"version": "0.0.0",
-	"license": "MIT",
-	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
-	"private": true,
-	"type": "commonjs",
-	"main": "./lib/index.js",
 	"scripts": {
-		"build": "gulp build",
-		"clean": "rimraf lib",
-		"distclean": "gulp distclean",
-		"prepack": "gulp rebuild",
-		"test": "gulp test",
-		"upgrade": "gulp upgrade",
-		"watch": "gulp watch"
+		"build": "env-cmd ng build --prod",
+		"watch": "env-cmd ng build --watch --progress",
+		"start": "env-cmd ng serve"
 	},
-	"monorepo": "rush",
-	"devDependencies": {
-		"@idlebox/common": "^1.1.0",
-		"autobind-decorator": "^2.4.0",
-		"react": "^17.0.1",
+	"private": true,
+	"main": "./load/index.js",
+	"typings": "./load/index.d.ts",
+	"dependencies": {
+		"@angular/animations": "^11.0.4",
+		"@angular/cdk": "^11.0.3",
+		"@angular/common": "^11.0.4",
+		"@angular/compiler": "^11.0.4",
+		"@angular/core": "^11.0.4",
+		"@angular/forms": "^11.0.4",
+		"@angular/material": "^11.0.3",
+		"@angular/platform-browser": "^11.0.4",
+		"@angular/platform-browser-dynamic": "^11.0.4",
+		"@angular/router": "^11.0.4",
+		"@schematics/angular": "^11.0.4",
+		"rxjs": "^6.6.0",
 		"tslib": "^2.0.3",
-		"@types/react": "^16.9.56",
+		"zone.js": "^0.10.2"
+	},
+	"devDependencies": {
 		"@build-script/builder": "^2.1.6",
-		"@build-script/single-dog-asset": "^1.0.10",
-		"@build-script/typescript-transformer-resolve-info": "^0.1.1",
-		"@build-script/typescript-transformer-static-resolve": "^0.0.7",
 		"@km.js/client-bundler": "^0.0.0",
-		"@km.js/gulp-tools": "^0.0.0",
-		"typescript": "^4.0.5",
+		"@angular-devkit/build-angular": "^0.1100.4",
+		"@angular/cli": "^11.0.4",
+		"@angular/compiler-cli": "^11.0.4",
+		"@build-script/single-dog-asset": "^1.0.10",
+		"@types/node": "^14.14.13",
+		"env-cmd": "^10.1.0",
+		"ts-node": "^9.1.1",
+		"tslint": "^6.1.0",
+		"gulp": "^4.0.2",
 		"ttypescript": "^1.5.12",
-		"gulp": "^4.0.2"
+		"typescript": "<4.1.0"
 	}
 }

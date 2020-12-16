@@ -1,6 +1,10 @@
-export type IFileMap = Record<string, IFileMapItem>;
+export interface IImportMapProto {
+	imports: IImportMapProtoImport;
+	depcache: Record<string /* files */, string[] /* dep files */>;
+}
 
-export interface IFileMapItem {
+export type IImportMapProtoImport = Record<string, IImportMapProtoImportItem>;
+export interface IImportMapProtoImportItem {
 	fileName: string;
 	hash: string;
 }

@@ -27,6 +27,8 @@ export declare class ClientScopeRegister {
     serve(url: string, fsPath: string, options: ServeStaticOptions): void;
 }
 
+export declare function contributePageBodyClass(classNames: string): void;
+
 export declare function contributePageHtml(fn: IContribution): void;
 
 export declare function contributeScriptTag(url: string): void;
@@ -86,6 +88,7 @@ export declare interface IContribution {
 export declare interface IImportMap {
     imports: ImportRecord;
     scopes: Record<string, ImportRecord>;
+    depcache: Record<string, string[]>;
     config: any;
 }
 
@@ -95,6 +98,8 @@ export declare interface IPassThroughConfig extends Record<string, any> {
 }
 
 export declare function loadServerAsChildProcess(serverProgram: string): () => Promise<void>;
+
+export declare function mapDependencyCache(url: string, deps: string[]): void;
 
 export declare const MIME_HTML_UTF8 = "text/html; charset=utf-8";
 
@@ -131,10 +136,16 @@ export declare function registerGlobalMapping(specifier: string, url: string): v
 export declare function renderHtml(request: Request, locals: any, options: Record<string, any>): string;
 
 export declare enum ResourceType {
+    /** must change every request */
     Dynamic = 0,
+    /** not change for long time */
     ThirdParty = 1,
+    /** may change any time */
     Application = 2,
-    Assets = 3
+    /** file with version in it's name */
+    Assets = 3,
+    /** cache with revalidate */
+    DebugResource = 4
 }
 
 export declare function serveFavicon(app: Application, url: string, fsPath: string): void;

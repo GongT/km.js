@@ -12,7 +12,8 @@
 				"监视（5） - @tools.gongt.me/api",
 				"监视（6） - @tools.gongt.me/provider",
 				"监视（7） - @tools.gongt.me/application",
-				"监视（8） - @km.js/client-bundler"
+				"监视（8） - @km.js/client-bundler",
+				"监视（9） - @km.js/cdn-china-proxy"
 			]
 		},
 		{
@@ -144,10 +145,54 @@
 				"clear": true
 			},
 			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
-			"problemMatcher": {
-				"base": "$tsc-watch",
-				"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/application"]
-			},
+			"problemMatcher": [
+				{
+					"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/application"],
+					"severity": "error",
+					"pattern": [
+						{
+							"regexp": "^SassError: (?!SassError: )(.+)$",
+							"message": 1
+						},
+						{
+							"regexp": "^ +╷"
+						},
+						{
+							"regexp": "^[0-9]+\\s+│\\s+(.+)$",
+							"code": 1
+						},
+						{
+							"regexp": "^\\s+│\\s+\\^$"
+						},
+						{
+							"regexp": "^ +╵"
+						},
+						{
+							"regexp": "^  ([^ ]+) (\\d+):(\\d+)",
+							"file": 1,
+							"line": 2,
+							"column": 3
+						}
+					]
+				},
+				{
+					"owner": "GongT",
+					"background": {
+						"activeOnStart": false,
+						"beginsPattern": "^.+",
+						"endsPattern": "^Build at: "
+					},
+					"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/application"],
+					"pattern": {
+						"regexp": "Error: (.+):(\\d+):(\\d+) - (error|warning) (TS\\d+: .+)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5
+					}
+				}
+			],
 			"group": "build",
 			"args": ["run", "watch"],
 			"options": {
@@ -237,6 +282,34 @@
 			"options": {
 				"_is_build": "true",
 				"cwd": "${workspaceFolder}/server-tools/client-loader"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（9） - @km.js/cdn-china-proxy",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/server-tools/cdn-china-proxy"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/server-tools/cdn-china-proxy"
 			}
 		}
 	]

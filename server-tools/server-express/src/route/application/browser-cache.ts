@@ -3,7 +3,7 @@ import { ServeStaticOptions } from 'serve-static';
 import { oneYear } from '../../data/datetime';
 
 export enum ResourceType {
-	/* must change every request */
+	/** must change every request */
 	Dynamic,
 	/** not change for long time */
 	ThirdParty,
@@ -11,6 +11,8 @@ export enum ResourceType {
 	Application,
 	/** file with version in it's name */
 	Assets,
+	/** cache with revalidate */
+	DebugResource,
 }
 
 export function createCommonOptions(resourceType: ResourceType, mime: string, fallthrough = false): ServeStaticOptions {
@@ -26,12 +28,22 @@ export function createCommonOptions(resourceType: ResourceType, mime: string, fa
 					res.setHeader('Cache-Control', 'no-store');
 				},
 			};
-		case ResourceType.Application:
+		case ResourceType.DebugResource:
 			return {
 				maxAge: oneHour,
 				etag: true,
 				lastModified: true,
 				setHeaders(res) {
+					res.setHeader('Content-Type', mime);
+				},
+			};
+		case ResourceType.Application:
+			return {
+				cacheControl: false,
+				etag: true,
+				lastModified: true,
+				setHeaders(res) {
+					res.setHeader('Cache-Control', 'public, must-revalidate');
 					res.setHeader('Content-Type', mime);
 				},
 			};
