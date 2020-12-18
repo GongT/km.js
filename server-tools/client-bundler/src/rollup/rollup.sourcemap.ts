@@ -24,16 +24,3 @@ export function sourcemapPathTransform(url: string, sourcemapPath: string) {
 		return p;
 	}
 }
-
-/** @internal */
-export function sourcemapPathTransformDev(url: string, sourcemapPath: string) {
-	return sourcemapPathTransform(url, sourcemapPath);
-	// if (!p.includes('/')) {
-	// 	return p;
-	// } else if (p.startsWith('node_modules/')) {
-	// 	return '/' + p.replace(/\/\.pnpm\/[^/]+\//g, '/');
-	// } else {
-	// 	console.log('\x1B[38;5;9mMissing rule for sourcemap: %s\x1B[0m', path);
-	// 	return p;
-	// }
-}

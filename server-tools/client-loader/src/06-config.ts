@@ -27,13 +27,17 @@ if (Object.hasOwnProperty('freeze')) {
 	Object.freeze(importmap);
 }
 
+function passThroughConfig(name: string): any {
+	return importmap.config[name];
+}
+
 if (Object.hasOwnProperty('defineProperty')) {
-	Object.defineProperty(window, '_importmap', {
-		value: importmap,
+	Object.defineProperty(window, 'passThroughConfig', {
+		value: passThroughConfig,
 		configurable: false,
 		writable: false,
 		enumerable: true,
 	});
 } else {
-	(window as any)._importmap = importmap;
+	(window as any).passThroughConfig = passThroughConfig;
 }

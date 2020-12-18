@@ -1,0 +1,31 @@
+{
+	"name": "route",
+	"version": "0.0.0",
+	"private": true,
+	"description": "A blank schematics",
+	"scripts": {
+		"build": "tsc -p src/tsconfig.json",
+		"watch": "tsc -w -p src/tsconfig.json"
+	},
+	"keywords": [
+		"schematics"
+	],
+	"author": "",
+	"license": "MIT",
+	"schematics": "./collection.json",
+	"ng-add": {
+		"save": "devDependencies"
+	},
+	"dependencies": {
+		"@angular-devkit/core": "^11.0.5",
+		"@angular-devkit/schematics": "^11.0.5",
+		"@idlebox/common": "^1.1.0",
+		"@idlebox/node-json-edit": "^2.0.11",
+		"typescript": "~4.0.2"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "^1.0.10",
+		"@types/node": "^12.11.1",
+		"@types/prettier": "^2.1.5"
+	}
+}

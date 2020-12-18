@@ -1,15 +1,15 @@
-import { cdnLoadStyles } from '@km.js/cdn-china-proxy';
 import { resolve } from 'path';
+import { cdnLoadStyles } from '@km.js/cdn-china-proxy';
 import {
 	ClientGlobalRegister,
 	contributePageBodyClass,
 	contributePageHtml,
 	createCommonOptions,
 	MIME_JAVASCRIPT_UTF8,
-	MIME_JSON_UTF8,
 	MIME_STYLESHEET_UTF8,
 	passThroughConfig,
 	ResourceType,
+	terminate404,
 } from '@km.js/server-express';
 import { Router } from 'express';
 import serveStatic from 'serve-static';
@@ -18,25 +18,19 @@ export function attachClientApplication(client: ClientGlobalRegister, router: Ro
 	const outputPath = resolve(require.resolve('@tools.gongt.me/application/package.json'), '../dist');
 	console.log('serving angular application: %s', outputPath);
 
-	client.map('client/', 'client/', outputPath, createCommonOptions(ResourceType.Application, MIME_JAVASCRIPT_UTF8));
-
-	router.get(
-		'/_static/css/styles.css',
-		serveStatic(resolve(outputPath, 'styles.css')),
+	router.use(
+		`/_static/css`,
 		serveStatic(
-			resolve(outputPath, 'styles.css'),
+			resolve(outputPath, 'static/css'),
 			createCommonOptions(ResourceType.Application, MIME_STYLESHEET_UTF8, false)
 		)
 	);
-	router.get(
-		'/_static/css/styles.css.map',
-		serveStatic(
-			resolve(outputPath, 'styles.css.map'),
-			createCommonOptions(ResourceType.Application, MIME_JSON_UTF8, false)
-		)
-	);
+	router.use(`/_static`, serveStatic(resolve(outputPath, 'static')), terminate404());
+
+	client.map('client/', 'client/', outputPath, createCommonOptions(ResourceType.Application, MIME_JAVASCRIPT_UTF8));
+
 	contributePageHtml({
-		headString: `<base href="/"><link rel="stylesheet" href="/_styles/styles.css">`,
+		headString: `<base href="/"><link rel="stylesheet" href="/_static/css/styles.css">`,
 		bodyString: '<app-root></app-root>',
 	});
 	contributePageBodyClass('mat-typography');
@@ -48,7 +42,7 @@ export function attachClientApplication(client: ClientGlobalRegister, router: Ro
 	});
 
 	passThroughConfig('bootstrap', [
-		['client/runtime.js', 'client/polyfills.js', 'client/vendor.js', 'client/main.js'],
+		['client/styles.js', 'client/runtime.js', 'client/polyfills.js', 'client/vendor.js', 'client/main.js'],
 	]);
 }
 

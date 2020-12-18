@@ -7,14 +7,14 @@
 	"newProjectRoot": "projects",
 	"schematics": {
 		"@schematics/angular:component": {
-			"inlineTemplate": true,
-			"inlineStyle": true,
+			"inlineTemplate": false,
+			"inlineStyle": false,
 			"style": "scss",
 			"styleext": "scss",
-			"export": true,
+			"export": false,
 			"flat": false,
 			"spec": false,
-			"viewEncapsulation": "ShadowDom",
+			"viewEncapsulation": "Emulated",
 			"skipTests": true
 		},
 		"@schematics/angular:class": {
@@ -23,32 +23,32 @@
 		},
 		"@schematics/angular:directive": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"spec": false,
 			"skipTests": true
 		},
 		"@schematics/angular:guard": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"spec": false,
 			"skipTests": true
 		},
 		"@schematics/angular:interceptor": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"spec": false,
 			"skipTests": true
 		},
-		"@schematics/angular:module": {
+		/*"@schematics/angular:module": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"spec": false,
 			"skipTests": true,
 			"routing": true
-		},
+		},*/
 		"@schematics/angular:pipe": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"spec": false,
 			"skipTests": true
 		},
@@ -59,7 +59,7 @@
 		},
 		"@schematics/angular:application": {
 			"flat": false,
-			"export": true,
+			"export": false,
 			"strict": true
 		}
 	},
@@ -71,13 +71,17 @@
 			"prefix": "g",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-builders/custom-webpack:browser",
 					"options": {
+						"customWebpackConfig": {
+							"path": "./extra-webpack.config.js"
+						},
 						"outputPath": "dist/",
 						"index": "src/index.html",
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "src/tsconfig.app.json",
+						"deleteOutputPath": true,
 						"optimization": false,
 						"sourceMap": true,
 						"extractLicenses": true,
@@ -86,14 +90,24 @@
 						"namedChunks": true,
 						"vendorChunk": true,
 						"commonChunk": true,
-						"deleteOutputPath": false,
-						"assets": ["src/favicon.png", "src/assets"],
-						"styles": ["src/styles.scss"],
+						"deployUrl": "/_application/client/",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "src/assets",
+								"output": "./static"
+							},
+							{
+								"glob": "mdi.svg",
+								"input": "./node_modules/@mdi/angular-material",
+								"output": "./static/images"
+							}
+						],
+						"styles": ["src/assets/styles/global.scss"],
 						"scripts": []
 					},
 					"configurations": {
 						"production": {
-							"deleteOutputPath": true,
 							"aot": true,
 							"namedChunks": false,
 							"vendorChunk": false,
@@ -124,7 +138,7 @@
 					}
 				},
 				"serve": {
-					"builder": "@angular-devkit/build-angular:dev-server",
+					"builder": "@angular-builders/custom-webpack:dev-server",
 					"options": {
 						"browserTarget": "application:build",
 						"port": 15080,
@@ -132,8 +146,9 @@
 						"open": false,
 						"liveReload": false,
 						"publicHost": "localhost",
-						"disableHostCheck": true
-						// "hmr": true
+						"disableHostCheck": true,
+						"hmr": true,
+						"deployUrl": "/"
 					},
 					"configurations": {
 						"production": {

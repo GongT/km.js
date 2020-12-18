@@ -5,6 +5,7 @@
 			"label": "Watch All 8 Projects",
 			"problemMatcher": [],
 			"dependsOn": [
+				"监视（10） - route",
 				"监视（1） - @km.js/react-aliyun-human-verify",
 				"监视（2） - @km.js/server-express",
 				"监视（3） - @km.js/client-loader",
@@ -180,7 +181,7 @@
 					"background": {
 						"activeOnStart": false,
 						"beginsPattern": "^.+",
-						"endsPattern": "^Build at: "
+						"endsPattern": "^(Build at:|Time:|Date:) "
 					},
 					"fileLocation": ["relative", "${workspaceFolder}/tools.gongt.me/application"],
 					"pattern": {
@@ -310,6 +311,34 @@
 			"options": {
 				"_is_build": "true",
 				"cwd": "${workspaceFolder}/server-tools/cdn-china-proxy"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（10） - route",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/schematics/route"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/schematics/route"
 			}
 		}
 	]

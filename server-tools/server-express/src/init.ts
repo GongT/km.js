@@ -10,6 +10,7 @@ import { onServerStartListen } from './loader/childprocess';
 import { createApplication } from './route/app';
 import { ClientGlobalRegister } from './route/application/importmap.fs';
 import { contributePageHtml, renderHtml } from './route/html/main';
+import { passThroughConfig } from './route/application/config';
 
 export type IApplicationConfig = {
 	[k in ExpressConfigKind]?: any;
@@ -69,6 +70,8 @@ export abstract class ExpressServer {
 				this.set(k as any, v);
 			}
 		}
+		passThroughConfig(ExpressConfigKind.RootApplication, app.get(ExpressConfigKind.RootApplication));
+		passThroughConfig(ExpressConfigKind.RootStatic, app.get(ExpressConfigKind.RootStatic));
 
 		this.client = new ClientGlobalRegister(this.app);
 

@@ -42,11 +42,6 @@ $application-dark-theme: mat-dark-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
-html {
-	overflow-x: hidden;
-	overflow-y: scroll;
-}
-
 html,
 body {
 	height: 100%;
@@ -54,4 +49,8 @@ body {
 body {
 	margin: 0;
 	font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+mat-sidenav-content > * {
+	display: block;
 }

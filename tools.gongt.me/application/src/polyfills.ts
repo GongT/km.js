@@ -1,3 +1,11 @@
+declare var window: {
+	System: any;
+};
+declare var __webpack_public_path__: string;
+if (window.System !== 'undefined') {
+	__webpack_public_path__ = window.System.resolve('client/');
+}
+
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -60,3 +68,4 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+import 'regenerator-runtime/runtime';

@@ -1,0 +1,21 @@
+<mat-action-list dense id="ApplicationLeftBar">
+	<mat-accordion>
+		<ng-container *ngFor="let scope of routes">
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<g-icon [icon]="scope.icon"></g-icon>
+						{{ scope.title }}
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+
+				<!-- <mat-action-list dense> -->
+				<a mat-list-item [routerLink]="scope.id + '/' + route.id" *ngFor="let route of scope.applications">
+					<g-icon [icon]="route.icon"></g-icon>
+					{{ route.title }}
+				</a>
+				<!-- </mat-action-list> -->
+			</mat-expansion-panel>
+		</ng-container>
+	</mat-accordion>
+</mat-action-list>

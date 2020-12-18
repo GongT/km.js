@@ -4,7 +4,6 @@ import {
 	ClientGlobalRegister,
 	contributeScriptTag,
 	createCommonOptions,
-	DEFAULT_APPLICATION_ROOT,
 	MIME_JAVASCRIPT_UTF8,
 	MIME_JSON_UTF8,
 	registerGlobalMapping,
@@ -30,5 +29,5 @@ export function attachClientLoader(client: ClientGlobalRegister) {
 		createCommonOptions(ResourceType.DebugResource, MIME_JSON_UTF8)
 	);
 
-	contributeScriptTag(join(DEFAULT_APPLICATION_ROOT, id) + '?_=' + version);
+	contributeScriptTag(join('/_application', id) + '?_=' + version);
 }

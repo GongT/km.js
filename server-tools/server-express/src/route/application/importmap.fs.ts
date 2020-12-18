@@ -23,7 +23,6 @@ export class ClientGlobalRegister {
 		const appBaseUrl = join('/', app.get(ExpressConfigKind.RootApplication));
 		app.set('applicationUrl', appBaseUrl);
 		app.locals.APPLICATION_BASE_URL = appBaseUrl;
-		passThroughConfig('APPLICATION_BASE_URL', appBaseUrl);
 
 		this.router = Router();
 		app.use(appBaseUrl, this.router, terminate);

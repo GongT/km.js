@@ -1,0 +1,28 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"id": "SchematicsMyRouteParent",
+	"title": "My Route Parent Schema",
+	"type": "object",
+	"properties": {
+		"id": {
+			"description": "组ID",
+			"type": "string"
+		},
+		"title": {
+			"description": "菜单显示标题",
+			"type": "string"
+		},
+		"icon": {
+			"type": "string",
+			"description": "图标（可选）"
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		}
+	},
+	"required": ["title", "id"]
+}

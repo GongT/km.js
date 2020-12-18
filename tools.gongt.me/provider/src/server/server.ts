@@ -22,11 +22,17 @@ export class MyServer extends ExpressServer {
 	configureApplication(): IApplicationConfig {
 		return {
 			[ExpressConfigKind.RootStatic]: '/_static',
+			[ExpressConfigKind.RootApplication]: '/_application',
 		};
 	}
 
 	initialize() {
-		setProxyBaseUrl('/_cdnproxyendpoint');
+		this.app.get('/coffee', (_, res) => {
+			res.status(418).send("I'm a teapot");
+		});
+
+		passThroughConfig('CDN_PROXY_URL', '/_cdn');
+		setProxyBaseUrl('/_cdn/proxyendpoint');
 
 		passThroughConfig('API_URL', '/_api');
 		this.app.use('/_api', getApiRouter());
@@ -44,12 +50,12 @@ export class MyServer extends ExpressServer {
 			contentReplacer: contentReplace,
 		});
 
-		this.app.get(/^\/_/, terminate404());
+		this.app.get(/^\/_/, terminate404('Nothing is here'));
 	}
 }
 
 function contentReplace(body: string) {
 	return body.replace(/http:\/\/fonts.gstatic.com\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]+/g, (m0) => {
-		return '/_cdnproxyendpoint?upstream=' + encodeURIComponent(m0);
+		return '/_cdn/proxyendpoint?upstream=' + encodeURIComponent(m0);
 	});
 }

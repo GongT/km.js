@@ -1,0 +1,19 @@
+{
+	"$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+	"schematics": {
+		"ng-add": {
+			"description": "Add my library to the project.",
+			"factory": "./lib/install.js#ngAdd"
+		},
+		"app": {
+			"description": "生成程序模块",
+			"factory": "./lib/customRoutingModule#customRoutingModule",
+			"schema": "./src/customRoutingModuleSchema.json"
+		},
+		"category": {
+			"description": "生成父级菜单项",
+			"factory": "./lib/customRoutingParent#customRoutingParent",
+			"schema": "./src/customRoutingParentSchema.json"
+		}
+	}
+}

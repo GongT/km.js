@@ -107,6 +107,11 @@
 			"packageName": "@km.js/cdn-china-proxy",
 			"projectFolder": "server-tools/cdn-china-proxy",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "route",
+			"projectFolder": "schematics/route",
+			"shouldPublish": true
 		}
 	]
 }
